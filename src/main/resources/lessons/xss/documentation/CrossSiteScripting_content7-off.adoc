@@ -1,8 +1,8 @@
 == DOM-Based XSS Example
 
 ----
-<script language="javascript"> function resetVals(form)  
-{ 
+<script language="javascript"> function resetVals(form)
+{
 	var temp = document.URL;
 	var idx = temp.indexOf('login?');
 	var errorMsg = temp.substring(idx+1,temp.length).split('=');

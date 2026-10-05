@@ -17,7 +17,7 @@
           method="POST" name="form1"
           target="_blank"
           successCallback=""
-          action="csrf/basic-get-flag">
+          th:action="@{/csrf/basic-get-flag}">
         <input name="csrf" type="hidden" value="false"/>
         <input type="submit" name="submit"/>
 
@@ -35,7 +35,7 @@
         <form class="attack-form" accept-charset="UNKNOWN" id="confirm-flag-1"
               method="POST" name="form2"
               successCallback=""
-              action="csrf/confirm-flag-1">
+              th:action="@{/csrf/confirm-flag-1}">
 
             Confirm Flag Value:
             <input type="text" length="6" name="confirmFlagVal" value=""/>
@@ -93,7 +93,7 @@
                             <form class="attack-form" accept-charset="UNKNOWN" id="csrf-review"
                                   method="POST" name="review-form"
                                   successCallback=""
-                                  action="csrf/review">
+                                  th:action="@{/csrf/review}">
                                 <input class="form-control" id="reviewText" name="reviewText" placeholder="Add a Review"
                                        type="text"/>
                                 <input class="form-control" id="reviewStars" name="stars" type="text"/>
@@ -146,7 +146,7 @@
                             <form class="attack-form" accept-charset="UNKNOWN" id="csrf-feedback"
                                   method="POST"
                                   prepareData="feedback"
-                                  action="csrf/feedback/message"
+                                  th:action="@{/csrf/feedback/message}"
                                   contentType="application/json">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -212,7 +212,7 @@
         </div>
         <form class="attack-form" accept-charset="UNKNOWN" id="confirm-flag-feedback"
               method="POST" name="form2"
-              action="csrf/feedback">
+              th:action="@{/csrf/feedback}">
 
             Confirm Flag Value:
             <input type="text" length="6" name="confirmFlagVal" value=""/>
@@ -236,7 +236,7 @@
         </div>
         <form class="attack-form" accept-charset="UNKNOWN" id="confirm-flag-login"
               method="POST" name="form2"
-              action="csrf/login">
+              th:action="@{/csrf/login}">
 
             Press the button below when your are logged in as the other user<br/>
 

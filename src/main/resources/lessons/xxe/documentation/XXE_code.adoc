@@ -4,7 +4,7 @@ Now we know how the injection work, let's look at why this can happen. In Java a
 
 [source, java]
 ----
-public XmlMapper xmlMapper() {
+public XmlMapper xmlMapper() {
   return new XmlMapper(XMLInputFactory.newInstance()) // <1>
 }
 ----
@@ -19,12 +19,12 @@ This piece of code defines a new `XmlMapper` (`ObjectMapper`) which is a popular
 
 [source, java]
 ----
-/**
- * @since 2.4
- */
+/**
+ * @since 2.4
+ */
 public XmlMapper(XMLInputFactory inputF) {  // <1>
   this(new XmlFactory(inputF)); //<2>
-}
+}
 ----
 <1> This is the 'constructor' we called from the listing above (1)
 <2> Call to another 'constructor' and initialize a new instance of `XmlFactory`
@@ -38,10 +38,10 @@ public XmlFactory(XMLInputFactory xmlIn) { // <1>
 
 protected XmlFactory(XMLInputFactory xmlIn, XMLOutputFactory xmlOut, ...){ // <3>
   if (xmlIn == null) { //<4>
-    xmlIn = XMLInputFactory.newInstance();
-    // as per [dataformat-xml#190], disable external entity expansion by default
+    xmlIn = XMLInputFactory.newInstance();
+    // as per [dataformat-xml#190], disable external entity expansion by default
     xmlIn.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE); // <5>
-    // and ditto wrt [dataformat-xml#211], SUPPORT_DTD
+    // and ditto wrt [dataformat-xml#211], SUPPORT_DTD
     xmlIn.setProperty(XMLInputFactory.SUPPORT_DTD, Boolean.FALSE);// <6>
   }
 }
@@ -55,15 +55,15 @@ If we look at the Spring Boot framework for example how they initialize the same
 
 [source, java]
 ----
-public ObjectMapper create() {				
+public ObjectMapper create() {
   return new XmlMapper(xmlInputFactory()); // <1>
-}
+}
 
-private static XMLInputFactory xmlInputFactory() {
-  XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-  inputFactory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
-  inputFactory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
-  return inputFactory;
+private static XMLInputFactory xmlInputFactory() {
+  XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+  inputFactory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
+  inputFactory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
+  return inputFactory;
 }
 ----
 <1> Call to a method which initializes the parser safely

@@ -1,0 +1,17 @@
+=== Default credentials still active
+
+We start with something depressingly common: default credentials left enabled in
+production.
+
+Operations pushed the staging build straight to production and forgot to remove the
+factory admin account. Can you authenticate using the vendor default credentials?
+
+Steps to try:
+
+. Look for banner text, comments, or documentation shipped with the interface.
+. Try the classic combinations (`admin/admin`, `root/password`, `support/support`, ...).
+. Once you get in, capture a screenshot or note the profile information — it proves the
+  account is live.
+
+When you succeed the panel below will confirm the compromise and remind you why default
+accounts must be disabled or forced to rotate on first boot.

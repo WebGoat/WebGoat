@@ -12,5 +12,3 @@
 ** Use http://lmgtfy.com/?q=OSS+bill+of+materials[automated tooling]
 * Baseline open source consumption in your organization.
 * Develop an open source component risk management strategy to mitigate current risk and reduce future risk.
-
-

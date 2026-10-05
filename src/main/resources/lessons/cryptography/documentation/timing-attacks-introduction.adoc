@@ -1,0 +1,12 @@
+== Timing attacks
+
+A message authentication code, or MAC, lets a recipient check that a message came from someone who knows a shared secret and that the message was not changed. HMAC builds a MAC from a cryptographic hash function and a secret key.
+
+Knowing the message does not reveal its HMAC. In this lesson, the server calculates `HMAC-SHA256(secret, message)` correctly. The weakness appears later, when application code compares the expected tag with the supplied tag.
+
+[quote]
+Strong cryptography cannot protect you from information leaked by the code around it.
+
+The exercises use the known message `WebGoat`. They truncate the HMAC-SHA256 result to four bytes so the lab can finish in a reasonable time. A 32-bit authentication tag is not suitable for production use. You are not expected to brute-force the complete tag. Exploit the timing information instead.
+
+The server generates a different HMAC secret for each session and calculates every expected tag dynamically. Copying another learner's tag will not work.

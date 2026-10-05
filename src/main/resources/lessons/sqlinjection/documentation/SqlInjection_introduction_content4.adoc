@@ -11,4 +11,3 @@ If an attacker successfully "injects" DCL type SQL commands into a database, he 
 
 
 Try to grant rights to the table `grant_rights` to user `unauthorized_user`:
-

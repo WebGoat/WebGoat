@@ -1,31 +1,17 @@
 /*
- * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
- *
- * Copyright (c) 2002 - 2019 Bruce Mayhew
- *
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * Getting Source ==============
- *
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
+ * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
  */
-
 package org.owasp.webgoat.lessons.jwt;
 
 import static java.util.Comparator.comparingLong;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.JwtException;
@@ -48,7 +34,6 @@ import org.owasp.webgoat.lessons.jwt.votes.Vote;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -66,13 +51,18 @@ import org.springframework.web.bind.annotation.RestController;
   "jwt-change-token-hint4",
   "jwt-change-token-hint5"
 })
-public class JWTVotesEndpoint extends AssignmentEndpoint {
+public class JWTVotesEndpoint implements AssignmentEndpoint {
 
   public static final String JWT_PASSWORD = TextCodec.BASE64.encode("victory");
   private static String validUsers = "TomJerrySylvester";
 
   private static int totalVotes = 38929;
-  private Map<String, Vote> votes = new HashMap<>();
+  private final Map<String, Vote> votes = new HashMap<>();
+  private final ObjectMapper objectMapper;
+
+  public JWTVotesEndpoint(ObjectMapper objectMapper) {
+    this.objectMapper = objectMapper;
+  }
 
   @PostConstruct
   public void initVotes() {
@@ -141,30 +131,37 @@ public class JWTVotesEndpoint extends AssignmentEndpoint {
 
   @GetMapping("/JWT/votings")
   @ResponseBody
-  public MappingJacksonValue getVotes(
+  public ResponseEntity<String> getVotes(
       @CookieValue(value = "access_token", required = false) String accessToken) {
-    MappingJacksonValue value =
-        new MappingJacksonValue(
-            votes.values().stream()
-                .sorted(comparingLong(Vote::getAverage).reversed())
-                .collect(toList()));
+    Class<?> serializationView;
     if (StringUtils.isEmpty(accessToken)) {
-      value.setSerializationView(Views.GuestView.class);
+      serializationView = Views.GuestView.class;
     } else {
       try {
         Jwt jwt = Jwts.parser().setSigningKey(JWT_PASSWORD).parse(accessToken);
         Claims claims = (Claims) jwt.getBody();
         String user = (String) claims.get("user");
         if ("Guest".equals(user) || !validUsers.contains(user)) {
-          value.setSerializationView(Views.GuestView.class);
+          serializationView = Views.GuestView.class;
         } else {
-          value.setSerializationView(Views.UserView.class);
+          serializationView = Views.UserView.class;
         }
       } catch (JwtException e) {
-        value.setSerializationView(Views.GuestView.class);
+        serializationView = Views.GuestView.class;
       }
     }
-    return value;
+    var sortedVotes =
+        votes.values().stream()
+            .sorted(comparingLong(Vote::getAverage).reversed())
+            .collect(toList());
+    // Spring Boot 4 / Jackson 3 no longer support MappingJacksonValue; apply the JSON view by
+    // serializing with the Jackson 2 ObjectMapper directly.
+    try {
+      String body = objectMapper.writerWithView(serializationView).writeValueAsString(sortedVotes);
+      return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(body);
+    } catch (JsonProcessingException e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
   }
 
   @PostMapping(value = "/JWT/votings/{title}")

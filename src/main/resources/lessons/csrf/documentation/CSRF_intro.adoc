@@ -21,7 +21,3 @@ something. Forcing the victim to retrieve data doesn't benefit an attacker becau
 As such, CSRF attacks target state-changing requests.
 
 Let's continue with some exercises to address way to perform a CSRF request.
-
-
-
-

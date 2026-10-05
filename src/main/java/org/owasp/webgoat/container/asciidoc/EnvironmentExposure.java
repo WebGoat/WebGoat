@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2018 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.container.asciidoc;
 
 import org.springframework.beans.BeansException;
@@ -16,7 +20,7 @@ public class EnvironmentExposure implements ApplicationContextAware {
   private static ApplicationContext context;
 
   public static Environment getEnv() {
-    return (null != context) ? context.getEnvironment() : null;
+    return null != context ? context.getEnvironment() : null;
   }
 
   @Override

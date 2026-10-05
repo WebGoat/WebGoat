@@ -1,0 +1,23 @@
+== Your mailbox
+
+WebGoat offers a mail client containing the e-mail sent during a lesson.
+You can open it with the envelope (mailbox) button in the top right corner,
+next to the language selector. The mailbox opens in a separate window and the button
+shows a badge with the number of unread e-mails.
+This mailbox is user-specific, so each user has a separate mailbox. All e-mail
+sent to `username:user[]`@webgoat.org will end up in this inbox.
+
+{nbsp}
+{nbsp}
+{nbsp}
+
+image::images/menuheader.png[caption="Figure: ", style="lesson-image"]
+
+image::images/mailbox.png[caption="Figure: ", style="lesson-image"]
+
+{nbsp}
+{nbsp}
+{nbsp}
+
+Try it; type in your e-mail address below and open your mailbox using the
+mailbox button. Then type in the unique code from the e-mail in the field below.

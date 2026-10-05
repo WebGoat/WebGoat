@@ -1,0 +1,15 @@
+== Elusion de Autenticación
+
+En el contexto de elusiones de autenticación, los atacantes realizan manipulaciones en el sistema con el objetivo de crear las condiciones necesarias para evadir los mecanismos de autenticación. Estas manipulaciones pueden implicar cambios en la configuración o la lógica del sistema, con el fin de aprovechar posibles fallos y eludir las medidas de seguridad establecidas.
+
+=== Entradas Ocultas
+
+Una estrategia básica implica confiar en una entrada que se encuentra oculta en la página web o en el Modelo de Objetos del Documento (DOM).
+
+=== Eliminación de Parámetros
+
+A veces, si un atacante no conoce el valor correcto de un parámetro en la solicitud web, puede optar por eliminarlo por completo para observar las consecuencias.
+
+=== Navegación Forzada
+
+Si una sección de un sitio no está adecuadamente protegida por la configuración, esa sección del sitio puede ser accedida mediante adivinanzas/fuerza bruta.

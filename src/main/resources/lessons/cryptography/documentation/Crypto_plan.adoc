@@ -1,6 +1,6 @@
-= Cryptography Basics 
- 
-== Concept 
+= Cryptography Basics
+
+== Concept
 
 ifeval::["{lang}" == "nl"]
 Deze les behandelt verschillende cryptografische technieken die voorkomen in webapplicaties.
@@ -31,5 +31,3 @@ The goal is to get familiar with the following forms of techniques:
 === Assignments
 
 After the explanation of an item there will be several assignments.
-
-

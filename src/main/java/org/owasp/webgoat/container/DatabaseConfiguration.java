@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2019 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.container;
 
 import java.util.Map;
@@ -7,7 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.Flyway;
 import org.owasp.webgoat.container.service.RestartLessonService;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.owasp.webgoat.container.users.WebGoatUser;
+import org.springframework.boot.jdbc.autoconfigure.DataSourceProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -34,8 +39,8 @@ public class DatabaseConfiguration {
   /**
    * Define 2 Flyway instances, 1 for WebGoat itself which it uses for internal storage like users
    * and 1 for lesson specific tables we use. This way we clean the data in the lesson database
-   * quite easily see {@link RestartLessonService#restartLesson()} for how we clean the lesson
-   * related tables.
+   * quite easily see {@link RestartLessonService#restartLesson(String, WebGoatUser)} for how we
+   * clean the lesson related tables.
    */
   @Bean(initMethod = "migrate")
   public Flyway flyWayContainer() {
@@ -60,7 +65,7 @@ public class DatabaseConfiguration {
   }
 
   @Bean
-  public LessonDataSource lessonDataSource() {
-    return new LessonDataSource(dataSource());
+  public LessonDataSource lessonDataSource(DataSource dataSource) {
+    return new LessonDataSource(dataSource);
   }
 }

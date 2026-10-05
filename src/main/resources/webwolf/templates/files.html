@@ -10,6 +10,12 @@
 <script type="text/javascript" th:src="@{/js/fileUpload.js}"></script>
 
 <div class="container mt-1">
+    <div th:if="${uploadSuccess}" class="alert alert-dismissible fade show fileUploadAlert"
+         th:classappend="${uploadFailed} ? 'alert-warning' : 'alert-success'" role="alert">
+        <span th:text="${uploadSuccess}">result of the upload</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
     <div class="alert alert-info alert-dismissible fade show" role="alert">
         <div>
             <p>

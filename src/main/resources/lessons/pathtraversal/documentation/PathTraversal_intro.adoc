@@ -19,5 +19,3 @@ it again to `../`.
 Also, note that avoiding applications filtering those encodings double encoding might work as well. Double encoding
 might be necessary when you have a system A which calls system B. System A will only decode once and
 call B with the still encoded URL.
-
-

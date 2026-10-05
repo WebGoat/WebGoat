@@ -1,7 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2018 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.container.asciidoc;
 
 import java.util.Map;
-import org.asciidoctor.ast.ContentNode;
+import org.asciidoctor.ast.PhraseNode;
+import org.asciidoctor.ast.StructuralNode;
 import org.asciidoctor.extension.InlineMacroProcessor;
 
 public class WebGoatVersionMacro extends InlineMacroProcessor {
@@ -15,7 +20,8 @@ public class WebGoatVersionMacro extends InlineMacroProcessor {
   }
 
   @Override
-  public Object process(ContentNode contentNode, String target, Map<String, Object> attributes) {
+  public PhraseNode process(
+      StructuralNode contentNode, String target, Map<String, Object> attributes) {
     var webgoatVersion = EnvironmentExposure.getEnv().getProperty("webgoat.build.version");
 
     // see

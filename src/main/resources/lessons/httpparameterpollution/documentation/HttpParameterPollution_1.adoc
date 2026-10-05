@@ -1,0 +1,16 @@
+== Introduction: one name, multiple values
+
+HTTP Parameter Pollution (HPP) occurs when the same parameter name appears more than once in an HTTP request.
+
+Consider this request:
+
+[source,text]
+----
+?color=red&color=blue
+----
+
+What is the value of `color`? The answer depends on how the receiving application interprets the request.
+
+Different components can interpret the same request differently. A proxy might inspect one value while the application uses another. Frameworks, gateways, and custom validation code can also disagree.
+
+The security problem begins when one interpretation controls a security decision and another controls the operation.

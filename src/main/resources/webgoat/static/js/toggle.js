@@ -3,15 +3,15 @@ var iframe;
 function initIframe() {
 		var body;
 		var element;
-		
+
 		body = document.getElementsByTagName('body')[0];
 		element = document.getElementById('lessonPlans');
-		
+
       	iframe = document.createElement('iframe');
       	iframe.style.position = "absolute";
       	iframe.style.visibility = "hidden";
       	body.appendChild(iframe);
-        
+
         // Configure the iFrame to border the lessonPlan
         document.getElementsByTagName('body')[0].appendChild(element);
         iframe.style.height = element.offsetHeight;
@@ -19,8 +19,8 @@ function initIframe() {
         iframe.style.top = '145px';
         iframe.style.width = '474px';
 }
-        
-        
+
+
 function toggle(id) {
 		element = document.getElementById(id);
 

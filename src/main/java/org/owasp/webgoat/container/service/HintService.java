@@ -1,35 +1,31 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * SPDX-FileCopyrightText: Copyright © 2014 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
  */
-
 package org.owasp.webgoat.container.service;
 
 import java.util.Collection;
 import java.util.List;
 import org.owasp.webgoat.container.lessons.Assignment;
 import org.owasp.webgoat.container.lessons.Hint;
-import org.owasp.webgoat.container.lessons.Lesson;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.session.Course;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * HintService class.
- *
- * @author rlawson
- * @version $Id: $Id
- */
 @RestController
 public class HintService {
 
   public static final String URL_HINTS_MVC = "/service/hint.mvc";
-  private final WebSession webSession;
+  private final List<Hint> allHints;
 
-  public HintService(WebSession webSession) {
-    this.webSession = webSession;
+  public HintService(Course course) {
+    this.allHints =
+        course.getLessons().stream()
+            .flatMap(lesson -> lesson.getAssignments().stream())
+            .map(this::createHint)
+            .flatMap(Collection::stream)
+            .toList();
   }
 
   /**
@@ -40,15 +36,7 @@ public class HintService {
   @GetMapping(path = URL_HINTS_MVC, produces = "application/json")
   @ResponseBody
   public List<Hint> getHints() {
-    Lesson l = webSession.getCurrentLesson();
-    return createAssignmentHints(l);
-  }
-
-  private List<Hint> createAssignmentHints(Lesson l) {
-    if (l != null) {
-      return l.getAssignments().stream().map(this::createHint).flatMap(Collection::stream).toList();
-    }
-    return List.of();
+    return allHints;
   }
 
   private List<Hint> createHint(Assignment a) {

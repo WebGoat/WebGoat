@@ -1,33 +1,22 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2019 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.lessons.deserialization;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 import org.dummy.insecure.framework.VulnerableTaskHolder;
 import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.owasp.webgoat.container.assignments.AssignmentEndpointTest;
-import org.springframework.test.web.servlet.MockMvc;
+import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-@ExtendWith(MockitoExtension.class)
-class DeserializeTest extends AssignmentEndpointTest {
-
-  private MockMvc mockMvc;
+class DeserializeTest extends LessonTest {
 
   private static String OS = System.getProperty("os.name").toLowerCase();
-
-  @BeforeEach
-  void setup() {
-    InsecureDeserializationTask insecureTask = new InsecureDeserializationTask();
-    init(insecureTask);
-    this.mockMvc = standaloneSetup(insecureTask).build();
-  }
 
   @Test
   void success() throws Exception {
@@ -75,8 +64,7 @@ class DeserializeTest extends AssignmentEndpointTest {
         .andExpect(
             jsonPath(
                 "$.feedback",
-                CoreMatchers.is(
-                    pluginMessages.getMessage("insecure-deserialization.invalidversion"))))
+                CoreMatchers.is(messages.getMessage("insecure-deserialization.invalidversion"))))
         .andExpect(jsonPath("$.lessonCompleted", is(false)));
   }
 
@@ -90,7 +78,7 @@ class DeserializeTest extends AssignmentEndpointTest {
         .andExpect(
             jsonPath(
                 "$.feedback",
-                CoreMatchers.is(pluginMessages.getMessage("insecure-deserialization.expired"))))
+                CoreMatchers.is(messages.getMessage("insecure-deserialization.expired"))))
         .andExpect(jsonPath("$.lessonCompleted", is(false)));
   }
 
@@ -104,8 +92,7 @@ class DeserializeTest extends AssignmentEndpointTest {
         .andExpect(
             jsonPath(
                 "$.feedback",
-                CoreMatchers.is(
-                    pluginMessages.getMessage("insecure-deserialization.stringobject"))))
+                CoreMatchers.is(messages.getMessage("insecure-deserialization.stringobject"))))
         .andExpect(jsonPath("$.lessonCompleted", is(false)));
   }
 }

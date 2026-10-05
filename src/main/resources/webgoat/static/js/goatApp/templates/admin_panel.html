@@ -1,0 +1,73 @@
+<div class="panel panel-default" style="margin-top:25px">
+    <div class="panel-heading alt"><b>Administration – User Overview</b></div>
+    <table class="table table-striped table-hover" id="admin-user-table">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Lessons solved</th>
+            <th>Assignments solved</th>
+            <th>Progress</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% _(users).each(function(user) {
+            var pct = user.totalLessons > 0
+                ? Math.round((user.lessonsSolved / user.totalLessons) * 100)
+                : 0;
+        %>
+        <tr>
+            <td><a href="#" class="admin-detail-link" data-username="<%= user.username %>"><%= (user.username || '').toLowerCase() %></a></td>
+            <td><%= user.role === 'WEBGOAT_ADMIN' ? '<span class="label label-danger">Admin</span>' : '<span class="label label-default">User</span>' %></td>
+            <td><%= user.lessonsSolved %> / <%= user.totalLessons %></td>
+            <td><%= user.assignmentsSolved %> / <%= user.totalAssignments %></td>
+            <td>
+                <div class="progress" style="margin-bottom:0;min-width:80px">
+                    <div class="progress-bar progress-bar-success" role="progressbar"
+                         style="width:<%= pct %>%"><%= pct %>%</div>
+                </div>
+            </td>
+            <td>
+                <button class="btn btn-xs btn-primary admin-detail-btn"
+                        data-username="<%= user.username %>" style="margin-right:5px;">
+                    View Details
+                </button>
+                <button class="btn btn-xs btn-warning admin-reset-btn"
+                        data-username="<%= user.username %>">
+                    Reset Password
+                </button>
+            </td>
+        </tr>
+        <% }); %>
+        </tbody>
+    </table>
+</div>
+
+<!-- Detail panel (hidden until a username is clicked) -->
+<div class="panel panel-default" id="admin-detail-panel" style="margin-top:25px;display:none">
+    <div class="panel-heading"><b>OWASP Progress for: <span id="admin-detail-username" style="text-transform: none;"></span></b></div>
+    <div class="panel-body">
+        <h4 style="margin-top:5px;margin-bottom:15px"><b>Progress per OWASP Category</b></h4>
+        <div id="admin-category-body" class="row" style="margin-bottom:20px"></div>
+        <h4 style="margin-bottom:15px"><b>Lesson Details</b></h4>
+        <table class="table" id="admin-detail-table">
+            <thead>
+            <tr>
+                <th>Lesson</th>
+                <th>Category</th>
+                <th>Solved</th>
+                <th>Attempts</th>
+            </tr>
+            </thead>
+            <tbody id="admin-detail-body"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Temporary-password result (shown after reset) -->
+<div class="alert alert-info" id="admin-reset-result" style="margin-top:20px;display:none">
+    Password for <strong id="admin-reset-username"></strong> reset to:
+    <code id="admin-reset-password"></code>
+    (communicate this to the user securely)
+</div>

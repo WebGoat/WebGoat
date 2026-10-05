@@ -1,32 +1,23 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2019 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.lessons.cia;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-/**
- * @author Benedikt Stuhrmann
- * @since 13/03/19.
- */
-public class CIAQuizTest extends LessonTest {
-
-  @BeforeEach
-  public void setup() {
-    when(webSession.getCurrentLesson()).thenReturn(new CIA());
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-  }
+class CIAQuizTest extends LessonTest {
 
   @Test
-  public void allAnswersCorrectIsSuccess() throws Exception {
+  void allAnswersCorrectIsSuccess() throws Exception {
     String[] solution0 = {"Solution 3"};
     String[] solution1 = {"Solution 1"};
     String[] solution2 = {"Solution 4"};
@@ -44,7 +35,7 @@ public class CIAQuizTest extends LessonTest {
   }
 
   @Test
-  public void oneAnswerWrongIsFailure() throws Exception {
+  void oneAnswerWrongIsFailure() throws Exception {
     String[] solution0 = {"Solution 1"};
     String[] solution1 = {"Solution 1"};
     String[] solution2 = {"Solution 4"};
@@ -62,7 +53,7 @@ public class CIAQuizTest extends LessonTest {
   }
 
   @Test
-  public void twoAnswersWrongIsFailure() throws Exception {
+  void twoAnswersWrongIsFailure() throws Exception {
     String[] solution0 = {"Solution 1"};
     String[] solution1 = {"Solution 1"};
     String[] solution2 = {"Solution 4"};
@@ -80,7 +71,7 @@ public class CIAQuizTest extends LessonTest {
   }
 
   @Test
-  public void threeAnswersWrongIsFailure() throws Exception {
+  void threeAnswersWrongIsFailure() throws Exception {
     String[] solution0 = {"Solution 1"};
     String[] solution1 = {"Solution 1"};
     String[] solution2 = {"Solution 1"};
@@ -98,7 +89,7 @@ public class CIAQuizTest extends LessonTest {
   }
 
   @Test
-  public void allAnswersWrongIsFailure() throws Exception {
+  void allAnswersWrongIsFailure() throws Exception {
     String[] solution0 = {"Solution 2"};
     String[] solution1 = {"Solution 1"};
     String[] solution2 = {"Solution 3"};
@@ -116,7 +107,7 @@ public class CIAQuizTest extends LessonTest {
   }
 
   @Test
-  public void allAnswersCorrectGetResultsReturnsTrueTrueTrueTrue() throws Exception {
+  void allAnswersCorrectGetResultsReturnsTrueTrueTrueTrue() throws Exception {
     String[] solution0 = {"Solution 3"};
     String[] solution1 = {"Solution 1"};
     String[] solution2 = {"Solution 4"};
@@ -140,7 +131,7 @@ public class CIAQuizTest extends LessonTest {
   }
 
   @Test
-  public void firstAnswerFalseGetResultsReturnsFalseTrueTrueTrue() throws Exception {
+  void firstAnswerFalseGetResultsReturnsFalseTrueTrueTrue() throws Exception {
     String[] solution0 = {"Solution 2"};
     String[] solution1 = {"Solution 1"};
     String[] solution2 = {"Solution 4"};
@@ -164,7 +155,7 @@ public class CIAQuizTest extends LessonTest {
   }
 
   @Test
-  public void secondAnswerFalseGetResultsReturnsTrueFalseTrueTrue() throws Exception {
+  void secondAnswerFalseGetResultsReturnsTrueFalseTrueTrue() throws Exception {
     String[] solution0 = {"Solution 3"};
     String[] solution1 = {"Solution 2"};
     String[] solution2 = {"Solution 4"};
@@ -188,7 +179,7 @@ public class CIAQuizTest extends LessonTest {
   }
 
   @Test
-  public void allAnswersFalseGetResultsReturnsFalseFalseFalseFalse() throws Exception {
+  void allAnswersFalseGetResultsReturnsFalseFalseFalseFalse() throws Exception {
     String[] solution0 = {"Solution 1"};
     String[] solution1 = {"Solution 2"};
     String[] solution2 = {"Solution 1"};

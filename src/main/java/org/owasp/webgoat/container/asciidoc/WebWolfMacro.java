@@ -1,8 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2018 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.container.asciidoc;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.asciidoctor.ast.ContentNode;
+import org.asciidoctor.ast.PhraseNode;
+import org.asciidoctor.ast.StructuralNode;
 import org.asciidoctor.extension.InlineMacroProcessor;
 
 /**
@@ -21,7 +26,8 @@ public class WebWolfMacro extends InlineMacroProcessor {
   }
 
   @Override
-  public Object process(ContentNode contentNode, String linkText, Map<String, Object> attributes) {
+  public PhraseNode process(
+      StructuralNode contentNode, String linkText, Map<String, Object> attributes) {
     var env = EnvironmentExposure.getEnv();
     var hostname = env.getProperty("webwolf.url");
     var target = (String) attributes.getOrDefault("target", "home");
@@ -36,7 +42,7 @@ public class WebWolfMacro extends InlineMacroProcessor {
     options.put("type", ":link");
     options.put("target", href);
     attributes.put("window", "_blank");
-    return createPhraseNode(contentNode, "anchor", linkText, attributes, options).convert();
+    return createPhraseNode(contentNode, "anchor", linkText, attributes, options);
   }
 
   private boolean displayCompleteLinkNoFormatting(Map<String, Object> attributes) {

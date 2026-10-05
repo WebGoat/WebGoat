@@ -1,0 +1,36 @@
+= HTTP Expanded
+
+== HTTPS and TLS
+
+The HTTP protocol contains a major flaw. All of the traffic sent between the client and server is not encrypted. This
+means the traffic is readable by anyone with a simple man in the middle attack. HTTPS _(Hyper Text Transfer Protocol
+Secure)_ adds *confidentiality* and *integrity* to the insecure HTTP protocol through various forms of cryptography.
+
+
+`Transport Layer Security` _(TLS)_ is a protocol used to facilitate an encrypted connection between a client and server,
+while also verifying that data sent in the connection has not been tampered with. HTTPS uses TLS to secure the HTTP protocol.
+
+As secure data transmission grew more important, HTTPS adoption became widespread. Today, browsers flag all plain HTTP traffic as insecure, and search engines prioritize HTTPS results. This marks a significant shift from earlier practices and paves the way for a deeper look at how HTTPS achieves security.
+
+=== How do TLS certificates secure HTTP?
+
+=== Confidentiality
+
+TLS protects confidentiality by establishing an encrypted connection between the client and server. It uses https://en.wikipedia.org/wiki/Public-key_cryptography[public key cryptography] along with key exchange algorithms like
+Diffie–Hellman to securely agree on shared keys, which are then used to encrypt all data sent across the connection.
+This prevents anyone who intercepts the traffic from reading it, helping to ensure that sensitive information stays private.
+
+Check out this https://www.cloudflare.com/learning/ssl/what-happens-in-a-tls-handshake/[article by Cloudflare] to learn
+more about the TLS handshake, and what happens behind the scenes to establish an encrypted connection.
+
+=== Integrity
+
+Every server supporting TLS has a `certificate` containing a public key, and a separate private key. If the
+website is deployed on the internet, the certificate is almost always signed by a `certificate authority`.
+`Certificate Authorities` are trusted companies that issue and verify digital certificates to prove ownership of a
+domain. A signed certificate is crucial to integrity because it cryptographically verifies a website's identity, ensuring that the site
+you're connecting to is the one it claims to be, and is indeed the owner of its domain.
+You might have seen a message like the one below saying that the browser does not trust the certificate used by
+the website. Messages like this are common on certificates used in development or deployed on internal networks.
+
+image:images/untrusted-ssl.png[Image showcasing untrusted certificate error in Firefox]

@@ -1,29 +1,13 @@
 /*
- * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
- *
- * Copyright (c) 2002 - 2019 Bruce Mayhew
- *
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * Getting Source ==============
- *
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
+ * SPDX-FileCopyrightText: Copyright © 2014 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
  */
-
 package org.owasp.webgoat.lessons.sqlinjection.introduction;
 
 import static java.sql.ResultSet.CONCUR_READ_ONLY;
 import static java.sql.ResultSet.TYPE_SCROLL_INSENSITIVE;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -45,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
       "SqlStringInjectionHint2-3",
       "SqlStringInjectionHint2-4"
     })
-public class SqlInjectionLesson2 extends AssignmentEndpoint {
+public class SqlInjectionLesson2 implements AssignmentEndpoint {
 
   private final LessonDataSource dataSource;
 
@@ -65,10 +49,14 @@ public class SqlInjectionLesson2 extends AssignmentEndpoint {
       ResultSet results = statement.executeQuery(query);
       StringBuilder output = new StringBuilder();
 
-      results.first();
+      if(!results.first()) {
+          return failed(this).feedback("sql-injection.2.failed").build();
+      }
 
-      if (results.getString("department").equals("Marketing")) {
-        output.append("<span class='feedback-positive'>" + query + "</span>");
+      if ("Marketing".equals(results.getString("department"))) {
+        output.append("<span class='feedback-positive'>")
+                .append(query)
+                .append("</span>");
         output.append(SqlInjectionLesson8.generateTable(results));
         return success(this).feedback("sql-injection.2.success").output(output.toString()).build();
       } else {

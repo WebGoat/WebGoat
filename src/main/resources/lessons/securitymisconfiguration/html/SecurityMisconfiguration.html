@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<link rel="stylesheet" type="text/css" th:href="@{/lesson_css/lesson.css}"/>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content"
+         th:replace="~{doc:lessons/securitymisconfiguration/documentation/SecurityMisconfiguration_Intro.adoc}"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content"
+         th:replace="~{doc:lessons/securitymisconfiguration/documentation/SecurityMisconfiguration_Task1.adoc}"></div>
+    <div class="attack-container">
+        <div class="assignment-success">
+            <i class="fa fa-2 fa-check hidden" aria-hidden="true"></i>
+        </div>
+        <form class="attack-form" method="POST" th:action="@{/SecurityMisconfiguration/task1}">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input class="form-control" id="username" name="username" placeholder="Try the default admin username" autocomplete="username" />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input class="form-control" id="password" name="password" type="password" placeholder="And the matching default password" autocomplete="current-password" />
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" style="margin-top:10px;">Attempt login</button>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content"
+         th:replace="~{doc:lessons/securitymisconfiguration/documentation/SecurityMisconfiguration_Task2.adoc}"></div>
+    <div class="attack-container">
+        <div class="assignment-success">
+            <i class="fa fa-2 fa-check hidden" aria-hidden="true"></i>
+        </div>
+        <div class="btn-group btn-group-sm" role="group" aria-label="Debug actions" style="margin-bottom:10px;">
+          <button class="btn btn-default" type="button" id="trigger-debug" th:data-url="@{/SecurityMisconfiguration/task2/trigger}">Trigger debug error</button>
+          <button class="btn btn-default" type="button" id="fetch-config" th:data-url="@{/SecurityMisconfiguration/task2/config}">Call /config with token</button>
+        </div>
+        <pre id="debug-output" class="bg-light border rounded p-2 small text-wrap"></pre>
+        <pre id="config-output" class="bg-light border rounded p-2 small text-wrap d-none"></pre>
+        <form class="attack-form" method="POST" th:action="@{/SecurityMisconfiguration/task2}" style="margin-top:15px;">
+          <div class="form-group">
+            <label for="token">Leaked token</label>
+            <input class="form-control" id="token" name="token" placeholder="Paste the token from the stack trace" autocomplete="off" />
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" style="margin-top:10px;">Submit token</button>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+<script th:src="@{/lesson_js/security-misconfiguration-task2.js}"></script>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content"
+         th:replace="~{doc:lessons/securitymisconfiguration/documentation/SecurityMisconfiguration_Task3.adoc}"></div>
+    <div class="attack-container">
+        <div class="assignment-success">
+            <i class="fa fa-2 fa-check hidden" aria-hidden="true"></i>
+        </div>
+        <div class="btn-group btn-group-sm" role="group" aria-label="Actuator actions" style="margin-bottom:10px;">
+          <button class="btn btn-default" type="button" id="fetch-env" th:data-url="@{/SecurityMisconfiguration/task3/actuator/env}">GET /actuator/env</button>
+          <button class="btn btn-default" type="button" id="fetch-health" th:data-url="@{/SecurityMisconfiguration/task3/actuator/health}">GET /actuator/health</button>
+        </div>
+        <pre id="actuator-output" class="bg-light border rounded p-2 small text-wrap"></pre>
+        <form class="attack-form" method="POST" th:action="@{/SecurityMisconfiguration/task3}" style="margin-top:15px;">
+          <div class="form-group">
+            <label for="apiKey">System API key</label>
+            <input class="form-control" id="apiKey" name="apiKey" placeholder="Paste the leaked key" autocomplete="off" />
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" style="margin-top:10px;">Submit key</button>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<script th:src="@{/lesson_js/security-misconfiguration-task3.js}"></script>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content"
+         th:replace="~{doc:lessons/securitymisconfiguration/documentation/SecurityMisconfiguration_Task4.adoc}"></div>
+    <div class="attack-container">
+        <div class="assignment-success">
+            <i class="fa fa-2 fa-check hidden" aria-hidden="true"></i>
+        </div>
+        <form class="attack-form" method="POST" th:action="@{/SecurityMisconfiguration/task4}">
+          <div class="form-group">
+            <label for="envEnabled">management.endpoint.env.enabled</label>
+            <select class="form-control" id="envEnabled" name="envEnabled">
+              <option value="true" selected>true</option>
+              <option value="false">false</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="healthDetails">management.endpoint.health.show-details</label>
+            <select class="form-control" id="healthDetails" name="healthDetails">
+              <option value="always" selected>always</option>
+              <option value="never">never</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="defaultUser">spring.security.user.name</label>
+            <input class="form-control" id="defaultUser" name="defaultUser" placeholder="(leave empty)" value="admin" />
+          </div>
+          <div class="form-group">
+            <label for="defaultPassword">spring.security.user.password</label>
+            <input class="form-control" id="defaultPassword" name="defaultPassword" type="password" placeholder="(leave empty)" value="changeit" />
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" style="margin-top:10px;">Apply configuration</button>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="~{doc:lessons/securitymisconfiguration/documentation/SecurityMisconfiguration_Closing.adoc}"></div>
+</div>
+</body>
+</html>

@@ -1,6 +1,6 @@
 == Examples
 
-SQL injection can be used for far more than reading the data of a single of user. The following are just a few examples of data a hacker could input to a form field (or anywhere user input is accepted) in an attempt to exploit a SQL injection vulnerability: 
+SQL injection can be used for far more than reading the data of a single of user. The following are just a few examples of data a hacker could input to a form field (or anywhere user input is accepted) in an attempt to exploit a SQL injection vulnerability:
 
 * `+Smith' OR '1' = '1+` +
 results in `+SELECT * FROM users WHERE name = 'Smith' OR TRUE;+` which will return all entries from the users table

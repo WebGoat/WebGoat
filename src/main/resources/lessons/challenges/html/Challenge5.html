@@ -25,7 +25,7 @@
                                 <div class="col-lg-12">
                                     <form id="login-form" class="attack-form" accept-charset="UNKNOWN"
                                           method="POST" name="form"
-                                          action="challenge/5" role="form">
+                                          th:action="@{/challenge/5}" role="form">
                                         <div class="form-group">
                                             <input type="text" name="username_login" id="username4" tabindex="1"
                                                    class="form-control" placeholder="Username" value=""/>
@@ -66,7 +66,7 @@
             </div>
         </div>
         <br/>
-        <form class="attack-form" method="POST" name="form" action="challenge/flag">
+        <form class="attack-form" method="POST" name="form" th:action="@{/challenge/flag/5}">
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"

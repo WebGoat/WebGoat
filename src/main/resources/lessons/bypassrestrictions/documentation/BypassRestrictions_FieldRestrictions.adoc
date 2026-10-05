@@ -3,4 +3,4 @@ In most browsers, the client has complete or almost complete control over the HT
 of the webpage. They can alter values or restrictions to fit their preference.
 
 === Task
-Send a request that bypasses restrictions of all four of these fields.
+Send a request that bypasses restrictions of all five of these fields.

@@ -1,9 +1,9 @@
 /*
-body{ 
+body{
 	min-width: 800px;
 	font-family: Arial,sans-serif;
 	color: #333333;
-	line-height: 1.166;	
+	line-height: 1.166;
 	margin: 0px;
 	padding: 0px;
 }
@@ -95,11 +95,11 @@ ul ul ul{
 
 #globalNav a {
 	font-size: 10px;
-	padding: 0px 4px 0px 0px; 
+	padding: 0px 4px 0px 0px;
 }
 
 .lessonContent{
-	padding: 10px 10px 10px 10px; 
+	padding: 10px 10px 10px 10px;
 	font-size: 10px;
 }
 
@@ -124,8 +124,8 @@ ul ul ul{
 #navBar ul a:link, #navBar ul a:visited {}
 
 #navBar ul {
-	list-style: none; 
-	margin: 0; 
+	list-style: none;
+	margin: 0;
 	padding: 0;
 }
 
@@ -227,7 +227,7 @@ html>body #navBar li {}
 }
 
 .info {
-	color: red; 
+	color: red;
 	font-weight: bold;
 }
 
@@ -245,7 +245,7 @@ html>body #navBar li {}
 	display: inline;
 	float: left;
 	margin-bottom: 10px;
-	
+
 }
 
 #training_wrap {

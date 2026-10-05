@@ -10,4 +10,3 @@ Let's repeat one of the previous assignments, the developer fixed the possible S
 spot the weakness in this approach?
 
 Read about the lesson goal link:start.mvc#lesson/SqlInjectionAdvanced.lesson/2[here].
-

@@ -10,4 +10,3 @@
 * SQL injection
 
 === Often the database is considered trusted
-

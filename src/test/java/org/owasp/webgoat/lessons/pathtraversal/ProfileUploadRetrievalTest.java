@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2020 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.lessons.pathtraversal;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -14,23 +18,22 @@ import java.io.File;
 import java.net.URI;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.owasp.webgoat.WithWebGoatUser;
 import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.token.Sha512DigestUtils;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-public class ProfileUploadRetrievalTest extends LessonTest {
+@WithWebGoatUser
+class ProfileUploadRetrievalTest extends LessonTest {
 
   @BeforeEach
-  public void setup() {
-    Mockito.when(webSession.getCurrentLesson()).thenReturn(new PathTraversal());
+  void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    Mockito.when(webSession.getUserName()).thenReturn("unit-test");
   }
 
   @Test
-  public void solve() throws Exception {
+  void solve() throws Exception {
     // Look at the response
     mockMvc
         .perform(get("/PathTraversal/random-picture"))
@@ -58,15 +61,14 @@ public class ProfileUploadRetrievalTest extends LessonTest {
 
     // Post flag
     mockMvc
-        .perform(
-            post("/PathTraversal/random").param("secret", Sha512DigestUtils.shaHex("unit-test")))
+        .perform(post("/PathTraversal/random").param("secret", Sha512DigestUtils.shaHex("test")))
         .andExpect(status().is(200))
         .andExpect(jsonPath("$.assignment", equalTo("ProfileUploadRetrieval")))
         .andExpect(jsonPath("$.lessonCompleted", is(true)));
   }
 
   @Test
-  public void shouldReceiveRandomPicture() throws Exception {
+  void shouldReceiveRandomPicture() throws Exception {
     mockMvc
         .perform(get("/PathTraversal/random-picture"))
         .andExpect(status().is(200))
@@ -75,7 +77,7 @@ public class ProfileUploadRetrievalTest extends LessonTest {
   }
 
   @Test
-  public void unknownFileShouldGiveDirectoryContents() throws Exception {
+  void unknownFileShouldGiveDirectoryContents() throws Exception {
     mockMvc
         .perform(get("/PathTraversal/random-picture?id=test"))
         .andExpect(status().is(404))

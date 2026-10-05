@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="~{doc:lessons/cryptography/documentation/timing-attacks-introduction.adoc}"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="~{doc:lessons/cryptography/documentation/timing-attacks-discovery.adoc}"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" method="POST" th:action="@{/crypto/timing/first-byte}">
+            <label for="first-byte">First tag byte, as two hexadecimal characters:</label>
+            <input id="first-byte" name="firstByte" type="text" maxlength="2" autocomplete="off"/>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="~{doc:lessons/cryptography/documentation/timing-attacks-recovery.adoc}"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" method="POST" th:action="@{/crypto/timing/tag}">
+            <label for="signature">Four-byte tag, as eight hexadecimal characters:</label>
+            <input id="signature" name="signature" type="text" maxlength="8" autocomplete="off"/>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="~{doc:lessons/cryptography/documentation/timing-attacks-noise.adoc}"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" method="POST" th:action="@{/crypto/timing/noisy-tag}">
+            <label for="noisy-signature">Four-byte tag recovered from the noisy endpoint:</label>
+            <input id="noisy-signature" name="signature" type="text" maxlength="8" autocomplete="off"/>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="~{doc:lessons/cryptography/documentation/timing-attacks-mitigation.adoc}"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <form class="attack-form" method="POST" th:action="@{/crypto/timing/mitigation}">
+            <fieldset>
+                <legend>What is the root cause?</legend>
+                <label><input type="radio" name="cause" value="short-tag"/> HMAC-SHA256 produces tags that are too short.</label><br/>
+                <label><input type="radio" name="cause" value="early-exit"/> The comparison stops at the first mismatching byte.</label><br/>
+                <label><input type="radio" name="cause" value="known-message"/> The authenticated message is known to the attacker.</label>
+            </fieldset>
+            <fieldset>
+                <legend>Which repair addresses the root cause?</legend>
+                <label><input type="radio" name="mitigation" value="random-delay"/> Add a larger random delay to every failure.</label><br/>
+                <label><input type="radio" name="mitigation" value="string-equals"/> Encode both tags as hex and call <code>String.equals</code>.</label><br/>
+                <label><input type="radio" name="mitigation" value="message-digest"/> Compare the byte arrays with <code>MessageDigest.isEqual</code>.</label>
+            </fieldset>
+            <button type="submit" class="btn btn-primary">Review the repair</button>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="~{doc:lessons/cryptography/documentation/timing-attacks-jwt.adoc}"></div>
+</div>
+</body>
+</html>

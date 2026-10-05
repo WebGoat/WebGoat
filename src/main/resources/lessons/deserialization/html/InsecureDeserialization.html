@@ -25,7 +25,7 @@
             <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
             <form class="attack-form" accept-charset="UNKNOWN" name="task"
                   method="POST"
-                  action="InsecureDeserialization/task">
+                  th:action="@{/InsecureDeserialization/task}">
 
                 <input type="textarea" rows="4" cols="40" value="" name="token" placeholder="token"/>
                 <input type="submit" value="Submit" />

@@ -6,5 +6,3 @@ This is the most simple CSRF attack to perform. For example you receive an e-mai
 
 If the user is still logged in to the website of bank.com this simple GET request will transfer money from one account to another.
 Of course in most cases the website might have multiple controls to approve the request.
-
-

@@ -1,0 +1,62 @@
+== Burp Suite (Additional)
+
+{nbsp} +
+
+=== Replaying requests with Burp's Repeater
+Burp Suite's repeater tool allows you to repeatedly send and modify intercepted requests. This is incredibly useful when testing API endpoint inputs.
+
+In Burp Suite find the request you want to repeat, right click and select `Send to Repeater`
+
+image::images/burp-send-to-repeater.png[Sending a request to the repeater in Burp Suite,style="lesson-image"]
+
+{nbsp} +
+
+Once in the repeater tool, the request can be modified then, sent to the server with the `Send` button. The pane on the left show's the server's response.
+
+image::images/burp-repeater.png[The Burp Suite repeater,style="lesson-image"]
+
+
+{nbsp} +
+
+For more information on Burp's repeater check out https://portswigger.net/burp/documentation/desktop/tools/repeater[their official docs]
+
+{nbsp} +
+
+=== Inspecting request history
+
+Burp Suite allows users to see all requests forwarded by the proxy even if intercept mode is turned off.
+To do this go to the `Proxy Tool` and select the `HTTP history` tab. Requests in the history tab can be sent to the repeater or any of the other tools just like intercepted requests.
+
+image::images/burp-proxy-history.png[Burp's proxy history tab,style="lesson-image"]
+
+{nbsp} +
+
+=== The context menu
+
+Burp comes full of usefully utilities, the context menu is a great example of this. The context menu can be accessed by right-clicking on a request or selected text.
+
+*Examples of context menu uses*:
+
+* Encoding and decoding text for XXS attacks.
+* Sending requests to tools _Example:_ `Send to Repeater`.
+* Modifying target scope to add or remove requests without going into settings.
+* Highlighting important requests.
+
+image::images/burp-context-menu.png[The Burp context menu,style="lesson-image"]
+
+
+{nbsp} +
+
+=== Saving settings to a file
+
+Unless you're willing to pay big bucks for Burp Suite Professional, persisting projects after closing Burp isn't an option. Lucky for us we don't need to persist the whole session just important settings like `Target Scope` and the `Proxy URL` which can be a pain to re-enter every time we start Burp. These fields are not project specific and are stored in settings.
+
+To save a project's settings go to the `Settings` menu, click on the three dots in the right hand corner, select `Project settings` and finally click `Save project settings`.
+
+image::images/burp-save-project-settings.png[Saving project settings in Burp,style="lesson-image"]
+
+==== Loading saved settings
+
+Once saved, the next time you launch Burp Suite you will be prompted to `Select a configuration file you want to load for this project`. Instead of choosing `Use Burp Defaults`, select `Load from configuration file` and find the file you saved. In subsequent launches the file will be an option to select.
+
+image::images/burp-load-project-settings.png[Saving project settings in Burp,style="lesson-image"]

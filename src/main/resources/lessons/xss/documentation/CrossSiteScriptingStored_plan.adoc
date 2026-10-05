@@ -1,4 +1,4 @@
-== Concept 
+== Concept
 
 After looking at Reflected XSS in the previous lesson, we are now going to take a closer look at another form of Cross-Site Scripting Attack: Stored XSS.
 

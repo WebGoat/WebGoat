@@ -1,32 +1,19 @@
 /*
- * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
- *
- * Copyright (c) 2002 - 2019 Bruce Mayhew
- *
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * Getting Source ==============
- *
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
+ * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
  */
-
 package org.owasp.webgoat.lessons.passwordreset;
+
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
+import static org.springframework.util.StringUtils.hasText;
 
 import com.google.common.collect.Maps;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -42,10 +29,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-/**
- * @author nbaars
- * @since 8/20/17.
- */
 @RestController
 @AssignmentHints({
   "password-reset-hint1",
@@ -55,7 +38,7 @@ import org.springframework.web.servlet.ModelAndView;
   "password-reset-hint5",
   "password-reset-hint6"
 })
-public class ResetLinkAssignment extends AssignmentEndpoint {
+public class ResetLinkAssignment implements AssignmentEndpoint {
 
   private static final String VIEW_FORMATTER = "lessons/passwordreset/templates/%s.html";
   static final String PASSWORD_TOM_9 =
@@ -67,24 +50,24 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
 
   static final String TEMPLATE =
       """
-          Hi, you requested a password reset link, please use this <a target='_blank'
-           href='http://%s/WebGoat/PasswordReset/reset/reset-password/%s'>link</a> to reset your
-           password.
+      Hi, you requested a password reset link, please use this <a target='_blank'
+       href='http://%s/WebGoat/PasswordReset/reset/reset-password/%s'>link</a> to reset your
+       password.
 
-          If you did not request this password change you can ignore this message.
-          If you have any comments or questions, please do not hesitate to reach us at
-           support@webgoat-cloud.org
+      If you did not request this password change you can ignore this message.
+      If you have any comments or questions, please do not hesitate to reach us at
+       support@webgoat-cloud.org
 
-          Kind regards,
-          Team WebGoat
-          """;
+      Kind regards,
+      Team WebGoat
+      """;
 
   @PostMapping("/PasswordReset/reset/login")
   @ResponseBody
-  public AttackResult login(@RequestParam String password, @RequestParam String email) {
+  public AttackResult login(
+      @RequestParam String password, @RequestParam String email, @CurrentUsername String username) {
     if (TOM_EMAIL.equals(email)) {
-      String passwordTom =
-          usersToTomPassword.getOrDefault(getWebSession().getUserName(), PASSWORD_TOM_9);
+      String passwordTom = usersToTomPassword.getOrDefault(username, PASSWORD_TOM_9);
       if (passwordTom.equals(PASSWORD_TOM_9)) {
         return failed(this).feedback("login_failed").build();
       } else if (passwordTom.equals(password)) {
@@ -112,9 +95,11 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
 
   @PostMapping("/PasswordReset/reset/change-password")
   public ModelAndView changePassword(
-      @ModelAttribute("form") PasswordChangeForm form, BindingResult bindingResult) {
+      @ModelAttribute("form") PasswordChangeForm form,
+      BindingResult bindingResult,
+      @CurrentUsername String username) {
     ModelAndView modelAndView = new ModelAndView();
-    if (!org.springframework.util.StringUtils.hasText(form.getPassword())) {
+    if (!hasText(form.getPassword())) {
       bindingResult.rejectValue("password", "not.empty");
     }
     if (bindingResult.hasErrors()) {
@@ -125,15 +110,15 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
       modelAndView.setViewName(VIEW_FORMATTER.formatted("password_link_not_found"));
       return modelAndView;
     }
-    if (checkIfLinkIsFromTom(form.getResetLink())) {
-      usersToTomPassword.put(getWebSession().getUserName(), form.getPassword());
+    if (checkIfLinkIsFromTom(form.getResetLink(), username)) {
+      usersToTomPassword.put(username, form.getPassword());
     }
     modelAndView.setViewName(VIEW_FORMATTER.formatted("success"));
     return modelAndView;
   }
 
-  private boolean checkIfLinkIsFromTom(String resetLinkFromForm) {
-    String resetLink = userToTomResetLink.getOrDefault(getWebSession().getUserName(), "unknown");
+  private boolean checkIfLinkIsFromTom(String resetLinkFromForm, String username) {
+    String resetLink = userToTomResetLink.getOrDefault(username, "unknown");
     return resetLink.equals(resetLinkFromForm);
   }
 }

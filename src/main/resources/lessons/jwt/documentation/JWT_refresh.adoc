@@ -85,4 +85,3 @@ application you are better of using plain old cookies. See for more information:
 - http://cryto.net/~joepie91/blog/2016/06/13/stop-using-jwt-for-sessions/[stop-using-jwt-for-sessions, window="_blank"]
 - http://cryto.net/~joepie91/blog/2016/06/19/stop-using-jwt-for-sessions-part-2-why-your-solution-doesnt-work/[stop-using-jwt-for-sessions-part-2-why-your-solution-doesnt-work, window="_blank"]
 - http://cryto.net/~joepie91/blog/attachments/jwt-flowchart.png[flowchart, window="_blank"]
-

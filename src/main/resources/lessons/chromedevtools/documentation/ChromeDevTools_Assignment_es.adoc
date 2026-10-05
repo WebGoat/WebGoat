@@ -1,0 +1,8 @@
+== ¡Pruébalo! Utilizando la consola
+
+Vamos a intentarlo. Utiliza la consola en las herramientas de desarrollo y llama a la función de JavaScript *webgoat.customjs.phoneHome()*.
+Deberías recibir una respuesta en la consola. Tu resultado debería lucir algo así:
+`phone home dijo
+{"lessonCompleted:true, ... ,"output":"la respuesta de phone home es..."`
+Después de eso, pega el número aleatorio en el campo de texto a continuación.
+(Asegúrate de tener el número más reciente, ya que se genera aleatoriamente cada vez que llamas a la función)

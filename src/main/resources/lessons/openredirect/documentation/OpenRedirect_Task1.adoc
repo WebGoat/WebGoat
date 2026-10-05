@@ -1,0 +1,12 @@
+== Basic open redirect
+
+The application takes a user-supplied `returnUrl` (here simply named `url`) and would normally issue a redirect without validation.
+
+Goal:
+
+* Provide an absolute external URL using `http` or `https` that is NOT one of the internal hosts: `webgoat.local`, `localhost`, `127.0.0.1`.
+
+Try:
+
+* `https://evil.test`
+* `http://attacker.example`

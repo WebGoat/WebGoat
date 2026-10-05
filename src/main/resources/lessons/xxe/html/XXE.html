@@ -28,7 +28,7 @@
               successCallback="simpleXXECallback"
               failureCallback="simpleXXECallback"
               contentType="application/xml"
-              action="xxe/simple">
+              th:action="@{/xxe/simple}">
             <div class="container-fluid">
                 <div class="panel post">
                     <div class="post-heading">
@@ -94,7 +94,7 @@
               prepareData="contentTypeXXE"
               successCallback="contentTypeXXECallback"
               failureCallback="contentTypeXXECallback"
-              action="xxe/content-type"
+              th:action="@{/xxe/content-type}"
               contentType="application/json">
             <div class="container-fluid">
                 <div class="panel post">
@@ -166,7 +166,7 @@
               prepareData="blindXXE"
               successCallback="blindXXECallback"
               failureCallback="blindXXECallback"
-              action="xxe/blind"
+              th:action="@{/xxe/blind}"
               contentType="application/xml">
             <div class="container-fluid">
                 <div class="panel post">

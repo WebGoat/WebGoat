@@ -1,0 +1,11 @@
+== Recover the tag
+
+The next endpoint reduces the delay to about 5 milliseconds per matching byte:
+
+----
+GET /WebGoat/crypto/timing/verify-tag?message=WebGoat&signature=00000000
+----
+
+Recover the four-byte tag one position at a time. Keep the known prefix fixed, try each possible value for the next byte, and pad the untested positions. Repeat measurements to reduce mistakes. The candidate whose requests consistently take longest is evidence for the next byte.
+
+The exercise supports scripts, intercepting proxies, command-line tools, and AI assistants. The objective is to explain why the measurements reveal a prefix, not to type hundreds of requests by hand.

@@ -17,7 +17,7 @@
             <script th:src="@{/lesson_js/credentials.js}"></script>
             <form class="attack-form" accept-charset="UNKNOWN" name="task"
                   method="POST"
-                  action="InsecureLogin/task">
+                  th:action="@{/InsecureLogin/task}">
 
                 <button onclick="javascript:submit_secret_credentials();return false;">Log in</button>
 
@@ -25,7 +25,7 @@
             <br></br>
             <form class="attack-form" accept-charset="UNKNOWN" name="task"
                   method="POST"
-                  action="InsecureLogin/task">
+                  th:action="@{/InsecureLogin/task}">
 
                 <input type="text" value="" name="username" placeholder="username"/>
                 <input type="password" value="" name="password" placeholder="password" />

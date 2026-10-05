@@ -1,0 +1,19 @@
+== La Pestaña de Elementos
+
+La pestaña de Elementos te permite examinar el código HTML y CSS utilizado para definir y estilizar el sitio web.
+
+=== Fuente HTML
+
+Si pasas el ratón sobre una línea, verás que una parte del sitio web se vuelve azul. Eso significa que
+esta línea HTML en particular define esta sección del sitio web.
+La pestaña de Elementos te permite realizar cambios en cada elemento HTML individual. Por ejemplo, si haces clic dentro de una etiqueta de párrafo (<p>...</p>), puedes editar el contenido del sitio web. Si has realizado cambios y luego haces clic en Enter,
+Chrome actualizará el sitio web para mostrar tus ediciones. También puedes cambiar la etiqueta HTML utilizada, las clases y los identificadores (id) que una etiqueta tiene, y mucho más.
+
+image::images/ChromeDev_Elements.jpg[DeveloperToolsElements,500,350,style="lesson-image"]
+
+=== Fuente CSS
+
+Puedes encontrar información sobre el CSS utilizado para estilizar el sitio web debajo de la fuente HTML. Al igual que con el HTML, también puedes editar el CSS y, por lo tanto, ajustar el estilo del sitio web.
+Puedes editar valores específicos o desactivar el estilo individual.
+
+image::images/ChromeDev_Elements_CSS.jpg[DeveloperToolsElementsCSS,500,350,style="lesson-image"]

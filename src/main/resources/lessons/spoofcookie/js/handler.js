@@ -28,4 +28,3 @@ var obs = new MutationObserver(function(mutations) {
 });
 
 obs.observe(target, { characterData: false, attributes: false, childList: true, subtree: false });
-

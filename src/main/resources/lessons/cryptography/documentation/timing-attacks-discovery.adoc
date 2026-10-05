@@ -1,0 +1,11 @@
+== Discover the side channel
+
+Send candidate tags to this endpoint:
+
+----
+GET /WebGoat/crypto/timing/verify?message=WebGoat&signature=00000000
+----
+
+Every invalid candidate returns the same status and the same `Invalid signature` body. The comparison still behaves differently. It checks bytes from left to right, stops at the first mismatch, and waits about 25 milliseconds after each matching byte.
+
+Change only the first byte, measure the complete request time, and repeat measurements before deciding which value is slower. Submit that byte as two hexadecimal characters.

@@ -31,6 +31,3 @@ function updateTotal() {
 
 
 }
-
-
-

@@ -1,0 +1,25 @@
+== Double encoding bypass
+
+Some filters only decode a parameter once before validating a prefix. If user input is decoded a second time later (by a framework component, a proxy, logging pipeline, etc.) the real target can change.
+
+Goal:
+
+* Supply a URL which after ONE decode appears to start with the trusted host `https://webgoat.local` but after TWO decodes the actual parsed host is attacker-controlled.
+
+Technique:
+
+* Encode the `@` sign twice so the first decode leaves an encoded version in place (`%40`) and only the second decode reveals the userinfo separator.
+
+Example idea:
+
+* `https://webgoat.local%2540evil.com`
+  * 1st decode -> `https://webgoat.local%40evil.com` (still looks internal to naive prefix check)
+  * 2nd decode -> `https://webgoat.local@evil.com` (real host = `evil.com`)
+
+On success the debug output will show:
+
+* AppearsInternalAfter1: true
+* 1st host is internal
+* 2nd host is external
+
+Try variations with other characters (`%252F` => `%2F` etc.) to see how multiple decodes can reshape a URL.

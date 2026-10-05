@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.container.users;
 
 import jakarta.persistence.Entity;
@@ -11,10 +15,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
-/**
- * @author nbaars
- * @since 3/19/17.
- */
 @Getter
 @Entity
 public class WebGoatUser implements UserDetails {

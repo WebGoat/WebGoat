@@ -1,0 +1,16 @@
+== Connection to JWT
+
+JWT tokens that use HS256 authenticate this signing input:
+
+----
+base64url(header) + "." + base64url(payload)
+----
+
+with HMAC-SHA256. The JWT signature is therefore an HMAC authentication value. A JWT verifier that compares it with a secret-dependent early exit can expose the same timing side channel.
+
+The attack in this lesson did not crack HMAC-SHA256. The server calculated a secure primitive correctly, then leaked information while checking its result. The existing JWT lesson covers token structure and JWT-specific attacks in more detail.
+
+[source]
+----
+Secure primitive + insecure implementation behavior = exploitable system
+----

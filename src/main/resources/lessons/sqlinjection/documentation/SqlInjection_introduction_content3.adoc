@@ -21,4 +21,3 @@ If an attacker successfully "injects" DDL type SQL commands into a database, he 
 ** This statement creates the employees example table given on page 2.
 
 Now try to modify the schema by adding the column "phone" (varchar(20)) to the table "employees". :
-

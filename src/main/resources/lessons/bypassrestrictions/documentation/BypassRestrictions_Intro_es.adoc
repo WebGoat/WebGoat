@@ -1,0 +1,9 @@
+== Concepto
+
+Los usuarios tienen un gran control sobre la interfaz del usuario de la aplicación web. Pueden modificar el código HTML, y a veces también los scripts. Las aplicaciones que requieren un formato de entrada específico deben validar también los datos en el lado del servidor.
+
+== Objetivos
+
+* El usuario debe tener conocimientos básicos de HTML.
+* El usuario debe poder manipular una solicitud antes de enviarla (con un proxy u otras herramientas).
+* El usuario tiene que manipular las restricciones de campo y eludir la validación del lado del cliente.

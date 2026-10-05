@@ -68,10 +68,6 @@ define(['jquery',
                 }
             },
 
-            getCurrentPage: function () {
-                return this.currentPage;
-            },
-
             makeFormsAjax: function () {
                 this.$form = $('form.attack-form');
                 // turn off standard submit
@@ -147,7 +143,6 @@ define(['jquery',
             },
 
             markAssignmentComplete: function () {
-                this.curForm.reset();
                 $(this.curForm).siblings('.assignment-success').find('i').removeClass('hidden');
                 this.paginationControlView.updateCollection();
             },
@@ -222,6 +217,8 @@ define(['jquery',
             },
 
             resetLesson: function () {
+                this.$el.find(form).trigger("reset");
+                this.$el.find(".quiz_question").removeClass('correct incorrect');
                 this.$el.find('.attack-feedback').hide();
                 this.$el.find('.attack-output').hide();
                 this.markAssignmentIncomplete();

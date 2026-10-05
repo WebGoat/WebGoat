@@ -1,4 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2020 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.lessons.pathtraversal;
+
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +19,7 @@ import java.nio.file.Files;
 import java.util.Base64;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;
+import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
@@ -39,8 +47,7 @@ import org.springframework.web.bind.annotation.RestController;
   "path-traversal-profile-retrieve.hint6"
 })
 @Slf4j
-public class ProfileUploadRetrieval extends AssignmentEndpoint {
-
+public class ProfileUploadRetrieval implements AssignmentEndpoint {
   private final File catPicturesDirectory;
 
   public ProfileUploadRetrieval(@Value("${webgoat.server.directory}") String webGoatHomeDirectory) {
@@ -71,8 +78,10 @@ public class ProfileUploadRetrieval extends AssignmentEndpoint {
 
   @PostMapping("/PathTraversal/random")
   @ResponseBody
-  public AttackResult execute(@RequestParam(value = "secret", required = false) String secret) {
-    if (Sha512DigestUtils.shaHex(getWebSession().getUserName()).equalsIgnoreCase(secret)) {
+  public AttackResult execute(
+      @RequestParam(value = "secret", required = false) String secret,
+      @CurrentUsername String username) {
+    if (Sha512DigestUtils.shaHex(username).equalsIgnoreCase(secret)) {
       return success(this).build();
     }
     return failed(this).build();
