@@ -1,0 +1,58 @@
+name: "AppScan SAST + SCA"
+
+# Percorso nel repo: .github/workflows/appscan-sast-sca-2023.yml
+# Branch:           release-2023.8
+#
+# Scansiona il sorgente di WebGoat 2023.8, cioè lo stesso codice che gira
+# in locale sotto l'agent IAST. Parte a ogni commit sul branch.
+#
+# Prerequisiti:
+#   secrets:   ASOC_KEY, ASOC_SECRET
+#   variables: ASOC_APPID   (la stessa applicazione dove arrivano IAST e DAST)
+
+on:
+  push:
+    branches: [release-2023.8]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: appscan-sast-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sast_sca:
+    name: "SAST + SCA"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: AppScan SAST + SCA
+        uses: HCL-TECH-SOFTWARE/appscan-sast-action@v1.1.3
+        with:
+          asoc_key: ${{ secrets.ASOC_KEY_MATTIADEMOCENTER }}
+          asoc_secret: ${{ secrets.ASOC_SECRET_MATTIADEMOCENTER }}
+          application_id: ${{ vars.ASOC_APPID_MATTIADEMOCENTER }}
+
+          scan_name: "SAST+SCA WebGoat 2023.8 ${{ github.sha }} run${{ github.run_id }}"
+
+          wait_for_analysis: true
+          analysis_timeout_minutes: 45
+          fail_for_noncompliance: false
+
+      - name: Riepilogo
+        if: always()
+        run: |
+          {
+            echo "## AppScan SAST + SCA"
+            echo ""
+            echo "- Branch: \`${{ github.ref_name }}\`"
+            echo "- Commit: \`${{ github.sha }}\`"
+            echo "- Esito: ${{ job.status }}"
+            echo ""
+            echo "Perimetro: sorgente WebGoat 2023.8, lo stesso artefatto in esecuzione sotto l'agent IAST."
+            echo "Risultati completi nell'applicazione su AppScan on Cloud."
+          } >> "$GITHUB_STEP_SUMMARY"
