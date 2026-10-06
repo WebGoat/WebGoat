@@ -51,12 +51,13 @@ class CommandInjectionTask2Test {
     AttackResult failedAttempt = task.run(user, "", payload, "");
     String output = failedAttempt.getOutput();
     var matcher =
-        Pattern.compile("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+        Pattern.compile(
+                "WEBGOAT_BUILD_TOKEN=([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})")
             .matcher(output);
     if (!matcher.find()) {
       throw new IllegalStateException("Token not present in output: " + output);
     }
-    String token = matcher.group();
+    String token = matcher.group(1);
 
     AttackResult result = task.run(user, "", payload, token);
 
