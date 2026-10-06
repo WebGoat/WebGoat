@@ -18,8 +18,7 @@ import org.springframework.core.io.ClassPathResource;
 public class StartWebGoat {
 
   public static void main(String[] args) {
-    // A shared server.port argument would make both child servers bind to the same port.
-    String[] applicationArgs = normalizeServerPort(args);
+    String[] applicationArgs = mapServerPortToWebGoatPort(args);
     var parentBuilder =
         new SpringApplicationBuilder().parent(ParentConfig.class).web(WebApplicationType.NONE);
     parentBuilder
@@ -38,7 +37,7 @@ public class StartWebGoat {
     printStartUpMessage(webGoatContext);
   }
 
-  static String[] normalizeServerPort(String[] args) {
+  static String[] mapServerPortToWebGoatPort(String[] args) {
     return Arrays.stream(args)
         .map(
             arg ->

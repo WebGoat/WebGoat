@@ -13,7 +13,7 @@ class StartWebGoatTest {
   @Test
   void mapsSharedServerPortToWebGoatOnly() {
     assertThat(
-            StartWebGoat.normalizeServerPort(
+            StartWebGoat.mapServerPortToWebGoatPort(
                 new String[] {
                   "--server.address=127.0.0.1", "--server.port=9000", "--webwolf.port=9091"
                 }))
