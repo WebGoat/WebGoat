@@ -109,12 +109,12 @@ public class CommandInjectionLessonIntegrationTest extends IntegrationTest {
 
     var matcher =
         Pattern.compile(
-                "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+                "WEBGOAT_BUILD_TOKEN=([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})")
             .matcher(output);
     if (!matcher.find()) {
-      throw new IllegalStateException("Token not present in Task 2 output");
+      throw new IllegalStateException("Token not present in Task 2 output: " + output);
     }
-    return matcher.group();
+    return matcher.group(1);
   }
 
   private void submitTask2Token(String token) {
