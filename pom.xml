@@ -72,7 +72,7 @@
     <commons-io.version>2.22.0</commons-io.version>
     <commons-lang3.version>3.14.0</commons-lang3.version>
     <commons-text.version>1.15.0</commons-text.version>
-    <guava.version>33.7.1-jre</guava.version>
+    <guava.version>33.7.2-jre</guava.version>
     <jacoco.version>0.8.11</jacoco.version>
     <java.version>25</java.version>
     <jaxb.version>2.3.1</jaxb.version>
