@@ -1,4 +1,4 @@
-=== Filter bypass: Leak the API key
+=== Filter bypass: leak the API key
 
 Operations noticed people chaining commands and added a quick denylist: the server now strips
 `;`, `&&`, and `|` from your cat search before sending it to the shell. The diags console still runs

@@ -1,4 +1,4 @@
-=== Escalate: Read the flag
+=== Escalate: read the flag
 
 The cat gallery looks innocuous: when you type a name in the search box it simply runs
 `grep $title images/*.txt` on Unix or `findstr /I $title images\*.txt` on Windows and shows the

@@ -1,4 +1,4 @@
-=== Command Injection: Pipe Dream
+=== Pipe dream
 
 Operations rolled out a "diagnostics" feature that shells out to the host OS whenever a
 support engineer needs quick status. Instead of limiting commands, the service forwards your

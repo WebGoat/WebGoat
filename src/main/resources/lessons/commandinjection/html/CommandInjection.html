@@ -338,7 +338,9 @@
             addStatusRow(
                 list,
                 'Command execution',
-                status.commandExecutionUnlocked ? 'Unlocked' : 'Locked'
+                status.commandExecutionUnlocked
+                    ? 'Enabled for your account'
+                    : 'Disabled until you submit the acknowledgement below'
             );
             safetyStatus.appendChild(list);
 

@@ -1,4 +1,4 @@
-=== What Is Command Injection?
+=== What is command injection?
 
 Command injection happens when user-controlled data is passed to an operating system shell
 without strict validation or parameterization. The application may wrap the input in helper
