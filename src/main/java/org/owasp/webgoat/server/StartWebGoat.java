@@ -4,6 +4,7 @@
  */
 package org.owasp.webgoat.server;
 
+import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.WebGoat;
 import org.owasp.webgoat.webwolf.WebWolf;
@@ -17,22 +18,34 @@ import org.springframework.core.io.ClassPathResource;
 public class StartWebGoat {
 
   public static void main(String[] args) {
+    // A shared server.port argument would make both child servers bind to the same port.
+    String[] applicationArgs = normalizeServerPort(args);
     var parentBuilder =
         new SpringApplicationBuilder().parent(ParentConfig.class).web(WebApplicationType.NONE);
     parentBuilder
         .child(WebWolf.class)
         .banner(new ResourceBanner(new ClassPathResource("banner-webwolf.txt")))
         .web(WebApplicationType.SERVLET)
-        .run(args);
+        .run(applicationArgs);
 
     ApplicationContext webGoatContext =
         parentBuilder
             .child(WebGoat.class)
             .banner(new ResourceBanner(new ClassPathResource("banner-webgoat.txt")))
             .web(WebApplicationType.SERVLET)
-            .run(args);
+            .run(applicationArgs);
 
     printStartUpMessage(webGoatContext);
+  }
+
+  static String[] normalizeServerPort(String[] args) {
+    return Arrays.stream(args)
+        .map(
+            arg ->
+                arg.startsWith("--server.port=")
+                    ? "--webgoat.port=" + arg.substring("--server.port=".length())
+                    : arg)
+        .toArray(String[]::new);
   }
 
   private static void printStartUpMessage(ApplicationContext webGoatContext) {
