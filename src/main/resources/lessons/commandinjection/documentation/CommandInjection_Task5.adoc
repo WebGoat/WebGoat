@@ -1,0 +1,21 @@
+=== Sandbox the diagnostics
+
+You now control the diagnostics console. The team proposed three switches:
+
+*Execution mode*
+
+- Shell - legacy behaviour that spawns `/bin/sh -c` or `cmd.exe /c`
+- Direct process - use `ProcessBuilder` without a shell
+- Fixed allowlist runner - run commands directly from a fixed list
+
+*Command allowlist* - enables the predefined safe commands (`hostname`, `uptime`).
+
+*Input sanitiser* - strips the obvious separators.
+
+Submit a configuration. The server runs a legitimate `hostname` check, a chained injection probe,
+and an unapproved `whoami` command. A secure configuration must allow the status check, block both
+attacks, and avoid the shell.
+
+Secure remediation removes the shell and enforces a strict allowlist. A denylist or sanitiser is
+not sufficient by itself. The fixed allowlist runner includes its own allowlist, so it does not use
+the separate allowlist switch.
