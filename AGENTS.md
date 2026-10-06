@@ -129,3 +129,4 @@
 # Remove stale WebGoat runtime/test data when required
 ./mvnw clean -Pcleanall
 ```
+
