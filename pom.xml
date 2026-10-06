@@ -98,7 +98,7 @@
     <rest-assured.version>6.0.1</rest-assured.version>
     <spotless-maven-plugin.version>3.10.2</spotless-maven-plugin.version>
     <waittimeForServerStart>60</waittimeForServerStart>
-    <webdriver.version>6.3.4</webdriver.version>
+    <webdriver.version>6.4.0</webdriver.version>
     <webgoat.context>/WebGoat</webgoat.context>
     <webgoat.port>8080</webgoat.port>
     <webgoat.sslenabled>false</webgoat.sslenabled>
