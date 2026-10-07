@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<link rel="stylesheet" type="text/css" th:href="@{/lesson_css/challenge2.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/lesson_css/challenge-flag.css}" />
+
+<div class="lesson-page-wrapper">
+    <div class="partner-feed-dashboard">
+        <header>
+            <p class="partner-feed-kicker">Northstar Press · syndication desk</p>
+            <h3>Partner feed recovery</h3>
+            <p>An incident locked the evening edition. Recover the value held by the diagnostic service and submit it as evidence below.</p>
+        </header>
+
+        <div class="partner-feed-cards">
+            <section class="partner-feed-card" aria-labelledby="incident-heading">
+                <h4 id="incident-heading">Incident note</h4>
+                <p>The diagnostic service is not available from the browser.</p>
+                <p><a id="partner-feed-diagnostic-link" th:href="@{/northstar/internal/diagnostics}" target="_blank" rel="noopener noreferrer">Open diagnostic service</a></p>
+                <code id="partner-feed-diagnostic-url"></code>
+            </section>
+
+            <section class="partner-feed-card" aria-labelledby="partner-heading">
+                <h4 id="partner-heading">Partner directory</h4>
+                <p>Approved feed source for the importer:</p>
+                <p><a id="partner-feed-bulletin-link" th:href="@{/northstar/feeds}" target="_blank" rel="noopener noreferrer">Open partner bulletins</a></p>
+                <code id="partner-feed-bulletin-url"></code>
+                <p><a th:href="@{/northstar/go(url='https://example.org')}" target="_blank" rel="noopener noreferrer">Open the publisher website</a></p>
+            </section>
+        </div>
+
+        <section class="partner-feed-card partner-feed-import" aria-labelledby="import-heading">
+            <h4 id="import-heading">Import a partner feed</h4>
+            <p>Preview an XML feed before adding its stories to the edition.</p>
+            <form id="partner-feed-import" method="POST" th:action="@{/northstar/import}">
+                <label for="partner-feed-xml">Feed XML</label>
+                <textarea id="partner-feed-xml" name="xml" rows="7" class="form-control" spellcheck="false"><?xml version="1.0"?>
+<feed><story><title>Evening bulletin</title></story></feed></textarea>
+                <button type="submit" class="btn btn-primary">Preview feed</button>
+            </form>
+            <div class="partner-feed-preview" aria-live="polite">
+                <span>Preview</span>
+                <pre id="partner-feed-preview">No feed imported yet.</pre>
+            </div>
+        </section>
+
+        <div class="attack-container partner-feed-submit">
+            <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+            <form class="attack-form challenge-flag-form" method="POST" th:action="@{/northstar/recovery}">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"></i></div>
+                        <input id="partner-feed-result" name="flag" type="text" class="form-control" aria-label="Result" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" autocomplete="off" />
+                    </div>
+                    <div class="input-group partner-feed-flag-submit">
+                        <button type="submit" class="btn btn-primary">Submit result</button>
+                    </div>
+                </div>
+            </form>
+            <div class="attack-feedback"></div>
+            <div class="attack-output"></div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/lesson_js/challenge2.js}"></script>
+</body>
+</html>
