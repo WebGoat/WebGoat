@@ -1,29 +1,26 @@
-=== Welcome to the WebGoat challenge (CTF)
+=== Introduction
 
-==== Introduction
+These exercises build on WebGoat's focused lessons. Those lessons teach one security concept at a time. This section
+asks you to combine concepts in a larger application and use them together to reach an objective.
 
-The challenges contain more a CTF like lessons where we do not provide any explanations what you need to do, no hints
-will be provided. You can use these challenges in a CTF style where you can run WebGoat on one server and all
-participants can join and hack the challenges.
+The exercise gives you an outcome without naming the vulnerability or the steps needed to reach it. You decide which
+parts of the application to inspect, where its trust boundaries are, and how separate weaknesses can form one attack
+path. The available help is limited. Use the focused lessons as reference material when you need to revisit a concept,
+then investigate the scenario yourself.
 
-:hardbreaks:
-In this CTF you will need to solve a couple of challenges, each challenge will give you a flag which you will
-need to post in order to gain points.
+Browser tools, scripts, intercepting proxies, and AI assistants are valid tools for this work. An assistant may produce
+a payload quickly, but you still need to understand why it works, explain the complete attack chain, and determine
+whether a proposed repair removes the underlying weakness.
 
-Flags have the following format: `a7179f89-906b-4fec-9d99-f15b796e7208`
+==== Working with the exercises
 
-==== Rules
+- Use the focused lessons when you need background on a security concept.
 
-- Do not try to hack the competition infrastructure. If you happen to find a bug or vulnerability please send us
-an e-mail.
+- Keep your work within the WebGoat application. Do not target other systems or learners.
 
-- Play fair, do not try sabotage other competing teams, or in any way hindering the progress of another team.
+- Document the components, trust boundaries, and assumptions that make the attack possible.
 
-- Brute forcing of challenges / flags is not allowed.
-
-:hardbreaks:
-*Have fun!!*
-Team WebGoat
+*Understand how the system behaves, then verify what changes.*
 
 
 image::images/boss.jpg[]

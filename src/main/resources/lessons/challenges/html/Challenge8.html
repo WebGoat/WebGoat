@@ -3,6 +3,7 @@
 
 
 <div class="lesson-page-wrapper">
+    <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/challenge-flag.css}"/>
     <div class="adoc-content" th:replace="~{doc:lessons/challenges/documentation/Challenge_8.adoc}"></div>
     <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/challenge8.css}"/>
     <script th:src="@{/lesson_js/challenge8.js}" language="JavaScript"></script>
@@ -154,7 +155,7 @@
                                 </div>
                                 <div class="review-block-title">WebGoat rocks!</div>
                                 <div class="review-block-description">This is a great tool to learn about security
-                                    and have some fun with a couple challenges.
+                                    and have some fun with a couple security exercises.
                                 </div>
                             </div>
                         </div>
@@ -231,16 +232,15 @@
         </div>
 
         <br/>
-        <form class="attack-form" method="POST" name="form" th:action="@{/challenge/flag/8}">
+        <form class="attack-form challenge-flag-form" method="POST" name="form" th:action="@{/challenge/flag/8}">
             <div class="form-group">
                 <div class="input-group">
-                    <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"
-                                                      style="font-size:20px"></i></div>
+                    <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"></i></div>
                     <input type="text" class="form-control" id="flag" name="flag"
                            placeholder="a7179f89-906b-4fec-9d99-f15b796e7208"/>
                 </div>
                 <div class="input-group" style="margin-top: 10px">
-                    <button type="submit" class="btn btn-primary">Submit flag</button>
+                    <button type="submit" class="btn btn-primary">Submit result</button>
                 </div>
             </div>
 
