@@ -62,6 +62,9 @@
 
   <properties>
     <!-- Shared properties with plugins and version numbers across submodules-->
+    <!-- SonarQube Cloud analysis -->
+    <sonar.organization>jonathan11088</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <asciidoctorj.version>3.0.1</asciidoctorj.version>
     <bootstrap.version>5.3.5</bootstrap.version>
     <bouncycastle.version>1.85</bouncycastle.version>
