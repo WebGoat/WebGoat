@@ -1,4 +1,4 @@
-== Discover the side channel
+=== Discover the side channel
 
 Send candidate tags to this endpoint:
 

@@ -42,12 +42,24 @@ public class TimingAttacksLessonUITest extends PlaywrightTest {
 
     assertThat(lessonPage.firstByteFeedback())
         .containsText("The response timing revealed the first byte");
+
+    lessonPage.navigateTo(3);
+    assertThat(lessonPage.getPage().locator(".lesson-page-solution:visible"))
+        .containsText("Try all 256 first-byte values");
+
+    lessonPage.navigateTo(5);
+    assertThat(lessonPage.getPage().locator(".lesson-page-solution:visible"))
+        .containsText("signature=ab010000");
+
+    lessonPage.navigateTo(7);
+    assertThat(lessonPage.getPage().locator(".lesson-page-solution:visible"))
+        .containsText("verify-noisy");
   }
 
   @Test
   @DisplayName("Reject an incomplete mitigation and accept the constant-time comparison API")
   void shouldReviewTheMitigation() {
-    lessonPage.navigateTo(5);
+    lessonPage.navigateTo(8);
 
     lessonPage.submitMitigation("early-exit", "random-delay");
     assertThat(lessonPage.mitigationFeedback())

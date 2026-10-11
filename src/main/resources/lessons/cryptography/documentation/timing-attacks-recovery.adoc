@@ -1,4 +1,4 @@
-== Recover the tag
+=== Recover the tag
 
 The next endpoint reduces the delay to about 5 milliseconds per matching byte:
 

@@ -1,0 +1,13 @@
+=== Assignment solution
+
+Each matching byte adds about 5 milliseconds before the server checks the next byte. Keep the first byte you recovered, vary the second byte, and pad the rest of the tag with zeros. The slowest candidate has probably matched one more byte. Repeat this process for the third and fourth bytes, measuring each candidate more than once.
+
+If the first byte in your session were `ab`, these requests would test `00` and `01` as the second byte. Replace `ab` with the byte you measured and use the same `JSESSIONID` as before:
+
+[source,shell]
+----
+curl -sS --cookie "JSESSIONID=<your-session-id>" --write-out "\nTotal: %{time_total}s\n" "http://localhost:8080/WebGoat/crypto/timing/verify-tag?message=WebGoat&signature=ab000000"
+curl -sS --cookie "JSESSIONID=<your-session-id>" --write-out "\nTotal: %{time_total}s\n" "http://localhost:8080/WebGoat/crypto/timing/verify-tag?message=WebGoat&signature=ab010000"
+----
+
+Once you find the second byte, keep it fixed while testing the third. For example, `ab120000` tests the prefix `ab12`. When all four bytes match, the endpoint returns `Valid signature`. Submit that four-byte tag for the current session. You recovered the authentication value through the comparison delay, not the HMAC secret.
