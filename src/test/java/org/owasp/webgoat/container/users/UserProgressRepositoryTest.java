@@ -73,6 +73,23 @@ class UserProgressRepositoryTest {
   }
 
   @Test
+  void differentUsersCanSolveTheSameAssignment() {
+    var lesson = new TestLesson();
+    var firstUser = new UserProgress("first-user");
+    firstUser.assignmentSolved(lesson, "test1");
+    userProgressRepository.saveAndFlush(firstUser);
+
+    var secondUser = new UserProgress("second-user");
+    secondUser.assignmentSolved(lesson, "test1");
+    userProgressRepository.saveAndFlush(secondUser);
+
+    assertThat(userProgressRepository.findByUser("first-user").numberOfAssignmentsSolved())
+        .isEqualTo(1);
+    assertThat(userProgressRepository.findByUser("second-user").numberOfAssignmentsSolved())
+        .isEqualTo(1);
+  }
+
+  @Test
   void saveAndLoadShouldHaveCorrectNumberOfAttempts() {
     UserProgress userProgress = new UserProgress(USER);
     TestLesson lesson = new TestLesson();
