@@ -1,4 +1,4 @@
-== Review the repair
+=== Review the repair
 
 The vulnerable comparison has a secret-dependent early exit:
 

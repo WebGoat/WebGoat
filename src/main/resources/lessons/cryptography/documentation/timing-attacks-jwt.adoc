@@ -1,4 +1,4 @@
-== Connection to JWT
+=== Connection to JWT
 
 JWT tokens that use HS256 authenticate this signing input:
 

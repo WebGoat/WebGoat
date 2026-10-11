@@ -1,4 +1,4 @@
-== Timing attacks
+=== Timing attacks
 
 A message authentication code, or MAC, lets a recipient check that a message came from someone who knows a shared secret and that the message was not changed. HMAC builds a MAC from a cryptographic hash function and a secret key.
 

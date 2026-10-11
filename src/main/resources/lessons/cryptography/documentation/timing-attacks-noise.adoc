@@ -1,4 +1,4 @@
-== Extract a noisy signal
+=== Extract a noisy signal
 
 Real measurements vary because of scheduling, runtime activity, network latency, and other work on the host. This endpoint adds between 0 and 8 milliseconds of random jitter while reducing the matching-byte signal to about 2 milliseconds:
 

@@ -1,0 +1,13 @@
+=== Assignment solution
+
+The server compares the supplied tag with the expected tag from left to right. A wrong first byte ends the comparison at once. A correct first byte makes the server wait about 25 milliseconds before checking the second byte. Both requests can still return `Invalid signature`.
+
+Copy the `JSESSIONID` cookie from your signed-in WebGoat browser session and replace `<your-session-id>` below. Use that same cookie for every request so the server keeps the same HMAC secret. These two requests test `00` and `01` as the first byte while keeping the other bytes at zero:
+
+[source,shell]
+----
+curl -sS --cookie "JSESSIONID=<your-session-id>" --write-out "\nTotal: %{time_total}s\n" "http://localhost:8080/WebGoat/crypto/timing/verify?message=WebGoat&signature=00000000"
+curl -sS --cookie "JSESSIONID=<your-session-id>" --write-out "\nTotal: %{time_total}s\n" "http://localhost:8080/WebGoat/crypto/timing/verify?message=WebGoat&signature=01000000"
+----
+
+Check that both responses say `Invalid signature`. Try all 256 first-byte values, from `00` through `ff`, and repeat each request. `time_total` includes network and server time, so compare typical durations rather than trusting one measurement. The candidate that consistently takes about 25 milliseconds longer reveals the first byte for your session. Submit that byte as two hexadecimal characters. A new session gets a different tag.

@@ -44,6 +44,9 @@ class TimingAttacksTest extends LessonTest {
         .perform(get("/TimingAttacks.lesson"))
         .andExpect(status().isOk())
         .andExpect(content().string(containsString("Discover the side channel")))
+        .andExpect(content().string(containsString("Try all 256 first-byte values")))
+        .andExpect(content().string(containsString("signature=ab010000")))
+        .andExpect(content().string(containsString("This endpoint authenticates")))
         .andExpect(content().string(containsString("MessageDigest.isEqual")))
         .andExpect(content().string(containsString("Connection to JWT")));
   }
