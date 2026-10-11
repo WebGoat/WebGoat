@@ -140,6 +140,28 @@ public class ChallengeIntegrationTest extends IntegrationTest {
     checkAssignment(webGoatUrlConfig.url("challenge/flag/7"), Map.of("flag", flag), true);
   }
 
+  @Test
+  void testChallenge8() {
+    startLesson("Challenge8");
+
+    String flagHeader =
+        RestAssured.given()
+            .relaxedHTTPSValidation()
+            .cookie("JSESSIONID", getWebGoatCookie())
+            .head(webGoatUrlConfig.url("challenge/8/vote/5"))
+            .then()
+            .statusCode(200)
+            .extract()
+            .header("X-FlagController");
+
+    Assertions.assertThat(flagHeader).startsWith("Thanks for voting, your flag is: ");
+    String flag = flagHeader.substring(flagHeader.lastIndexOf(": ") + 2);
+    checkAssignment(webGoatUrlConfig.url("challenge/flag/8"), Map.of("flag", "invalid"), false);
+    checkAssignment(webGoatUrlConfig.url("challenge/flag/8"), Map.of("flag", flag), true);
+
+    checkResults("Challenge8");
+  }
+
   private String extractFlag(String result) {
     Matcher matcher = FLAG_PATTERN.matcher(result);
     Assertions.assertThat(matcher.find()).as("challenge response contains a flag").isTrue();
