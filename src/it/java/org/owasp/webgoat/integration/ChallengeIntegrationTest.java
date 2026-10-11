@@ -8,11 +8,16 @@ import io.restassured.RestAssured;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 public class ChallengeIntegrationTest extends IntegrationTest {
+
+  private static final Pattern FLAG_PATTERN =
+      Pattern.compile("\\b[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}\\b");
 
   @Test
   void testChallenge1() {
@@ -48,7 +53,7 @@ public class ChallengeIntegrationTest extends IntegrationTest {
             .extract()
             .asString();
 
-    String flag = result.substring(result.indexOf("flag") + 6, result.indexOf("flag") + 42);
+    String flag = extractFlag(result);
     params.clear();
     params.put("flag", flag);
     checkAssignment(webGoatUrlConfig.url("challenge/flag/1"), params, true);
@@ -77,7 +82,7 @@ public class ChallengeIntegrationTest extends IntegrationTest {
             .extract()
             .asString();
 
-    String flag = result.substring(result.indexOf("flag") + 6, result.indexOf("flag") + 42);
+    String flag = extractFlag(result);
     params.clear();
     params.put("flag", flag);
     checkAssignment(webGoatUrlConfig.url("challenge/flag/5"), params, true);
@@ -133,5 +138,11 @@ public class ChallengeIntegrationTest extends IntegrationTest {
 
     String flag = result.substring(result.indexOf("flag") + 6, result.indexOf("flag") + 42);
     checkAssignment(webGoatUrlConfig.url("challenge/flag/7"), Map.of("flag", flag), true);
+  }
+
+  private String extractFlag(String result) {
+    Matcher matcher = FLAG_PATTERN.matcher(result);
+    Assertions.assertThat(matcher.find()).as("challenge response contains a flag").isTrue();
+    return matcher.group();
   }
 }
