@@ -9,7 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.owasp.webgoat.container.lessons.Assignment;
@@ -24,7 +24,7 @@ public class AssignmentProgress {
   private Long id;
 
   @Getter
-  @OneToOne(cascade = CascadeType.ALL)
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   private Assignment assignment;
 
   @Getter private boolean solved;
