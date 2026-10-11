@@ -4,6 +4,7 @@
 
 
 <div class="lesson-page-wrapper">
+    <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/challenge-flag.css}"/>
     <div class="adoc-content" th:replace="~{doc:lessons/challenges/documentation/Challenge_6.adoc}"></div>
     <link rel="stylesheet" type="text/css" th:href="@{/lesson_css/challenge6.css}"/>
     <script th:src="@{/lesson_js/challenge6.js}" language="JavaScript"></script>
@@ -99,16 +100,15 @@
             </div>
         </div>
         <br/>
-        <form class="attack-form" method="POST" name="form" th:action="@{/challenge/flag/6}">
+        <form class="attack-form challenge-flag-form" method="POST" name="form" th:action="@{/challenge/flag/6}">
             <div class="form-group">
                 <div class="input-group">
-                    <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"
-                                                      style="font-size:20px"></i></div>
+                    <div class="input-group-addon"><i class="fa fa-flag-checkered" aria-hidden="true"></i></div>
                     <input type="text" class="form-control" id="flag" name="flag"
                            placeholder="a7179f89-906b-4fec-9d99-f15b796e7208"/>
                 </div>
                 <div class="input-group" style="margin-top: 10px">
-                    <button type="submit" class="btn btn-primary">Submit flag</button>
+                    <button type="submit" class="btn btn-primary">Submit result</button>
                 </div>
             </div>
 
