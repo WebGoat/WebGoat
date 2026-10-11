@@ -1,5 +1,38 @@
 # WebGoat release notes
 
+## Version 2026.5
+
+### New functionality
+
+- Add an HMAC timing attack lesson (#2548).
+- Add an HTTP parameter pollution lesson.
+- Add a password hashing lesson covering salts, Argon2id, and peppers.
+- Add the partner feed recovery challenge (#2570).
+- Expand the command injection exercise with bounded, portable command execution (#1555).
+
+### Bug fixes
+
+- Allow multiple users to solve the same CSRF assignments (#2573).
+- Record Challenge 8 completion after a correct flag submission (#2574).
+- Mark advanced SQL injection registration as solved when it succeeds (#2575).
+- Keep WebWolf on its configured port.
+
+### Technical tasks
+
+- Run the operating system CI builds in parallel and add issue triage for likely lesson vulnerabilities (#2569).
+- Make XXE integration tests use controlled entity targets (#2547).
+- Cover SQL mitigation form submissions in integration tests (#2502).
+- Update dependencies and document the HMAC timing attack solutions (#2577).
+
+### Contributors
+
+- Nanne Baars
+- Dependabot and GitHub Actions for automated maintenance commits
+
+## Version 2026.4
+
+See the [published v2026.4 release notes](https://github.com/WebGoat/WebGoat/releases/tag/v2026.4).
+
 ## Version 2026.3
 
 A large release: WebGoat moves to Spring Boot 4 and Java 25, WebWolf's mail functionality is folded into WebGoat, and
