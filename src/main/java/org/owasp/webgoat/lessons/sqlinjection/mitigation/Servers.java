@@ -24,6 +24,7 @@ package org.owasp.webgoat.lessons.sqlinjection.mitigation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -66,13 +67,23 @@ public class Servers {
   @ResponseBody
   public List<Server> sort(@RequestParam String column) throws Exception {
     List<Server> servers = new ArrayList<>();
+    // ORDER BY cannot be parameterized, so map the request onto a fixed set of column names
+    String orderBy =
+        switch (column == null ? "" : column.toLowerCase(Locale.ROOT)) {
+          case "hostname" -> "hostname";
+          case "ip" -> "ip";
+          case "mac" -> "mac";
+          case "status" -> "status";
+          case "description" -> "description";
+          default -> "id";
+        };
 
     try (var connection = dataSource.getConnection()) {
       try (var statement =
           connection.prepareStatement(
               "select id, hostname, ip, mac, status, description from SERVERS where status <> 'out"
                   + " of order' order by "
-                  + column)) {
+                  + orderBy)) {
         try (var rs = statement.executeQuery()) {
           while (rs.next()) {
             Server server =

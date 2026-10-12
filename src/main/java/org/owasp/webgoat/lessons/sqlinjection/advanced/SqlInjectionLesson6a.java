@@ -26,7 +26,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.PreparedStatement;
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.HtmlUtils;
 
 @RestController
 @AssignmentHints(
@@ -64,15 +65,19 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
   }
 
   public AttackResult injectableQuery(String accountName) {
-    String query = "";
+    String query = "SELECT * FROM user_data WHERE last_name = ?";
     try (Connection connection = dataSource.getConnection()) {
       boolean usedUnion = this.unionQueryChecker(accountName);
-      query = "SELECT * FROM user_data WHERE last_name = '" + accountName + "'";
 
-      return executeSqlInjection(connection, query, usedUnion);
+      return executeSqlInjection(connection, query, accountName, usedUnion);
     } catch (Exception e) {
       return failed(this)
-          .output(this.getClass().getName() + " : " + e.getMessage() + YOUR_QUERY_WAS + query)
+          .output(
+              this.getClass().getName()
+                  + " : "
+                  + HtmlUtils.htmlEscape(String.valueOf(e.getMessage()))
+                  + YOUR_QUERY_WAS
+                  + query)
           .build();
     }
   }
@@ -81,11 +86,13 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
     return accountName.matches("(?i)(^[^-/*;)]*)(\\s*)UNION(.*$)");
   }
 
-  private AttackResult executeSqlInjection(Connection connection, String query, boolean usedUnion) {
-    try (Statement statement =
-        connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
-
-      ResultSet results = statement.executeQuery(query);
+  private AttackResult executeSqlInjection(
+      Connection connection, String query, String accountName, boolean usedUnion) {
+    try (PreparedStatement statement =
+        connection.prepareStatement(
+            query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+      statement.setString(1, accountName);
+      ResultSet results = statement.executeQuery();
 
       if (!((results != null) && results.first())) {
         return failed(this)
@@ -103,7 +110,9 @@ public class SqlInjectionLesson6a extends AssignmentEndpoint {
 
       return verifySqlInjection(output, appendingWhenSucceded, query);
     } catch (SQLException sqle) {
-      return failed(this).output(sqle.getMessage() + YOUR_QUERY_WAS + query).build();
+      return failed(this)
+          .output(HtmlUtils.htmlEscape(sqle.getMessage()) + YOUR_QUERY_WAS + query)
+          .build();
     }
   }
 

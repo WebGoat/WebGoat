@@ -25,9 +25,10 @@ package org.owasp.webgoat.lessons.sqlinjection.introduction;
 import static java.sql.ResultSet.CONCUR_READ_ONLY;
 import static java.sql.ResultSet.TYPE_SCROLL_INSENSITIVE;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.Set;
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
@@ -36,6 +37,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.HtmlUtils;
 
 @RestController
 @AssignmentHints(
@@ -59,16 +61,29 @@ public class SqlInjectionLesson2 extends AssignmentEndpoint {
     return injectableQuery(query);
   }
 
+  private static final Set<String> ACCEPTED =
+      Set.of(
+          "select department from employees where last_name='Franco'",
+          "select department from employees where first_name='Bob' and last_name='Franco'",
+          "select department from employees where userid=96134");
+  private static final String SOLUTION_QUERY =
+      "SELECT department FROM employees WHERE last_name = ?";
+
   protected AttackResult injectableQuery(String query) {
-    try (var connection = dataSource.getConnection()) {
-      Statement statement = connection.createStatement(TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY);
-      ResultSet results = statement.executeQuery(query);
+    if (!SqlAnswers.matches(query, ACCEPTED)) {
+      return failed(this).feedback("sql-injection.2.failed").build();
+    }
+    try (var connection = dataSource.getConnection();
+        PreparedStatement statement =
+            connection.prepareStatement(SOLUTION_QUERY, TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY)) {
+      statement.setString(1, "Franco");
+      ResultSet results = statement.executeQuery();
       StringBuilder output = new StringBuilder();
 
       results.first();
 
       if (results.getString("department").equals("Marketing")) {
-        output.append("<span class='feedback-positive'>" + query + "</span>");
+        output.append("<span class='feedback-positive'>" + HtmlUtils.htmlEscape(query) + "</span>");
         output.append(SqlInjectionLesson8.generateTable(results));
         return success(this).feedback("sql-injection.2.success").output(output.toString()).build();
       } else {

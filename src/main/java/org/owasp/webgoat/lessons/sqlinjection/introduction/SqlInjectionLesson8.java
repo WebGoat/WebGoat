@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.HtmlUtils;
 
 @RestController
 @AssignmentHints(
@@ -62,20 +63,16 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
 
   protected AttackResult injectableQueryConfidentiality(String name, String auth_tan) {
     StringBuilder output = new StringBuilder();
-    String query =
-        "SELECT * FROM employees WHERE last_name = '"
-            + name
-            + "' AND auth_tan = '"
-            + auth_tan
-            + "'";
+    String query = "SELECT * FROM employees WHERE last_name = ? AND auth_tan = ?";
 
     try (Connection connection = dataSource.getConnection()) {
-      try {
-        Statement statement =
-            connection.createStatement(
-                ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+      try (PreparedStatement statement =
+          connection.prepareStatement(
+              query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+        statement.setString(1, name);
+        statement.setString(2, auth_tan);
         log(connection, query);
-        ResultSet results = statement.executeQuery(query);
+        ResultSet results = statement.executeQuery();
 
         if (results.getStatement() != null) {
           if (results.first()) {
@@ -102,13 +99,19 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
         }
       } catch (SQLException e) {
         return failed(this)
-            .output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>")
+            .output(
+                "<br><span class='feedback-negative'>"
+                    + HtmlUtils.htmlEscape(e.getMessage())
+                    + "</span>")
             .build();
       }
 
     } catch (Exception e) {
       return failed(this)
-          .output("<br><span class='feedback-negative'>" + e.getMessage() + "</span>")
+          .output(
+              "<br><span class='feedback-negative'>"
+                  + HtmlUtils.htmlEscape(String.valueOf(e.getMessage()))
+                  + "</span>")
           .build();
     }
   }
@@ -123,7 +126,7 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
     if (results.next()) {
       table.append("<tr>");
       for (int i = 1; i < (numColumns + 1); i++) {
-        table.append("<th>" + resultsMetaData.getColumnName(i) + "</th>");
+        table.append("<th>" + HtmlUtils.htmlEscape(resultsMetaData.getColumnName(i)) + "</th>");
       }
       table.append("</tr>");
 
@@ -131,7 +134,7 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
       while (results.next()) {
         table.append("<tr>");
         for (int i = 1; i < (numColumns + 1); i++) {
-          table.append("<td>" + results.getString(i) + "</td>");
+          table.append("<td>" + HtmlUtils.htmlEscape(String.valueOf(results.getString(i))) + "</td>");
         }
         table.append("</tr>");
       }
@@ -150,12 +153,13 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     String time = sdf.format(cal.getTime());
 
-    String logQuery =
-        "INSERT INTO access_log (time, action) VALUES ('" + time + "', '" + action + "')";
+    String logQuery = "INSERT INTO access_log (time, action) VALUES (?, ?)";
 
-    try {
-      Statement statement = connection.createStatement(TYPE_SCROLL_SENSITIVE, CONCUR_UPDATABLE);
-      statement.executeUpdate(logQuery);
+    try (PreparedStatement statement =
+        connection.prepareStatement(logQuery, TYPE_SCROLL_SENSITIVE, CONCUR_UPDATABLE)) {
+      statement.setString(1, time);
+      statement.setString(2, action);
+      statement.executeUpdate();
     } catch (SQLException e) {
       System.err.println(e.getMessage());
     }

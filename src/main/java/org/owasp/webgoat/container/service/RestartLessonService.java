@@ -37,12 +37,13 @@ import org.owasp.webgoat.container.users.UserProgress;
 import org.owasp.webgoat.container.users.UserProgressRepository;
 import org.owasp.webgoat.container.users.WebGoatUser;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+// @RestController so a void handler never resolves a view name from the (user-controlled) URL
+@RestController
 @AllArgsConstructor
 @Slf4j
 public class RestartLessonService {

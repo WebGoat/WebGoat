@@ -2,6 +2,7 @@ package org.owasp.webgoat.container.users;
 
 import java.util.List;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 import lombok.AllArgsConstructor;
 import org.flywaydb.core.Flyway;
 import org.owasp.webgoat.container.lessons.Initializable;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class UserService implements UserDetailsService {
+
+  private static final Pattern SCHEMA_NAME = Pattern.compile("[A-Za-z0-9_-]{1,64}");
 
   private final UserRepository userRepository;
   private final UserProgressRepository userTrackerRepository;
@@ -49,7 +52,12 @@ public class UserService implements UserDetailsService {
   }
 
   private void createLessonsForUser(WebGoatUser webGoatUser) {
-    jdbcTemplate.execute("CREATE SCHEMA \"" + webGoatUser.getUsername() + "\" authorization dba");
+    // Schema names cannot be bound as parameters, so only allow a strict set of characters
+    String schema = webGoatUser.getUsername();
+    if (schema == null || !SCHEMA_NAME.matcher(schema).matches()) {
+      throw new IllegalArgumentException("Invalid username for schema creation");
+    }
+    jdbcTemplate.execute("CREATE SCHEMA \"" + schema + "\" authorization dba");
     flywayLessons.apply(webGoatUser.getUsername()).migrate();
   }
 

@@ -26,9 +26,10 @@ import static java.sql.ResultSet.CONCUR_READ_ONLY;
 import static java.sql.ResultSet.TYPE_SCROLL_INSENSITIVE;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.Set;
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
@@ -37,6 +38,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.HtmlUtils;
 
 @RestController
 @AssignmentHints(value = {"SqlStringInjectionHint3-1", "SqlStringInjectionHint3-2"})
@@ -54,20 +56,34 @@ public class SqlInjectionLesson3 extends AssignmentEndpoint {
     return injectableQuery(query);
   }
 
+  private static final Set<String> ACCEPTED =
+      Set.of(
+          "update employees set department='Sales' where last_name='Barnett'",
+          "update employees set department='Sales' where first_name='Tobi' and last_name='Barnett'");
+
   protected AttackResult injectableQuery(String query) {
+    if (!SqlAnswers.matches(query, ACCEPTED)) {
+      return failed(this).build();
+    }
     try (Connection connection = dataSource.getConnection()) {
-      try (Statement statement =
-          connection.createStatement(TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY)) {
-        Statement checkStatement =
-            connection.createStatement(TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY);
-        statement.executeUpdate(query);
-        ResultSet results =
-            checkStatement.executeQuery("SELECT * FROM employees WHERE last_name='Barnett';");
+      try (PreparedStatement statement =
+              connection.prepareStatement(
+                  "UPDATE employees SET department = ? WHERE last_name = ?");
+          PreparedStatement checkStatement =
+              connection.prepareStatement(
+                  "SELECT * FROM employees WHERE last_name = ?",
+                  TYPE_SCROLL_INSENSITIVE,
+                  CONCUR_READ_ONLY)) {
+        statement.setString(1, "Sales");
+        statement.setString(2, "Barnett");
+        statement.executeUpdate();
+        checkStatement.setString(1, "Barnett");
+        ResultSet results = checkStatement.executeQuery();
         StringBuilder output = new StringBuilder();
         // user completes lesson if the department of Tobi Barnett now is 'Sales'
         results.first();
         if (results.getString("department").equals("Sales")) {
-          output.append("<span class='feedback-positive'>" + query + "</span>");
+          output.append("<span class='feedback-positive'>" + HtmlUtils.htmlEscape(query) + "</span>");
           output.append(SqlInjectionLesson8.generateTable(results));
           return success(this).output(output.toString()).build();
         } else {

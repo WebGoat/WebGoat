@@ -33,6 +33,7 @@ public class JWTToken {
   private String header;
   private boolean validHeader;
   private boolean validPayload;
+  private boolean validToken;
   private String payload;
   private boolean signatureValid = true;
 

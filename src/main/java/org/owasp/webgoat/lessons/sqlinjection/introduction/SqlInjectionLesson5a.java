@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.HtmlUtils;
 
 @RestController
 @AssignmentHints(value = {"SqlStringInjectionHint5a1"})
@@ -57,14 +58,13 @@ public class SqlInjectionLesson5a extends AssignmentEndpoint {
   }
 
   protected AttackResult injectableQuery(String accountName) {
-    String query = "";
+    String query = "SELECT * FROM user_data WHERE first_name = 'John' and last_name = ?";
     try (Connection connection = dataSource.getConnection()) {
-      query =
-          "SELECT * FROM user_data WHERE first_name = 'John' and last_name = '" + accountName + "'";
-      try (Statement statement =
-          connection.createStatement(
-              ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
-        ResultSet results = statement.executeQuery(query);
+      try (PreparedStatement statement =
+          connection.prepareStatement(
+              query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+        statement.setString(1, accountName);
+        ResultSet results = statement.executeQuery();
 
         if ((results != null) && (results.first())) {
           ResultSetMetaData resultsMetaData = results.getMetaData();
@@ -90,12 +90,18 @@ public class SqlInjectionLesson5a extends AssignmentEndpoint {
               .build();
         }
       } catch (SQLException sqle) {
-        return failed(this).output(sqle.getMessage() + "<br> Your query was: " + query).build();
+        return failed(this)
+            .output(HtmlUtils.htmlEscape(sqle.getMessage()) + "<br> Your query was: " + query)
+            .build();
       }
     } catch (Exception e) {
       return failed(this)
           .output(
-              this.getClass().getName() + " : " + e.getMessage() + "<br> Your query was: " + query)
+              this.getClass().getName()
+                  + " : "
+                  + HtmlUtils.htmlEscape(String.valueOf(e.getMessage()))
+                  + "<br> Your query was: "
+                  + query)
           .build();
     }
   }
@@ -119,7 +125,7 @@ public class SqlInjectionLesson5a extends AssignmentEndpoint {
       while (results.next()) {
 
         for (int i = 1; i < (numColumns + 1); i++) {
-          t.append(results.getString(i));
+          t.append(HtmlUtils.htmlEscape(String.valueOf(results.getString(i))));
           t.append(", ");
         }
 

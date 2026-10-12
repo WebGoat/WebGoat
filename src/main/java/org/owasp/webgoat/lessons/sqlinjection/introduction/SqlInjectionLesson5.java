@@ -24,9 +24,9 @@ package org.owasp.webgoat.lessons.sqlinjection.introduction;
 
 import jakarta.annotation.PostConstruct;
 import java.sql.Connection;
-import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.Set;
 import org.owasp.webgoat.container.LessonDataSource;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
@@ -34,6 +34,7 @@ import org.owasp.webgoat.container.assignments.AttackResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.HtmlUtils;
 
 @RestController
 @AssignmentHints(
@@ -72,21 +73,34 @@ public class SqlInjectionLesson5 extends AssignmentEndpoint {
     return injectableQuery(query);
   }
 
+  private static final Set<String> ACCEPTED =
+      Set.of(
+          "grant select on grant_rights to unauthorized_user",
+          "grant all on grant_rights to unauthorized_user");
+  // Constant statement - user input is only compared, never executed
+  private static final String SOLUTION_GRANT = "GRANT SELECT ON grant_rights TO unauthorized_user";
+
   protected AttackResult injectableQuery(String query) {
+    String safeQuery = HtmlUtils.htmlEscape(query == null ? "" : query);
+    if (!SqlAnswers.matches(query, ACCEPTED)) {
+      return failed(this).output("Your query was: " + safeQuery).build();
+    }
     try (Connection connection = dataSource.getConnection()) {
-      try (Statement statement =
-          connection.createStatement(
-              ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
-        statement.executeQuery(query);
+      try (PreparedStatement statement = connection.prepareStatement(SOLUTION_GRANT)) {
+        statement.execute();
         if (checkSolution(connection)) {
           return success(this).build();
         }
-        return failed(this).output("Your query was: " + query).build();
+        return failed(this).output("Your query was: " + safeQuery).build();
       }
     } catch (Exception e) {
       return failed(this)
           .output(
-              this.getClass().getName() + " : " + e.getMessage() + "<br> Your query was: " + query)
+              this.getClass().getName()
+                  + " : "
+                  + HtmlUtils.htmlEscape(e.getMessage())
+                  + "<br> Your query was: "
+                  + safeQuery)
           .build();
     }
   }
