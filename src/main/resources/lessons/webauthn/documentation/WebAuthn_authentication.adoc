@@ -1,0 +1,45 @@
+== The authentication ceremony
+
+[source]
+----
+ Browser                              Server (relying party)          Security key
+    |  POST /authentication/options -->|                                  |
+    |  <-- challenge, rpId,            |  store challenge for this login  |
+    |      allowCredentials            |                                  |
+    |  navigator.credentials.get() ----------- CTAP2 getAssertion ------->|
+    |                                  |       user touches the key       |
+    |  <---------------------------------- authenticatorData, signature --|
+    |  POST /authentication/finish --> |  verify, create session          |
+----
+
+The response (an _assertion_) contains:
+
+* `clientDataJSON`: `{"type":"webauthn.get","challenge":"...","origin":"https://goatbank.example",...}`
+* `authenticatorData`: `rpIdHash` | `flags` | `signCount`
+* `signature`: made with the private key over `authenticatorData || SHA-256(clientDataJSON)`
+* `userHandle`: the user handle stored with a discoverable credential (optional for non-discoverable ones)
+
+=== What the server must verify
+
+A simplified version of section 7.2 of the WebAuthn specification:
+
+. The credential ID belongs to a registered credential. If a user was identified first, the credential must belong
+  to that user; if `userHandle` is present it must match the owner of the credential.
+. `clientDataJSON.type` is `webauthn.get`.
+. `clientDataJSON.challenge` equals the challenge issued *for this login attempt*. It is used once and expires.
+. `clientDataJSON.origin` is an expected origin.
+. `rpIdHash` is the SHA-256 hash of the RP ID.
+. The UP flag is set; the UV flag too when the credential is used without a password.
+. The signature is valid for the stored public key.
+. If the stored or the new signature counter is not zero, the new counter must be greater than the stored one.
+  Otherwise the authenticator may have been cloned.
+
+=== Why the challenge matters
+
+The signature proves that the private key signed _this exact_ `clientDataJSON` and `authenticatorData`. Nothing in
+those values expires. The only thing that makes an assertion usable just once is the server insisting that it
+contains a fresh, unpredictable challenge that it handed out a moment ago. Without that check, every assertion the
+user ever produced is a reusable password.
+
+The signature counter is a weak second line of defence: synced passkeys and some security keys always report `0`,
+and a replayed assertion only fails if the user has signed in again since it was captured.

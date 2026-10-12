@@ -1,0 +1,31 @@
+.webauthn-bank,
+.webauthn-ticket {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+}
+
+.webauthn-bank-header {
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+}
+
+.webauthn-json {
+  font-family: monospace;
+  font-size: 12px;
+  max-height: 300px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+pre.webauthn-json:empty {
+  display: none;
+}
+
+.webauthn-submit {
+  margin-top: 8px;
+}

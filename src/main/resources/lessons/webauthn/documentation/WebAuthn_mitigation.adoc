@@ -1,0 +1,34 @@
+== Implementing WebAuthn securely
+
+=== Do not write the verification yourself
+
+Parsing CBOR, COSE keys and attestation statements, and implementing every verification step, is error prone. Use
+a maintained library that implements the specification and is tested against the FIDO conformance tools:
+
+* Java: Spring Security WebAuthn support (built on WebAuthn4J), WebAuthn4J, Yubico `java-webauthn-server`
+* JavaScript/Node.js: SimpleWebAuthn
+* Python: `py_webauthn`; Go: `go-webauthn`; .NET: `fido2-net-lib`
+
+With Spring Security, passkey support is enabled with a fixed RP ID and allow list of origins:
+
+[source,java]
+----
+http.webAuthn(webAuthn -> webAuthn
+    .rpName("GoatBank")
+    .rpId("goatbank.example")
+    .allowedOrigins("https://goatbank.example"));
+----
+
+=== Rules that a library cannot enforce for you
+
+* Keep ceremony state (challenge, account, requested options) on the server, bound to the session. Use every
+  challenge once and let it expire after a few minutes.
+* Register credentials for the account that is signed in, never for an account named in the request.
+* Generate user handles as 64 random bytes. Do not use user names, e-mail addresses or database IDs.
+* Configure the RP ID and allowed origins; never derive them from request headers.
+* Require user verification when the credential replaces the password.
+* Require recent re-authentication before credentials are added or removed, and notify the user.
+* Make recovery at least as strong as the credential: recovery codes, a second registered key, or verified
+  identity, not a single SMS or e-mail link.
+* Allow users to see, name and remove their registered credentials.
+* Do not log or attach complete WebAuthn requests in tickets; treat them like credentials.

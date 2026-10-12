@@ -1,0 +1,19 @@
+== Assignment: add a security key to GoatBank
+
+You are *Tom* and you are signed in to GoatBank. In the security settings you can add a security key. *Jerry*,
+GoatBank's administrator, also uses a security key to sign in.
+
+You do not need a physical key: WebGoat simulates Tom's security key and the part of the browser that builds
+`clientDataJSON`, just like the virtual authenticator in Chrome DevTools.
+
+. *Add a security key* requests the registration options from GoatBank.
+. *Touch the security key* lets the simulated key create a new key pair. The body of the request that GoatBank's
+  JavaScript is about to send is shown in the text area.
+. *Finish registration* sends that request to `/WebAuthn/registration/finish`.
+
+GoatBank verifies the challenge, origin, RP ID hash, flags and attestation correctly.
+
+*Goal:* get GoatBank to register _your_ new security key on *Jerry's* account. From then on you could sign in
+as Jerry with a key you own.
+
+TIP: You can edit the request body in the text area, or intercept the request with a proxy such as ZAP.

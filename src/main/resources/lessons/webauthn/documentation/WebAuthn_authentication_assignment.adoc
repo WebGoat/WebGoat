@@ -1,0 +1,13 @@
+== Assignment: sign in as Jerry
+
+Enter a user name and click *Sign in with security key*. GoatBank returns the options, the simulated key signs the
+challenge (it only holds Tom's credential), and the request body for `/WebAuthn/authentication/finish` appears in
+the text area. Click *Send* to sign in as Tom.
+
+A while ago Jerry could not log in. A GoatBank engineer debugged the problem and attached the request from Jerry's
+browser to the helpdesk ticket. Captures like these (HAR files, proxy logs, screenshots of DevTools) end up in
+ticket systems, chat channels and log files all the time.
+
+GoatBank verifies the signature against Jerry's public key, and checks the origin, RP ID hash and flags.
+
+*Goal:* sign in to GoatBank as *Jerry*.
