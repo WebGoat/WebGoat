@@ -6,5 +6,9 @@ You can start WebGoat and ZAP by opening a terminal and type:
 ./start_webgoat.sh
 ./start_zap.sh
 
+Start WebGoat first, then start ZAP. Always launch Firefox using the Firefox button in ZAP's toolbar.
+Firefox launched from ZAP is configured to proxy through ZAP. Starting Firefox from the desktop menu or another launcher will not proxy traffic through ZAP.
+The Firefox bookmarks toolbar has a WebGoat and WebWolf folder.
+
 Happy hacking,
 Team WebGoat

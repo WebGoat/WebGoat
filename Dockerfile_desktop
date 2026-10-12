@@ -36,13 +36,21 @@ ARG ZAP_VERSION=2.17.0
 ENV ZAP_VERSION=${ZAP_VERSION} \
     JAVA_HOME=/config/java-jdk \
     PATH="${PATH}:/config/java-jdk/bin" \
-    ZAP_HOME=/config/zap
+    ZAP_HOME=/config/zap \
+    ZAP_PROXY_PORT=8090
 
 WORKDIR /config
 
-# Install editors and gzip support
+# Install Firefox, editors, and gzip support
 RUN apt-get update \
-  && apt-get --yes install --no-install-recommends vim nano gzip \
+  && apt-get --yes install --no-install-recommends ca-certificates curl gnupg vim nano gzip \
+  && install -d -m 0755 /etc/apt/keyrings \
+  && curl -fsSL https://packages.mozilla.org/apt/repo-signing-key.gpg -o /etc/apt/keyrings/packages.mozilla.org.asc \
+  && test "$(gpg --show-keys --with-colons /etc/apt/keyrings/packages.mozilla.org.asc | awk -F: '$1 == "fpr" { print $10; exit }')" = "35BAA0B33E9EB396F59CA838C0BA5CE6DC6315A3" \
+  && echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" > /etc/apt/sources.list.d/mozilla.list \
+  && printf '%s\n' 'Package: *' 'Pin: origin packages.mozilla.org' 'Pin-Priority: 1000' '' 'Package: firefox' 'Pin: release o=Ubuntu' 'Pin-Priority: -1' > /etc/apt/preferences.d/mozilla \
+  && apt-get update \
+  && apt-get --yes install --no-install-recommends firefox \
   && rm -rf /var/lib/apt/lists/*
 
 # Application artifacts
@@ -50,6 +58,7 @@ COPY target/webgoat-*.jar /config/webgoat.jar
 COPY config/desktop/start_webgoat.sh /config/start_webgoat.sh
 COPY config/desktop/start_zap.sh /config/start_zap.sh
 COPY config/desktop/WebGoat.txt /config/Desktop/
+COPY config/desktop/firefox-policies.json /usr/lib/firefox/distribution/policies.json
 
 # Runtime dependencies produced in the builder stages
 COPY --from=zap /zap ${ZAP_HOME}

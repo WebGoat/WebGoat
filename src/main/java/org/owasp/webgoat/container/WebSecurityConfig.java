@@ -39,6 +39,7 @@ public class WebSecurityConfig {
                         "/js/**",
                         "/fonts/**",
                         "/plugins/**",
+                        "/proxy.pac",
                         "/registration",
                         "/register.mvc",
                         "/actuator/**")
