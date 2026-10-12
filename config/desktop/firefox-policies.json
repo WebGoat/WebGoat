@@ -1,0 +1,23 @@
+{
+  "policies": {
+    "Homepage": {
+      "URL": "http://localhost:8080/WebGoat",
+      "Locked": true
+    },
+    "OverrideFirstRunPage": "",
+    "ManagedBookmarks": [
+      {
+        "toplevel_name": "WebGoat and WebWolf"
+      },
+      {
+        "name": "WebGoat",
+        "url": "http://localhost:8080/WebGoat"
+      },
+      {
+        "name": "WebWolf",
+        "url": "http://localhost:9090/WebWolf"
+      }
+    ],
+    "DisplayBookmarksToolbar": "always"
+  }
+}
