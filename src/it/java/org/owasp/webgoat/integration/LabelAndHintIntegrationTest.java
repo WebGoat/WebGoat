@@ -125,6 +125,7 @@ public class LabelAndHintIntegrationTest extends IntegrationTest {
             "CrossSiteScripting",
             "CSRF",
             "HijackSession",
+            "WebAuthn",
             "SqlInjection",
             "SqlInjectionMitigations",
             "SqlInjectionAdvanced",
