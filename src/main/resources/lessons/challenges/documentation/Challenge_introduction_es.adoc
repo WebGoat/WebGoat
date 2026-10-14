@@ -1,0 +1,25 @@
+=== Introducción
+
+Estos ejercicios se basan en las lecciones centradas de WebGoat. Esas lecciones enseñan un concepto de seguridad cada vez.
+Esta sección te pide combinar conceptos en una aplicación más grande y utilizarlos juntos para alcanzar un objetivo.
+
+El ejercicio te da un resultado sin indicar qué vulnerabilidad debes utilizar ni los pasos necesarios para alcanzarlo.
+Decidirás qué partes de la aplicación inspeccionar, dónde están sus límites de confianza y cómo varias debilidades pueden
+formar una sola ruta de ataque. La ayuda disponible es limitada. Utiliza las lecciones centradas como material de consulta
+cuando necesites repasar un concepto y luego investiga el escenario por tu cuenta.
+
+Las herramientas del navegador, los scripts, los proxies de interceptación y los asistentes de IA son herramientas válidas.
+Un asistente puede producir un payload rápidamente, pero aún debes comprender por qué funciona, explicar toda la cadena de
+ataque y determinar si una reparación propuesta elimina la debilidad subyacente.
+
+==== Cómo trabajar con los ejercicios
+
+- Utiliza las lecciones centradas cuando necesites conocer un concepto de seguridad.
+
+- Mantén tu trabajo dentro de la aplicación WebGoat. No ataques otros sistemas ni a otros estudiantes.
+
+- Documenta los componentes, los límites de confianza y las suposiciones que hacen posible el ataque.
+
+*Comprende cómo funciona el sistema y verifica los cambios.*
+
+image::images/boss.jpg[]

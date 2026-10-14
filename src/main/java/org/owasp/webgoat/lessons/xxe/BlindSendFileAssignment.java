@@ -1,7 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2014 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.lessons.xxe;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -23,32 +29,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * ************************************************************************************************
- * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
- * please see http://www.owasp.org/
- *
- * <p>Copyright (c) 2002 - 2014 Bruce Mayhew
- *
- * <p>This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * <p>You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * <p>Getting Source ==============
- *
- * <p>Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository
- * for free software projects.
- *
- * <p>
- */
 @Slf4j
 @RestController
 @AssignmentHints({
@@ -58,7 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
   "xxe.blind.hints.4",
   "xxe.blind.hints.5"
 })
-public class BlindSendFileAssignment extends AssignmentEndpoint implements Initializable {
+public class BlindSendFileAssignment implements AssignmentEndpoint, Initializable {
 
   private final String webGoatHomeDirectory;
   private final CommentsCache comments;
@@ -84,7 +64,7 @@ public class BlindSendFileAssignment extends AssignmentEndpoint implements Initi
     }
   }
 
-  @PostMapping(path = "xxe/blind", consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
+  @PostMapping(path = "/xxe/blind", consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
   @ResponseBody
   public AttackResult addComment(
       @RequestBody String commentStr, @AuthenticationPrincipal WebGoatUser user) {

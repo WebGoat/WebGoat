@@ -1,0 +1,17 @@
+== Prevention and secure patterns
+
+Key defenses against Open Redirects:
+
+. Prefer server-side mapping of short tokens or numeric ids to known internal destinations.
+. Enforce a strict allow list of exact hostnames (and optional ports) – perform canonical parsing before comparison.
+. Reject user-provided absolute URLs if not explicitly required by business logic.
+. When external partners must be supported, store partner destinations in configuration and reference them by id.
+. Avoid naive substring or startsWith checks – normalize (lowercase, remove trailing dot) and then compare whole host.
+. Do not reflect the untrusted URL back to users without encoding (to avoid compounded XSS issues).
+
+Safe example illustrated by the form using `/OpenRedirect/safe?destId=2` which maps an integer id to an internal relative path.
+
+Further reading:
+
+* OWASP Cheat Sheet: Unvalidated Redirects and Forwards
+* Consider UX alternatives that remove the need for arbitrary post-login redirects (stateful server continuation).

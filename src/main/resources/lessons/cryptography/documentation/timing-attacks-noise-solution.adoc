@@ -1,0 +1,13 @@
+=== Assignment solution
+
+This endpoint authenticates `WebGoat with noise`, so it calculates a different tag from the previous assignment. It adds 0 to 8 milliseconds of random delay to every request, while each matching byte adds about 2 milliseconds. One slow response is therefore not enough to identify a byte.
+
+Start with first-byte candidates such as these. Keep the same `JSESSIONID` cookie, and encode the spaces in the message as `%20`:
+
+[source,shell]
+----
+curl -sS --cookie "JSESSIONID=<your-session-id>" --write-out "\nTotal: %{time_total}s\n" "http://localhost:8080/WebGoat/crypto/timing/verify-noisy?message=WebGoat%20with%20noise&signature=00000000"
+curl -sS --cookie "JSESSIONID=<your-session-id>" --write-out "\nTotal: %{time_total}s\n" "http://localhost:8080/WebGoat/crypto/timing/verify-noisy?message=WebGoat%20with%20noise&signature=01000000"
+----
+
+Test each candidate several times with the known prefix fixed. Compare a median or trimmed mean, keep the candidates with the longest measured times, and collect more samples for those candidates. Repeat for each byte. A matching prefix shifts the distribution of response times even though individual requests overlap. Do not reuse the tag from the `WebGoat` message. Confirm the complete tag when this endpoint returns `Valid signature`.

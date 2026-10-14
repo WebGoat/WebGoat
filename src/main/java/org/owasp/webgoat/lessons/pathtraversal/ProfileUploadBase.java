@@ -1,4 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2020 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.lessons.pathtraversal;
+
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.informationMessage;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,7 +15,6 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FilenameUtils;
@@ -21,11 +28,14 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-@AllArgsConstructor
 @Getter
-public class ProfileUploadBase extends AssignmentEndpoint {
+public class ProfileUploadBase implements AssignmentEndpoint {
 
-  private String webGoatHomeDirectory;
+  private final String webGoatHomeDirectory;
+
+  public ProfileUploadBase(String webGoatHomeDirectory) {
+    this.webGoatHomeDirectory = webGoatHomeDirectory;
+  }
 
   protected AttackResult execute(MultipartFile file, String fullName, String username) {
     if (file.isEmpty()) {

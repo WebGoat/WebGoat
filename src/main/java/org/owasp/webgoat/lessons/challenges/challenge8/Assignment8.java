@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.lessons.challenges.challenge8;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-public class Assignment8 extends AssignmentEndpoint {
+public class Assignment8 implements AssignmentEndpoint {
 
   private static final Map<Integer, Integer> votes = new HashMap<>();
 

@@ -1,6 +1,7 @@
 # We need JDK as some of the lessons needs to be able to compile Java code
 FROM docker.io/eclipse-temurin:21.0.12_8-jdk-alpine-3.24
 
+
 LABEL name="WebGoat: A deliberately insecure Web Application"
 LABEL maintainer="WebGoat team"
 
@@ -34,7 +35,7 @@ ENTRYPOINT [ "java", \
    "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED", \
    "--add-opens", "java.base/java.io=ALL-UNNAMED", \
    "-Drunning.in.docker=true", \
-   "-jar", "webgoat.jar", "--server.address", "0.0.0.0" ]
+   "-jar", "webgoat.jar", "--server.address=0.0.0.0" ]
 
 HEALTHCHECK --interval=5s --timeout=3s \
   CMD wget -q --spider http://localhost:8080/WebGoat/actuator/health || exit 1

@@ -1,0 +1,58 @@
+== Concepts
+
+=== Relying party, RP ID and origin
+
+The *relying party* (RP) is the website that wants to authenticate users. Each credential is scoped to an
+*RP ID*, a domain such as `goatbank.example`. The browser only allows a page to use an RP ID that is equal to,
+or a registrable suffix of, its own host. A page on `https://login.goatbank.example` may use the RP ID
+`goatbank.example`; a page on `https://goatbank.evil.example` may not.
+
+WebAuthn requires a *secure context*: the page must be served over `https://`, with `http://localhost` as the
+only exception for development. IP addresses cannot be used as an RP ID.
+
+=== Authenticators
+
+[cols="1,3"]
+|===
+|Platform authenticator |Built into the device: Touch ID / Face ID, Windows Hello, Android screen lock.
+|Roaming (cross-platform) authenticator |A separate device that can be used with any computer: a *security key*
+such as a YubiKey or Titan key connected over USB, NFC or Bluetooth, or a phone connected through the
+_hybrid_ transport (scan a QR code, proximity checked over Bluetooth).
+|===
+
+=== Passkeys and security keys
+
+A *passkey* is a _discoverable_ credential: the authenticator stores the user account together with the key,
+so the user can sign in without typing a user name. Passkeys managed by Apple, Google or a password manager are
+*synced* between devices. A credential on a security key is *device-bound*: the private key cannot be exported,
+so possession of that physical key is required.
+
+Security keys can also create _non-discoverable_ credentials. The key then stores nothing; the private key is
+wrapped (encrypted) inside the credential ID that the server stores, and the server has to send the credential ID
+back during sign in (`allowCredentials`). This is how security keys are used as a second factor.
+
+=== Flags
+
+Each response contains `authenticatorData` with flags the server should inspect:
+
+[cols="1,4"]
+|===
+|UP (user present) |Someone touched the key or confirmed a prompt.
+|UV (user verified) |The authenticator verified _who_ that is: PIN, fingerprint or face. Required when the
+credential is the only factor.
+|BE / BS (backup eligible / backed up) |The credential can be (and has been) synced to other devices. Always false
+for a security key.
+|AT (attested credential data) |A new public key is included (registration).
+|===
+
+=== What the server stores
+
+For every credential the relying party keeps a record:
+
+* the *credential ID*;
+* the *public key* (in COSE format) and its algorithm, for example ES256 (`-7`);
+* the *signature counter*, which many security keys increment on every use;
+* the *user handle*: the account identifier the authenticator returns during sign in. The specification says this
+  must be an opaque random value of at most 64 bytes and must not contain personal information such as a user
+  name or e-mail address;
+* optionally the *AAGUID* (authenticator model) and attestation information.

@@ -1,19 +1,19 @@
 {
   "questions": [{
-    "text": "Are trusted websites immune to XSS attacks?",
+    "text": "Is a well known website, like Netflix, immune to XSS attacks?",
     "solutions": {
-      "1": "Yes they are safe because the browser checks the code before executing.",
-      "2": "Yes because Google has got an algorithm that blocks malicious code.",
-      "3": "No because the script that is executed will break through the defense algorithm of the browser.",
-      "4": "No because the browser trusts the website if it is acknowledged trusted, then the browser does not know that the script is malicious."
+      "1": "Yes, they are safe because the browser checks the code before executing.",
+      "2": "Yes, because Google has got an algorithm that blocks malicious code.",
+      "3": "No, because the script that is executed will break through the defense algorithm of the browser.",
+      "4": "No, because the browser trusts the website if it is acknowledged trusted, then the browser does not know that the script is malicious."
     }
   }, {
     "text": "When do XSS attacks occur?",
     "solutions": {
-      "1": "Data enters a web application through a trusted source.",
-      "2": "Data enters a browser application through the website.",
-      "3": "The data is included in dynamic content that is sent to a web user without being validated for malicious content.",
-      "4": "The data is excluded in static content that way it is sent without being validated."
+      "1": "When malicious scripts are injected into a website's server-side code.",
+      "2": "When a user submits sensitive information without encryption.",
+      "3": "When a website fails to validate or sanitize user input, allowing malicious scripts to be executed in a user's browser.",
+      "4": "When a website uses outdated SSL/TLS protocols."
     }
   }, {
     "text": "What are Stored XSS attacks?",
@@ -27,17 +27,17 @@
     "text": "What are Reflected XSS attacks?",
     "solutions": {
       "1": "Reflected attacks reflect malicious code from the database to the web server and then reflect it back to the user.",
-      "2": "They reflect the injected script off the web server. That occurs when input sent to the web server is part of the request.",
+      "2": "They reflect the injected script off the web server. That occurs when input sent to the web server is part of the response.",
       "3": "Reflected attacks reflect from the firewall off to the database where the user requests information from.",
       "4": "Reflected XSS is an attack where the injected script is reflected off the database and web server to the user."
     }
   }, {
     "text": "Is JavaScript the only way to perform XSS attacks?",
     "solutions": {
-      "1": "Yes you can only make use of tags through JavaScript.",
-      "2": "Yes otherwise you cannot steal cookies.",
-      "3": "No there is ECMAScript too.",
-      "4": "No there are many other ways. Like HTML, Flash or any other type of code that the browser executes."
+      "1": "Yes, you can only make use of tags through JavaScript.",
+      "2": "Yes, otherwise you cannot steal cookies.",
+      "3": "No, there is ECMAScript too.",
+      "4": "No, there are many other ways. Like HTML, Flash or any other type of code that the browser executes."
     }
   }]
 }

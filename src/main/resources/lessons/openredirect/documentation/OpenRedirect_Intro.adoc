@@ -1,0 +1,11 @@
+= Open Redirects
+
+An Open Redirect occurs when an application allows user-controlled data to influence a redirect destination without adequate validation.
+
+Attackers abuse this to:
+
+* Facilitate phishing (trusted domain -> attacker domain)
+* Leak tokens or secret query parameters
+* Chain through intermediate redirects to hide final destination
+
+In the next tasks you'll exploit progressively "fixed" code.

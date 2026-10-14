@@ -1,7 +1,7 @@
 # WebGoat: A deliberately insecure Web Application
 
 [![Build](https://github.com/WebGoat/WebGoat/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/WebGoat/WebGoat/actions/workflows/build.yml)
-[![java-jdk](https://img.shields.io/badge/java%20jdk-21-green.svg)](https://jdk.java.net/)
+[![java-jdk](https://img.shields.io/badge/java%20jdk-25-green.svg)](https://jdk.java.net/)
 [![OWASP Labs](https://img.shields.io/badge/OWASP-Lab%20project-f7b73c.svg)](https://owasp.org/projects/)
 [![GitHub release](https://img.shields.io/github/release/WebGoat/WebGoat.svg)](https://github.com/WebGoat/WebGoat/releases/latest)
 [![Gitter](https://badges.gitter.im/OWASPWebGoat/community.svg)](https://gitter.im/OWASPWebGoat/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
@@ -93,13 +93,17 @@ If for some reason you want to run WebGoat on a different port, you can do so by
 java -jar webgoat-2023.8.jar --webgoat.port=8001 --webwolf.port=8002
 ```
 
-For a full overview of all the parameters you can use, please check the [WebGoat properties file](webgoat-container/src/main/resources/application-{webgoat, webwolf}.properties).
+In the combined JAR, `--server.port` is an alias for `--webgoat.port`. Use `--webwolf.port` to set
+WebWolf's port separately.
+
+For the available settings, see the [WebGoat properties](src/main/resources/application-webgoat.properties)
+and [WebWolf properties](src/main/resources/application-webwolf.properties).
 
 ## 4. Run from the sources
 
 ### Prerequisites:
 
-* Java 17 or 21
+* Java 25
 * Your favorite IDE
 * Git, or Git support in your IDE
 
@@ -119,6 +123,8 @@ git checkout <<branch_name>>
 
 # On Windows:
 ./mvnw.cmd clean install
+
+If you have ran WebGoat before, you should first run mvn clean -Pcleanall to clean up files from your temp and home directories which could fail the tests due to changes in lessons!
 
 # Using docker or podman, you can than build the container locally
 docker build -f Dockerfile . -t webgoat/webgoat

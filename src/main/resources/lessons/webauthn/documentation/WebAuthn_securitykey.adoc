@@ -1,0 +1,35 @@
+== Bonus: use a real security key
+
+This assignment uses the WebAuthn API of your browser with a *roaming authenticator*: a security key connected over
+USB, NFC or Bluetooth, or a phone through the hybrid transport. The WebGoat server behind it performs all the
+checks from the previous pages, including attestation verification for the `packed` and `fido-u2f` formats.
+
+The registration options ask for:
+
+* `authenticatorAttachment: "cross-platform"` and `hints: ["security-key"]`: the browser offers a security key
+  or phone instead of the built-in platform authenticator;
+* `residentKey: "discouraged"`: a non-discoverable credential, so no storage slot on the key is used;
+* `attestation: "direct"`: the key proves its make and model. Your browser may ask for permission to share this;
+* `userVerification: "discouraged"`: the key is used as a second factor, so no PIN is needed.
+
+=== Requirements
+
+* Open WebGoat in a secure context: `https://` or *http://localhost:8080/WebGoat*. Using an IP address such as
+  `127.0.0.1` or the address of a Docker host does not work, because an IP address cannot be an RP ID. When you run
+  WebGoat in Docker, publish the port and browse to `localhost`.
+* No security key? In Chrome or Edge open *DevTools > More tools > WebAuthn*, select _Enable virtual authenticator
+  environment_ and add an authenticator with protocol *ctap2* and transport *usb*.
+
+=== Steps
+
+. Click *Register security key* and touch your key. The server shows what it verified and stored: the AAGUID
+  (authenticator model), the attestation format and signer, and the flags. A security key reports `BE=false`:
+  the credential is device-bound.
+. Click *Sign in with security key* and touch the key again. The assignment is solved when the server accepts the
+  assertion.
+
+Also try what you exploited in the GoatBank assignments: replay a request or change the user handle in a proxy, and
+look at how this server responds.
+
+NOTE: WebGoat does not validate attestation certificates against the FIDO Metadata Service, so it cannot tell a
+genuine security key from a well-made software emulation. A relying party that needs this guarantee must do so.

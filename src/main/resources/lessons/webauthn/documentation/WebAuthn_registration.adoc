@@ -1,0 +1,62 @@
+== The registration ceremony
+
+Registration adds a new credential to an account the user is _already signed in to_ (or is creating right now).
+
+[source]
+----
+ Browser                              Server (relying party)          Security key
+    |  POST /registration/options  -->  |                                  |
+    |  <-- challenge, rp, user, algs    |  store challenge for this user   |
+    |                                   |                                  |
+    |  navigator.credentials.create() -------- CTAP2 makeCredential ------>|
+    |                                   |       user touches the key,      |
+    |                                   |       new key pair is created    |
+    |  <---------------------------------------- attestationObject --------|
+    |  POST /registration/finish  --->  |  verify, store public key        |
+----
+
+=== Options sent by the server
+
+[source,json]
+----
+{
+  "challenge": "q3xY...random 32 bytes...",
+  "rp":   { "id": "goatbank.example", "name": "GoatBank" },
+  "user": { "id": "kJ8f...random user handle...", "name": "tom", "displayName": "Tom Cat" },
+  "pubKeyCredParams": [ { "type": "public-key", "alg": -7 } ],
+  "excludeCredentials": [ { "type": "public-key", "id": "credential ID already registered" } ],
+  "attestation": "none"
+}
+----
+
+=== Response returned by the browser
+
+* `clientDataJSON`, created by the browser:
++
+[source,json]
+----
+{"type":"webauthn.create","challenge":"q3xY...","origin":"https://goatbank.example","crossOrigin":false}
+----
+* `attestationObject`, a CBOR map created by the authenticator with:
+** `fmt` and `attStmt`: the attestation statement (`none`, `packed`, `fido-u2f`, `tpm`, ...);
+** `authData`: `rpIdHash` (32 bytes) | `flags` (1) | `signCount` (4) | `aaguid` (16) | credential ID length (2) |
+   credential ID | credential public key (COSE).
+
+=== What the server must verify
+
+A simplified version of the steps in section 7.1 of the WebAuthn specification:
+
+. The ceremony was started by an authenticated user; the challenge and the *account* are kept on the server.
+. `clientDataJSON.type` is `webauthn.create`.
+. `clientDataJSON.challenge` equals the challenge issued for this ceremony. A challenge is used once and expires.
+. `clientDataJSON.origin` is one of the expected origins.
+. `rpIdHash` is the SHA-256 hash of the RP ID.
+. The UP flag is set, and UV if the policy requires user verification.
+. The public key algorithm is one that was requested.
+. The attestation statement is valid and acceptable according to policy.
+. The credential ID is not registered yet, for any account.
+. The credential is stored for *the account that started the ceremony*.
+
+Note what is *not* signed: during registration nothing proves which account the browser thinks it is registering
+for. The `user` object is only sent _to_ the authenticator. Anything the client sends next to the attestation can
+be changed.

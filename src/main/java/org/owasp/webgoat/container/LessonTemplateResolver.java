@@ -1,33 +1,6 @@
-/**
- * ************************************************************************************************
- *
- * <p>
- *
- * <p>This file is part of WebGoat, an Open Web Application Security Project utility. For details,
- * please see http://www.owasp.org/
- *
- * <p>Copyright (c) 2002 - 2014 Bruce Mayhew
- *
- * <p>This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * <p>You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * <p>Getting Source ==============
- *
- * <p>Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository
- * for free software projects.
- *
- * @author WebGoat
- * @version $Id: $Id
- * @since October 28, 2003
+/*
+ * SPDX-FileCopyrightText: Copyright © 2016 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
  */
 package org.owasp.webgoat.container;
 
@@ -55,8 +28,8 @@ import org.thymeleaf.templateresource.StringTemplateResource;
 public class LessonTemplateResolver extends FileTemplateResolver {
 
   private static final String PREFIX = "lesson:";
-  private ResourceLoader resourceLoader;
-  private Map<String, byte[]> resources = new HashMap<>();
+  private final ResourceLoader resourceLoader;
+  private final Map<String, byte[]> resources = new HashMap<>();
 
   public LessonTemplateResolver(ResourceLoader resourceLoader) {
     this.resourceLoader = resourceLoader;
@@ -74,17 +47,26 @@ public class LessonTemplateResolver extends FileTemplateResolver {
     var templateName = resourceName.substring(PREFIX.length());
     byte[] resource = resources.get(templateName);
     if (resource == null) {
-      try {
-        resource =
-            resourceLoader
-                .getResource("classpath:/" + templateName)
-                .getInputStream()
-                .readAllBytes();
-      } catch (IOException e) {
-        log.error("Unable to find lesson HTML: {}", template);
-      }
-      resources.put(templateName, resource);
+      resource = loadAndCache(templateName);
+    }
+
+    if (resource == null) {
+      return new StringTemplateResource("Unable to find lesson HTML: %s".formatted(templateName));
     }
     return new StringTemplateResource(new String(resource, StandardCharsets.UTF_8));
+  }
+
+  private byte[] loadAndCache(String templateName) {
+    try {
+      var resource =
+          resourceLoader.getResource("classpath:/" + templateName).getInputStream().readAllBytes();
+      resources.put(templateName, resource);
+      return resource;
+    } catch (IOException e) {
+      log.error(
+          "Unable to find lesson HTML: '{}', does the name of HTML file name match the lesson class name?",
+          templateName);
+      return null;
+    }
   }
 }

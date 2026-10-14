@@ -1,36 +1,11 @@
-/**
- * ************************************************************************************************
- *
- * <p>
- *
- * <p>This file is part of WebGoat, an Open Web Application Security Project utility. For details,
- * please see http://www.owasp.org/
- *
- * <p>Copyright (c) 2002 - 2014 Bruce Mayhew
- *
- * <p>This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * <p>You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * <p>Getting Source ==============
- *
- * <p>Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository
- * for free software projects.
- *
- * @author WebGoat
- * @version $Id: $Id
- * @since October 28, 2003
+/*
+ * SPDX-FileCopyrightText: Copyright © 2016 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
  */
 package org.owasp.webgoat.container;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -40,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.owasp.webgoat.container.i18n.Language;
 import org.owasp.webgoat.container.i18n.Messages;
 import org.owasp.webgoat.container.i18n.PluginMessages;
-import org.owasp.webgoat.container.lessons.LessonScanner;
 import org.owasp.webgoat.container.session.LabelDebugger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -74,14 +48,13 @@ public class MvcConfiguration implements WebMvcConfigurer {
 
   private static final String UTF8 = "UTF-8";
 
-  private final LessonScanner lessonScanner;
+  private final LessonResourceScanner lessonScanner;
 
   @Override
   public void addViewControllers(ViewControllerRegistry registry) {
     registry.addViewController("/login").setViewName("login");
     registry.addViewController("/lesson_content").setViewName("lesson_content");
     registry.addViewController("/start.mvc").setViewName("main_new");
-    registry.addViewController("/scoreboard").setViewName("scoreboard");
   }
 
   @Bean
@@ -257,5 +230,20 @@ public class MvcConfiguration implements WebMvcConfigurer {
   @Bean
   public LabelDebugger labelDebugger() {
     return new LabelDebugger();
+  }
+
+  /**
+   * Spring Boot 4 uses Jackson 3 (tools.jackson) for the HTTP layer. A few lessons inject a Jackson
+   * 2 {@link ObjectMapper} directly; provide one here so those injection points keep resolving. It
+   * mirrors the {@code spring.jackson.serialization.*} settings that the auto-configured Jackson 2
+   * mapper used to apply and registers the JSR-310 module so {@link java.time} types still
+   * serialize.
+   */
+  @Bean
+  public ObjectMapper objectMapper() {
+    return new ObjectMapper()
+        .findAndRegisterModules()
+        .enable(SerializationFeature.INDENT_OUTPUT)
+        .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
   }
 }

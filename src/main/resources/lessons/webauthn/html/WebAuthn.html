@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" th:href="@{/lesson_css/webauthn.css}"/>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="~{doc:lessons/webauthn/documentation/WebAuthn_intro.adoc}"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="~{doc:lessons/webauthn/documentation/WebAuthn_concepts.adoc}"></div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="~{doc:lessons/webauthn/documentation/WebAuthn_registration.adoc}"></div>
+</div>
+
+<!-- Assignment: registration -->
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="~{doc:lessons/webauthn/documentation/WebAuthn_registration_assignment.adoc}"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <div class="webauthn-bank">
+            <div class="webauthn-bank-header">GoatBank &middot; Security settings &middot; signed in as <b>tom</b></div>
+            <p>
+                <button id="webauthn-reg-begin" type="button" class="btn btn-primary">1. Add a security key</button>
+                <button id="webauthn-reg-touch" type="button" class="btn btn-secondary" disabled>2. Touch the security key</button>
+            </p>
+            <label for="webauthn-reg-options">Options returned by <code>/WebAuthn/registration/options</code></label>
+            <pre id="webauthn-reg-options" class="webauthn-json"></pre>
+            <form class="attack-form" method="POST" name="form" accept-charset="UNKNOWN"
+                  th:action="@{/WebAuthn/registration/finish}"
+                  contentType="application/json"
+                  prepareData="webauthnRegistrationBody">
+                <label for="webauthn-reg-body">Request body for <code>/WebAuthn/registration/finish</code></label>
+                <textarea id="webauthn-reg-body" class="form-control webauthn-json" rows="16" spellcheck="false"></textarea>
+                <button type="submit" class="btn btn-primary webauthn-submit">3. Finish registration</button>
+            </form>
+        </div>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="~{doc:lessons/webauthn/documentation/WebAuthn_authentication.adoc}"></div>
+</div>
+
+<!-- Assignment: authentication -->
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="~{doc:lessons/webauthn/documentation/WebAuthn_authentication_assignment.adoc}"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <div class="webauthn-bank">
+            <div class="webauthn-bank-header">GoatBank &middot; Sign in</div>
+            <div class="input-group">
+                <input id="webauthn-login-username" class="form-control" value="tom" aria-label="username"/>
+                <button id="webauthn-login-start" type="button" class="btn btn-primary">Sign in with security key</button>
+            </div>
+            <label for="webauthn-login-options">Options returned by <code>/WebAuthn/authentication/options</code></label>
+            <pre id="webauthn-login-options" class="webauthn-json"></pre>
+            <form class="attack-form" method="POST" name="form" accept-charset="UNKNOWN"
+                  th:action="@{/WebAuthn/authentication/finish}"
+                  contentType="application/json"
+                  prepareData="webauthnAuthenticationBody">
+                <label for="webauthn-login-body">Request body for <code>/WebAuthn/authentication/finish</code></label>
+                <textarea id="webauthn-login-body" class="form-control webauthn-json" rows="16" spellcheck="false"></textarea>
+                <button type="submit" class="btn btn-primary webauthn-submit">Send</button>
+            </form>
+        </div>
+        <div class="webauthn-ticket">
+            <div class="webauthn-bank-header">GoatBank helpdesk &middot; Ticket #4711 &middot; "Jerry cannot log in with his YubiKey"</div>
+            <p><i>Status: resolved. "Attached the request from Jerry's browser (copied from DevTools &rarr; Network) for analysis."</i></p>
+            <button id="webauthn-ticket-open" type="button" class="btn btn-secondary">Open attachment login-request.json</button>
+            <pre id="webauthn-ticket-content" class="webauthn-json"></pre>
+        </div>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="~{doc:lessons/webauthn/documentation/WebAuthn_pitfalls.adoc}"></div>
+</div>
+
+<!-- Quiz -->
+<div class="lesson-page-wrapper">
+    <span id="quiz_id" data-quiz_id="webauthn"></span>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/quiz.css}"/>
+    <script th:src="@{/js/quiz.js}" language="JavaScript"></script>
+    <div class="adoc-content" th:replace="~{doc:lessons/webauthn/documentation/WebAuthn_quiz.adoc}"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <div class="container-fluid">
+            <form id="quiz-form" class="attack-form" accept-charset="UNKNOWN"
+                  method="POST" name="form"
+                  th:action="@{/WebAuthn/quiz}"
+                  role="form">
+                <div id="q_container"></div>
+                <br/>
+                <input name="Quiz_solutions" value="Submit answers" type="SUBMIT"/>
+            </form>
+        </div>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="~{doc:lessons/webauthn/documentation/WebAuthn_mitigation.adoc}"></div>
+</div>
+
+<!-- Bonus: real roaming authenticator -->
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="~{doc:lessons/webauthn/documentation/WebAuthn_securitykey.adoc}"></div>
+    <div class="attack-container">
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
+        <div id="webauthn-sk-unsupported" class="alert alert-warning" style="display: none"></div>
+        <p>
+            <button id="webauthn-sk-register" type="button" class="btn btn-primary">1. Register security key</button>
+        </p>
+        <pre id="webauthn-sk-registration" class="webauthn-json"></pre>
+        <form id="webauthn-sk-form" class="attack-form" method="POST" name="form" accept-charset="UNKNOWN"
+              th:action="@{/WebAuthn/securitykey/authentication/finish}"
+              contentType="application/json"
+              prepareData="webauthnSecurityKeyBody">
+            <input type="hidden" id="webauthn-sk-assertion" value=""/>
+            <button id="webauthn-sk-login" type="button" class="btn btn-primary">2. Sign in with security key</button>
+        </form>
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
+
+<script th:src="@{/lesson_js/webauthn.js}" language="JavaScript"></script>
+
+</html>

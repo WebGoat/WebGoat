@@ -1,0 +1,20 @@
+name: setup-java
+description: "Install Temurin JDK and export JAVA_VERSION"
+inputs:
+  cache:
+    description: "Cache mode for actions/setup-java"
+    required: false
+    default: "maven"
+runs:
+  using: "composite"
+  steps:
+    - name: Export JAVA_VERSION
+      shell: bash
+      run: echo "JAVA_VERSION=25" >> "$GITHUB_ENV"
+    - name: Set up Temurin Java 25
+      uses: actions/setup-java@v5
+      with:
+        distribution: temurin
+        java-version: '25'
+        architecture: x64
+        cache: ${{ inputs.cache }}

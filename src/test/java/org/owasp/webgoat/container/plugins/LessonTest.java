@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.container.plugins;
 
 import static org.mockito.Mockito.when;
@@ -16,18 +20,15 @@ import org.owasp.webgoat.container.users.WebGoatUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-/**
- * @author nbaars
- * @since 5/20/17.
- */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = WebGoat.class)
 @TestPropertySource(
     locations = {
@@ -43,9 +44,9 @@ public abstract class LessonTest {
   @Autowired protected PluginMessages messages;
   @Autowired private Function<String, Flyway> flywayLessons;
   @Autowired private List<Initializable> lessonInitializers;
-  @MockBean private Language language;
+  @MockitoBean private Language language;
 
-  @MockBean private ClientRegistrationRepository clientRegistrationRepository;
+  @MockitoBean private ClientRegistrationRepository clientRegistrationRepository;
 
   @Value("${webgoat.user.directory}")
   protected String webGoatHomeDirectory;
@@ -57,5 +58,6 @@ public abstract class LessonTest {
         (WebGoatUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     flywayLessons.apply(user.getUsername()).migrate();
     lessonInitializers.forEach(init -> init.initialize(user));
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 }
