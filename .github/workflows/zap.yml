@@ -1,14 +1,20 @@
+name: ZAP Scan
+
 on: [push]
+
+permissions:
+  contents: read
 
 jobs:
   zap_scan:
     runs-on: ubuntu-latest
-    name: Scan the webapplication
+    
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: master
+          
       - name: ZAP Scan
         uses: zaproxy/action-baseline@v0.15.0
         with:
