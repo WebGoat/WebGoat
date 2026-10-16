@@ -1,0 +1,1 @@
+docker build safe -t apache-safe

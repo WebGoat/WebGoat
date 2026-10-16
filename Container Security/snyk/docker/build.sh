@@ -1,0 +1,1 @@
+docker build vulnerable -t apache-vulnerable
