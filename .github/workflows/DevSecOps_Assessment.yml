@@ -1,3 +1,5 @@
+name: DevSecOps Assessment
+
 on:
   workflow_dispatch: {}
   pull_request: {}
@@ -6,10 +8,9 @@ on:
     - main
     - master
     
-name: Semgrep
 jobs:
   semgrep:
-    name: semgrep/ci
+    name: semgrep
     runs-on: ubuntu-latest
     env:
       SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
