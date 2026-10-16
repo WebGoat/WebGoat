@@ -83,3 +83,31 @@ jobs:
           #rules_file_name: '.zap/rules.tsv'
           #cmd_options: '-a'
           
+ 
+  iac_security_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Report Folder and List Docs files
+        run: mkdir reports
+      - uses: actions/checkout@v4
+      - uses: snyk/actions/setup@master
+      - name: SCA scan (report only)
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: snyk test --sarif-file-output=snyk-sca.sarif --json-file-output=snyk-sca.json
+      # - name: Monitor in Snyk web app
+      #   env:
+      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      #   run: snyk monitor
+      # - uses: github/codeql-action/upload-sarif@v3
+      #   with:
+      #     sarif_file: snyk-sca.sarif
+      #     category: snyk-sca
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sca-report
+          path: snyk-sca.json
+
+
+
