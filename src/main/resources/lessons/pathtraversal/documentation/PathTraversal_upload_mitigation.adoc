@@ -67,4 +67,3 @@ if you replace `1.jpg` with `../../secret.txt`, it will block the request. With 
 will not be there.
 
 In the lesson about "File uploads" more examples of vulnerabilities are shown.
-

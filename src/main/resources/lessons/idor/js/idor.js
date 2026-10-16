@@ -12,7 +12,7 @@ var onViewProfile = function () {
     console.warn("on view profile activated")
     webgoat.customjs.jquery.ajax({
         method: "GET",
-        url: "/WebGoat/IDOR/profile",
+        url: "IDOR/profile",
         contentType: 'application/json; charset=UTF-8'
      }).then(webgoat.customjs.idorViewProfile);
 }

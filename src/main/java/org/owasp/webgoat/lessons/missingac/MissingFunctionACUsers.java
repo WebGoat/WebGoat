@@ -1,25 +1,7 @@
 /*
- * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
- *
- * Copyright (c) 2002 - 2019 Bruce Mayhew
- *
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * Getting Source ==============
- *
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
+ * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
  */
-
 package org.owasp.webgoat.lessons.missingac;
 
 import static org.owasp.webgoat.lessons.missingac.MissingFunctionAC.PASSWORD_SALT_ADMIN;
@@ -30,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.owasp.webgoat.container.session.WebSession;
+import org.owasp.webgoat.container.CurrentUsername;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -47,7 +29,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class MissingFunctionACUsers {
 
   private final MissingAccessControlUserRepository userRepository;
-  private final WebSession webSession;
 
   @GetMapping(path = {"access-control/users"})
   public ModelAndView listUsers() {
@@ -81,8 +62,8 @@ public class MissingFunctionACUsers {
       path = {"access-control/users-admin-fix"},
       consumes = "application/json")
   @ResponseBody
-  public ResponseEntity<List<DisplayUser>> usersFixed() {
-    var currentUser = userRepository.findByUsername(webSession.getUserName());
+  public ResponseEntity<List<DisplayUser>> usersFixed(@CurrentUsername String username) {
+    var currentUser = userRepository.findByUsername(username);
     if (currentUser != null && currentUser.isAdmin()) {
       return ResponseEntity.ok(
           userRepository.findAllUsers().stream()

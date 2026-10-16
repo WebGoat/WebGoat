@@ -1,7 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2019 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.lessons.cryptography;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import java.security.KeyPair;
 import java.security.PrivateKey;
@@ -23,11 +27,9 @@ public class CryptoUtilTest {
       String modulus = DatatypeConverter.printHexBinary(rsaPubKey.getModulus().toByteArray());
       String signature = CryptoUtil.signMessage(modulus, privateKey);
       log.debug("public exponent {}", rsaPubKey.getPublicExponent());
-      assertTrue(CryptoUtil.verifyAssignment(modulus, signature, keyPair.getPublic()));
+      assertThat(CryptoUtil.verifyAssignment(modulus, signature, keyPair.getPublic())).isTrue();
     } catch (Exception e) {
-      log.error("signing failed", e);
-      ;
-      fail();
+      fail("Signing failed");
     }
   }
 }

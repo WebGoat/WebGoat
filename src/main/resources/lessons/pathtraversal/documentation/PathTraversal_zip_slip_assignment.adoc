@@ -11,5 +11,3 @@ To make the assignment a bit easier below you will find the location of the prof
 |`webGoatTempDir:temppath[]PathTraversal/username:user[]/username:user[].jpg`
 
 |===
-
-

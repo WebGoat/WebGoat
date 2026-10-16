@@ -63,6 +63,3 @@ http://hostname.com/mywebapp/main.jsp?first_name=<script>alert("XSS Test")</scri
 === It is your turn!
 
 Try to prevent this kind of XSS by escaping the URL parameters in the JSP file:
-
-
-

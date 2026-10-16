@@ -1,0 +1,30 @@
+/*
+ * Visual highlight for autofilled fields in Open Redirect lesson.
+ */
+.highlight-autofill {
+  animation: autofillFlash 1.2s ease-in-out;
+  box-shadow: 0 0 0 2px #ffc107, 0 0 6px 2px rgba(255, 193, 7, 0.55);
+  background: #fffbe6 !important;
+  transition: background 0.4s ease-in-out;
+}
+
+.highlight-autofill:focus {
+  box-shadow: 0 0 0 2px #ffb300, 0 0 4px 3px rgba(255, 179, 0, 0.45);
+  outline: none;
+}
+
+@keyframes autofillFlash {
+  0% { background: #fffbe6; }
+  45% { background: #ffeaa0; }
+  100% { background: #fffbe6; }
+}
+
+/* Minor helper for quiz or other visual hints if reused later */
+button#task4-autofill {
+  margin-left: 0.5rem;
+  background: #ffc107;
+  color: #222;
+  border: 1px solid #e0ac00;
+  cursor: pointer;
+}
+button#task4-autofill:hover { background: #ffca2c; }

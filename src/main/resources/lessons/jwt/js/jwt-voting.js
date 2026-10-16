@@ -84,4 +84,3 @@ function vote(title) {
         )
     }
 }
-

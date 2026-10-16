@@ -1,29 +1,10 @@
 /*
- * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
- *
- * Copyright (c) 2002 - 2019 Bruce Mayhew
- *
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * Getting Source ==============
- *
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
+ * SPDX-FileCopyrightText: Copyright © 2018 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
  */
-
 package org.owasp.webgoat.lessons.jwt;
 
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.when;
 import static org.owasp.webgoat.lessons.jwt.JWTRefreshEndpoint.PASSWORD;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,19 +16,19 @@ import java.util.Map;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.owasp.webgoat.WithWebGoatUser;
 import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+@WithWebGoatUser
 public class JWTRefreshEndpointTest extends LessonTest {
 
   @BeforeEach
   void setup() {
-    when(webSession.getCurrentLesson()).thenReturn(new JWT());
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    when(webSession.getUserName()).thenReturn("unit-test");
   }
 
   @Test
@@ -66,7 +47,6 @@ public class JWTRefreshEndpointTest extends LessonTest {
             .andReturn();
     Map<String, String> tokens =
         objectMapper.readValue(result.getResponse().getContentAsString(), Map.class);
-    String accessToken = tokens.get("access_token");
     String refreshToken = tokens.get("refresh_token");
 
     // Now create a new refresh token for Tom based on Toms old access token and send the refresh

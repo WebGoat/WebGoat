@@ -1,0 +1,19 @@
+== ¿Qué es WebGoat?
+---
+
+¡Bienvenido `username:user[]`!
+
+WebGoat es una aplicación deliberadamente insegura que permite a desarrolladores interesados como tú _probar vulnerabilidades_
+comúnmente encontradas en aplicaciones basadas en Java que utilizan componentes de código abierto comunes y populares.
+
+Contiene lecciones, ejercicios y desafíos (Challenges). Las lecciones están divididas en varias categorías y contienen páginas con información y ejercicios. Deberías intentar los desafíos al final. Estos son complicados y no contienen ninguna pista.
+
+El objetivo de WebGoat es aprender y experimentar de manera lúdica en el campo de la seguridad web. Es adecuado tanto para desarrolladores como para _testers_.
+
+No dudes en someter a WebGoat a una prueba exhaustiva y mejorar tus conocimientos y experiencia en este campo.
+
+Deberías intentar resolver los ejercicios de WebGoat con una mentalidad de hacking.
+
+¡Gracias por tu interés!
+
+*The WebGoat Team*

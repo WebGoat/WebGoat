@@ -8,4 +8,3 @@ To prevent SSRF vulnerabilities in web applications, it is recommended to adhere
 
 == References
 * https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html
-

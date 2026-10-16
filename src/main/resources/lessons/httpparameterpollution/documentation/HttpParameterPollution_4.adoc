@@ -1,0 +1,27 @@
+== Mitigation
+
+Define how many values each parameter accepts. Then make validation and business logic use the same canonical representation.
+
+For a single-valued recipient, reject requests that contain anything other than one value:
+
+[source,java]
+----
+values = allValues("recipient");
+if (values == null || values.size() != 1) {
+   reject("Exactly one recipient is required");
+}
+
+recipient = values.get(0);
+validateAllowedRecipient(recipient);
+transfer(recipient, amount);
+----
+
+If an input is intentionally multi-valued, model it as a collection and validate every value. Choosing the first or last value is not a general defense. The application must define the parameter contract and use it consistently.
+
+=== Spring MVC handling
+
+Spring MVC binds query parameters and form data with `@RequestParam`. Declaring the controller argument as an array or `List` resolves all values that use the same parameter name. A `MultiValueMap` can retain all values for every parameter.
+
+Do not rely on scalar binding as a duplicate-parameter policy. For a security-sensitive, single-valued field, read the complete value set with `HttpServletRequest.getParameterValues()`, reject unexpected multiplicity, and pass the one accepted value to both validation and business logic.
+
+This lesson also reads the complete value array. Its vulnerable endpoint deliberately selects the first recipient for validation and the last recipient for execution. The mismatch is explicit, so the exercise does not depend on undocumented Spring or servlet-container behavior.

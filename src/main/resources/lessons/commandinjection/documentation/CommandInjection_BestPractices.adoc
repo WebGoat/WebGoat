@@ -1,0 +1,16 @@
+=== Wrapping up: hardening command execution
+
+The cat gallery walkthrough showed how quickly a helper script becomes an RCE primitive.
+Carry these lessons into production environments:
+
+- Avoid shells when you need to execute commands.
+Use `ProcessBuilder` or an equivalent API with a fixed executable and separate arguments.
+- Enforce a strict allowlist of diagnostics.
+Hardened code should reject anything outside the approved set.
+- Validate user input even with an allowlist. Treat sanitising as an extra control, not the primary
+  defense.
+- Execute commands under least-privilege accounts and isolate temporary working directories per user/session.
+- Log command invocations and failures for detection/response, but avoid leaking secrets.
+
+Pair these controls with application-level monitoring so operators can audit the diagnostics
+console without logging secrets.

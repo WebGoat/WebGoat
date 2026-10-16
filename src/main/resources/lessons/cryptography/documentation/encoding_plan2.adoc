@@ -1,8 +1,8 @@
-= Cryptography Basics 
- 
-== Other Encoding 
+= Cryptography Basics
 
-Also other encodings are used. 
+== Other Encoding
+
+Also other encodings are used.
 
 === URL encoding
 

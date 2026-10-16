@@ -2,15 +2,15 @@
 
 NOTE: This lesson only works when you are using the Docker image of WebGoat.
 
-WebGoat uses an XML document to add contacts to a contacts database.  
+WebGoat uses an XML document to add contacts to a contacts database.
 [source,xml]
 ----
-<contact>  
+<contact>
     <id>1</id>
     <firstName>Bruce</firstName>
     <lastName>Mayhew</lastName>
     <email>webgoat@owasp.org</email>
-</contact>  
+</contact>
 ----
 
 The java interface that you need for the exercise is: org.owasp.webgoat.lessons.vulnerablecomponents.Contact.

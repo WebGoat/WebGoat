@@ -1,0 +1,41 @@
+== Other implementation pitfalls
+
+The two assignments showed missing checks in hand-written verification code. These are other mistakes found in
+real WebAuthn and passkey implementations.
+
+=== Registration
+
+* *Account taken from the client.* The account is identified by a user name, e-mail or user handle in the finish
+  request instead of the server-side ceremony state. (Assignment 1.)
+* *Predictable or personal user handles.* A user handle such as the user name or database ID leaks information
+  to everyone who can read the authenticator, and makes it easy to target accounts.
+* *No re-authentication before adding a key.* An attacker with a stolen session cookie, or a few seconds at an
+  unlocked computer, adds their own passkey and keeps access after the password is reset. Require a recent sign
+  in, and notify the user by e-mail when a credential is added.
+* *Credential ID not unique.* A credential ID that is already registered for another account must be rejected.
+* *Trusting client-reported details.* `authenticatorAttachment` and `getTransports()` are reported by the
+  client. A policy such as "only hardware security keys" requires verified attestation, checked against the
+  FIDO Metadata Service.
+* *Unrequested algorithms or malformed keys accepted.* Hand-written CBOR/COSE parsing that accepts any algorithm
+  or does not validate the key can enable signature forgery.
+
+=== Authentication
+
+* *Challenge missing, not single use, or stored on the client* (for example in a cookie or an unsigned token).
+  Captured assertions can be replayed. (Assignment 2.)
+* *Origin or RP ID hash not checked.* Without this, a phishing site that proxies the WebAuthn ceremony obtains an
+  assertion the real site accepts, which removes the main benefit of WebAuthn. Also beware of accepting any
+  subdomain or `http://` origins.
+* *Credential not bound to the user.* The server verifies the signature with the credential identified by its
+  ID, but signs in the user name from the form. Any valid key then grants access to any account.
+* *UV not enforced for passwordless sign in.* UP only proves _somebody_ touched the key. A lost or stolen key then
+  equals access to the account.
+* *Signature counter ignored* for authenticators that implement one, which removes clone detection.
+* *User enumeration.* Returning `allowCredentials` for any user name tells an attacker which accounts exist and
+  which credentials they have. Use discoverable credentials or return consistent fake data for unknown users.
+
+=== The rest of the account
+
+* *Weak recovery and fallbacks.* If an attacker can still sign in with a password, an SMS code or a "lost my key"
+  e-mail link, WebAuthn does not protect the account. The weakest sign in method decides the security level.
+* *Session handling.* After a successful ceremony the usual rules apply: new session ID, secure cookies, timeouts.

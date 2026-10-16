@@ -1,5 +1,5 @@
 $(document).ready(
 		function(){
-				$("#secrettoken").load('/WebGoat/JWT/secret/gettoken');
+				$("#secrettoken").load('JWT/secret/gettoken');
 		}
 	);

@@ -4,5 +4,59 @@
 <div class="lesson-page-wrapper">
     <div class="adoc-content" th:replace="~{doc:lessons/webgoatintroduction/documentation/Introduction.adoc}"></div>
 </div>
+<div class="lesson-page-wrapper">
+    <div class="adoc-content" th:replace="~{doc:lessons/webgoatintroduction/documentation/Receiving_mail.adoc}"></div>
+    <div class="attack-container">
+        <img th:src="@{/images/wolf-enabled.png}" class="webwolf-enabled"/>
+        <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>
 
+
+        <form class="attack-form" accept-charset="UNKNOWN"  style="position:relative;top:150px"
+              method="POST" name="form"
+              th:action="@{/WebGoat/mail}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control"
+                                   placeholder="Type in your unique code"
+                                   name='uniqueCode'/>
+                            <div class="input-group-btn">
+                                <button class="btn btn-primary" type="submit">Go</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <br/>
+        <br/>
+        <!-- <div class="assignment-success"><i class="fa fa-2 fa-check hidden" aria-hidden="true"></i></div>-->
+        <form class="attack-form" accept-charset="UNKNOWN"  style="position:relative;top:-50px"
+              method="POST" name="secondform"
+              th:action="@{/WebGoat/mail/send}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group input-group">
+          <span class="input-group-addon">
+            @
+          </span>
+                            <input class="form-control" th:placeholder="${username + '@webgoat.org'}" name="email" type="email"
+                                   required=""/>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block" id="btn-login">
+                            Send e-mail
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <br/>
+        <br/>
+
+        <div class="attack-feedback"></div>
+        <div class="attack-output"></div>
+    </div>
+</div>
 </html>

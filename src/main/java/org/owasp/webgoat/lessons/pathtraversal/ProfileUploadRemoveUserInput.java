@@ -1,11 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2020 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.lessons.pathtraversal;
 
 import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.WebSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,8 +26,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProfileUploadRemoveUserInput extends ProfileUploadBase {
 
   public ProfileUploadRemoveUserInput(
-      @Value("${webgoat.server.directory}") String webGoatHomeDirectory, WebSession webSession) {
-    super(webGoatHomeDirectory, webSession);
+      @Value("${webgoat.server.directory}") String webGoatHomeDirectory) {
+    super(webGoatHomeDirectory);
   }
 
   @PostMapping(
@@ -32,7 +36,8 @@ public class ProfileUploadRemoveUserInput extends ProfileUploadBase {
       produces = APPLICATION_JSON_VALUE)
   @ResponseBody
   public AttackResult uploadFileHandler(
-      @RequestParam("uploadedFileRemoveUserInput") MultipartFile file) {
-    return super.execute(file, file.getOriginalFilename());
+      @RequestParam("uploadedFileRemoveUserInput") MultipartFile file,
+      @CurrentUsername String username) {
+    return super.execute(file, file.getOriginalFilename(), username);
   }
 }

@@ -30,9 +30,9 @@ In the parent pom.xml from WebGoat you can see an example:
 		</execution>
 	</executions>
 </plugin>
----- 
+----
 
-And also an example of the suppressed violations. 
+And also an example of the suppressed violations.
 
 [source,xml]
 ----
@@ -52,9 +52,7 @@ And also an example of the suppressed violations.
 In the case of WebGoat, the plugin is activated when the following is run (owasp profile):
 
 	mvn clean install -Powasp
-	
+
 Below is a snippet of a report, which can be found in e.g. webgoat-container/target/dependency-check-report.html:
 
 image::images/OWASP-Dep-Check.png[caption="Figure: ", title="WebGoat Bill of Materials", alt="BoM", width="988", height="515", style="lesson-image"]
-
- 

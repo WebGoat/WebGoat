@@ -1,34 +1,18 @@
 /*
- * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
- *
- * Copyright (c) 2002 - 2019 Bruce Mayhew
- *
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * Getting Source ==============
- *
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
+ * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
  */
-
 package org.owasp.webgoat.lessons.lessontemplate;
+
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AssignmentHints;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.UserSessionData;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.owasp.webgoat.container.session.LessonSession;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,12 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 /** Created by jason on 1/5/17. */
 @RestController
 @AssignmentHints({"lesson-template.hints.1", "lesson-template.hints.2", "lesson-template.hints.3"})
-public class SampleAttack extends AssignmentEndpoint {
+public class SampleAttack implements AssignmentEndpoint {
+  private static final String secretValue = "secr37Value";
 
-  String secretValue = "secr37Value";
+  private final LessonSession userSessionData;
 
-  // UserSessionData is bound to session and can be used to persist data across multiple assignments
-  @Autowired UserSessionData userSessionData;
+  public SampleAttack(LessonSession userSessionData) {
+    this.userSessionData = userSessionData;
+  }
 
   @PostMapping("/lesson-template/sample-attack")
   @ResponseBody

@@ -1,0 +1,6 @@
+== ¡Pruébalo! Trabajando con la pestaña de Red
+
+En esta tarea, debes encontrar una solicitud HTTP específica y leer un número aleatorio.
+Para comenzar, haz clic en el primer botón. Esto generará una solicitud HTTP. Intenta encontrar la solicitud HTTP específica.
+La solicitud debería contener un campo: `networkNum:`
+Copia el número que se muestra después en el campo de entrada a continuación y haz clic en el botón de verificación.

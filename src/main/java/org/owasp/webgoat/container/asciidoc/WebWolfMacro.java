@@ -1,12 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2018 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.container.asciidoc;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
-import org.asciidoctor.ast.ContentNode;
+import org.asciidoctor.ast.PhraseNode;
+import org.asciidoctor.ast.StructuralNode;
 import org.asciidoctor.extension.InlineMacroProcessor;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * Usage in asciidoc:
@@ -24,9 +26,10 @@ public class WebWolfMacro extends InlineMacroProcessor {
   }
 
   @Override
-  public Object process(ContentNode contentNode, String linkText, Map<String, Object> attributes) {
+  public PhraseNode process(
+      StructuralNode contentNode, String linkText, Map<String, Object> attributes) {
     var env = EnvironmentExposure.getEnv();
-    var hostname = determineHost(env.getProperty("webwolf.port"));
+    var hostname = env.getProperty("webwolf.url");
     var target = (String) attributes.getOrDefault("target", "home");
     var href = hostname + "/" + target;
 
@@ -39,35 +42,10 @@ public class WebWolfMacro extends InlineMacroProcessor {
     options.put("type", ":link");
     options.put("target", href);
     attributes.put("window", "_blank");
-    return createPhraseNode(contentNode, "anchor", linkText, attributes, options).convert();
+    return createPhraseNode(contentNode, "anchor", linkText, attributes, options);
   }
 
   private boolean displayCompleteLinkNoFormatting(Map<String, Object> attributes) {
     return attributes.values().stream().anyMatch(a -> a.equals("noLink"));
-  }
-
-  /**
-   * Determine the host from the hostname and ports that were used. The purpose is to make it
-   * possible to use the application behind a reverse proxy. For instance in the docker
-   * compose/stack version with webgoat webwolf and nginx proxy. You do not have to use the
-   * indicated hostname, but if you do, you should define two hosts aliases 127.0.0.1
-   * www.webgoat.local www.webwolf.local
-   */
-  private String determineHost(String port) {
-    HttpServletRequest request =
-        ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-    String host = request.getHeader("Host");
-    int semicolonIndex = host.indexOf(":");
-    if (semicolonIndex == -1 || host.endsWith(":80")) {
-      host = host.replace(":80", "").replace("www.webgoat.local", "www.webwolf.local");
-    } else {
-      host = host.substring(0, semicolonIndex);
-      host = host.concat(":").concat(port);
-    }
-    return "http://" + host + (includeWebWolfContext() ? "/WebWolf" : "");
-  }
-
-  protected boolean includeWebWolfContext() {
-    return true;
   }
 }

@@ -9,5 +9,3 @@ found in a private bug bounty program on Bugcrowd, you can read the full write u
 
 From a breach of last year the following logfile is available link:images/logs.txt[here]
 Can you find a way to order the books but let *Tom* pay for them?
-
-

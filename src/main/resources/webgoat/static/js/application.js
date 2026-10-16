@@ -8,9 +8,9 @@ var app = function() {
         togglePanel();
         sideBarLeftInit();
         window.onresize = function(){
-            sideBarLeftInit();    
+            sideBarLeftInit();
         }
-        closePanel();        
+        closePanel();
     };
 
     var tooltips = function() {
@@ -41,7 +41,7 @@ var app = function() {
     };
 
 
-    //Vector Maps 
+    //Vector Maps
     var map = function() {
         $('#map').vectorMap({
             map: 'world_mill_en',
@@ -177,5 +177,3 @@ var app = function() {
         sideBarLeftInit:sideBarLeftInit
     };
 }();
-
-

@@ -1,0 +1,5 @@
+== Restricciones de Campo
+En la mayoría de los navegadores, el cliente tiene control total o casi total sobre la parte HTML de la página web. Pueden modificar valores o restricciones según sus preferencias.
+
+=== Tarea
+Envía una solicitud que eluda las restricciones de los cuatro campos mencionados.

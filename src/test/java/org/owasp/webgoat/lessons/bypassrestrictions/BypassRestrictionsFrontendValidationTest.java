@@ -1,7 +1,10 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.lessons.bypassrestrictions;
 
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -11,15 +14,10 @@ import org.owasp.webgoat.container.plugins.LessonTest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-/**
- * @author nbaars
- * @since 6/16/17.
- */
 public class BypassRestrictionsFrontendValidationTest extends LessonTest {
 
   @BeforeEach
   public void setup() {
-    when(webSession.getCurrentLesson()).thenReturn(new BypassRestrictions());
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 

@@ -1,4 +1,4 @@
-var jQuery = require('libs/jquery-vuln');
+var jQuery = require('jqueryvuln');
 
 /*! jQuery UI - v1.10.3 - 2013-05-03
 * http://jqueryui.com

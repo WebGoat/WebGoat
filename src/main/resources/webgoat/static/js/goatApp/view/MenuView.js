@@ -3,7 +3,7 @@ define(['jquery',
 	'backbone',
 	'goatApp/model/MenuCollection',
 	'goatApp/view/MenuItemView',
-	'goatApp/support/GoatUtils'], 
+	'goatApp/support/GoatUtils'],
 	function(
 		$,
 		_,
@@ -42,11 +42,12 @@ define(['jquery',
 			var menuUl = $('<ul>',{class:'nano-content'});
 			for(var i=0;i<items.length;i++) { //CATEGORY LEVEL
 				var catId, category, catLink, catArrow, catLinkText, lessonName, stageName;
-				catId = GoatUtils.makeId(items[i].get('name'));
+				var translatedCatName = polyglot.t(items[i].get('name'));
+				catId = GoatUtils.makeId(translatedCatName);
 				category = $('<li>',{class:'sub-menu ng-scope'});
 				catLink = $('<a>',{'category':catId});
 				catArrow = $('<i>',{class:'fa fa-angle-right pull-right'});
-				catLinkText = $('<span>',{text:items[i].get('name')});
+				catLinkText = $('<span>',{text:translatedCatName});
 
 				catLink.append(catArrow);
 				catLink.append(catLinkText);
@@ -70,7 +71,7 @@ define(['jquery',
 						lessonItem.append(lessonLink);
 						//check for lab/stages
 						categoryLessonList.append(lessonItem);
-						if (lessons[j].complete) { 
+						if (lessons[j].complete) {
 							lessonItem.append($('<span>',{class:'glyphicon glyphicon-check lesson-complete'}));
 						}
 						var stages = lessons[j].children;

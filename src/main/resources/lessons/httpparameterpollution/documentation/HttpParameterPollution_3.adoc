@@ -1,0 +1,13 @@
+== Exploit: transfer validation bypass
+
+This exercise contains a fictional transfer function. You may transfer 100 credits to `alice`. The recipient `attacker` is not approved.
+
+A direct transfer to `attacker` fails. A normal transfer to `alice` succeeds, but it does not complete the assignment.
+
+The validation code and transfer code do not agree on the meaning of the request.
+
+=== Assignment
+
+Transfer exactly 100 credits to `attacker` without failing the recipient validation. Use what you observed on the previous page.
+
+The form creates an ordinary transfer request with one recipient. You may use browser developer tools or an intercepting proxy to inspect and modify that request.

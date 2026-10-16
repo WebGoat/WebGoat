@@ -30,7 +30,7 @@ Send some clean request (without setting the hijack_cookie) to the /WebGoat/Hija
 [source, sh]
 ----
 # command
-for i in $(seq 1 10); do 
+for i in $(seq 1 10); do
 curl 'http://localhost:8080/WebGoat/HijackSession/login'   \
 -H 'Connection: keep-alive'   \
 -H 'sec-ch-ua: " Not A;Brand";v="99", "Chromium";v="90"'   \

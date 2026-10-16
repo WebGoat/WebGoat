@@ -1,28 +1,23 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2019 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.lessons.chromedevtools;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.owasp.webgoat.container.plugins.LessonTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-/**
- * @author Benedikt Stuhrmann
- * @since 13/03/19.
- */
-@ExtendWith(SpringExtension.class)
 public class ChromeDevToolsTest extends LessonTest {
 
   @BeforeEach
   public void setup() {
-    when(webSession.getCurrentLesson()).thenReturn(new ChromeDevTools());
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
   }
 

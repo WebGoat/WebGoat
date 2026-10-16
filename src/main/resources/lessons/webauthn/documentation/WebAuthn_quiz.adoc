@@ -1,0 +1,3 @@
+== Quiz
+
+Test your knowledge of the other WebAuthn implementation pitfalls.

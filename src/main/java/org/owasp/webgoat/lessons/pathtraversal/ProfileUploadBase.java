@@ -1,4 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2020 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.lessons.pathtraversal;
+
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.failed;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.informationMessage;
+import static org.owasp.webgoat.container.assignments.AttackResultBuilder.success;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,13 +15,12 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FilenameUtils;
+import org.owasp.webgoat.container.CurrentUsername;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
-import org.owasp.webgoat.container.session.WebSession;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
@@ -21,14 +28,16 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-@AllArgsConstructor
 @Getter
-public class ProfileUploadBase extends AssignmentEndpoint {
+public class ProfileUploadBase implements AssignmentEndpoint {
 
-  private String webGoatHomeDirectory;
-  private WebSession webSession;
+  private final String webGoatHomeDirectory;
 
-  protected AttackResult execute(MultipartFile file, String fullName) {
+  public ProfileUploadBase(String webGoatHomeDirectory) {
+    this.webGoatHomeDirectory = webGoatHomeDirectory;
+  }
+
+  protected AttackResult execute(MultipartFile file, String fullName, String username) {
     if (file.isEmpty()) {
       return failed(this).feedback("path-traversal-profile-empty-file").build();
     }
@@ -36,7 +45,7 @@ public class ProfileUploadBase extends AssignmentEndpoint {
       return failed(this).feedback("path-traversal-profile-empty-name").build();
     }
 
-    File uploadDirectory = cleanupAndCreateDirectoryForUser();
+    File uploadDirectory = cleanupAndCreateDirectoryForUser(username);
 
     try {
       var uploadedFile = new File(uploadDirectory, fullName);
@@ -57,9 +66,8 @@ public class ProfileUploadBase extends AssignmentEndpoint {
   }
 
   @SneakyThrows
-  protected File cleanupAndCreateDirectoryForUser() {
-    var uploadDirectory =
-        new File(this.webGoatHomeDirectory, "/PathTraversal/" + webSession.getUserName());
+  protected File cleanupAndCreateDirectoryForUser(String username) {
+    var uploadDirectory = new File(this.webGoatHomeDirectory, "/PathTraversal/" + username);
     if (uploadDirectory.exists()) {
       FileSystemUtils.deleteRecursively(uploadDirectory);
     }
@@ -85,15 +93,14 @@ public class ProfileUploadBase extends AssignmentEndpoint {
         .build();
   }
 
-  public ResponseEntity<?> getProfilePicture() {
+  public ResponseEntity<?> getProfilePicture(@CurrentUsername String username) {
     return ResponseEntity.ok()
         .contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))
-        .body(getProfilePictureAsBase64());
+        .body(getProfilePictureAsBase64(username));
   }
 
-  protected byte[] getProfilePictureAsBase64() {
-    var profilePictureDirectory =
-        new File(this.webGoatHomeDirectory, "/PathTraversal/" + webSession.getUserName());
+  protected byte[] getProfilePictureAsBase64(String username) {
+    var profilePictureDirectory = new File(this.webGoatHomeDirectory, "/PathTraversal/" + username);
     var profileDirectoryFiles = profilePictureDirectory.listFiles();
 
     if (profileDirectoryFiles != null && profileDirectoryFiles.length > 0) {

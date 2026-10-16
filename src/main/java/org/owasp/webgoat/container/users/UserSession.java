@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.container.users;
 
 import lombok.AccessLevel;
@@ -6,10 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
-/**
- * @author nbaars
- * @since 8/15/17.
- */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

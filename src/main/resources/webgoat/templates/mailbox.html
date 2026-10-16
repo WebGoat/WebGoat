@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Cache-Control" content="no-store"/>
+    <link rel="shortcut icon" th:href="@{/css/img/favicon.ico}" type="image/x-icon"/>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/plugins/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}"/>
+
+    <title>WebGoat - Mailbox</title>
+
+    <style>
+        .mailbox-wrapper {
+            margin: 0;
+            padding: 20px 30px 40px 30px;
+            background: #f1f2f7;
+            min-height: calc(100vh - 80px);
+        }
+
+        .mailbox-wrapper .panel {
+            border-radius: 0;
+        }
+
+        .mailbox-intro {
+            margin-bottom: 20px;
+        }
+
+        .mailbox-toolbar {
+            margin-bottom: 15px;
+        }
+
+        .mail-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .mail-list > li {
+            border-bottom: solid thin #e7e8ec;
+        }
+
+        .mail-list .mail-header {
+            display: block;
+            padding: 12px 15px;
+            cursor: pointer;
+            color: #5D5F63;
+        }
+
+        .mail-list .mail-header:hover {
+            background: #f6f6f6;
+        }
+
+        .mail-list .mail-sender {
+            min-width: 160px;
+            display: inline-block;
+            font-weight: 600;
+            color: #16a086;
+        }
+
+        .mail-list .mail-title {
+            font-weight: 600;
+        }
+
+        .mail-list .mail-summary {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .mail-list .mail-time {
+            float: right;
+            color: #999;
+            font-size: 12px;
+        }
+
+        .mail-list .mail-body {
+            display: none;
+            padding: 10px 20px 20px 20px;
+            background: #fff;
+        }
+
+        .mail-list .mail-body pre {
+            border: none;
+            background: transparent;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .mailbox-empty {
+            padding: 30px;
+            text-align: center;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+<section id="container">
+    <header id="header">
+        <div class="brand">
+            <span class="logo"><span>Web</span>Goat</span>
+        </div>
+    </header>
+
+    <div class="mailbox-wrapper">
+        <div class="alert alert-info mailbox-intro">
+            <p>This is the mailbox of <b><th:block th:text="${username}">user</th:block>@webgoat.org</b>.
+                All mail sent to <b><th:block th:text="${username}">user</th:block></b> during the lessons
+                arrives here.</p>
+            <p class="text-muted" style="margin-bottom:0">Only the user part of the address matters, the domain can be anything.</p>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <i class="fa fa-inbox"></i> <b>Inbox</b>
+                        <span class="badge" th:text="${total} ?: 0">0</span>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="window.location.reload()">
+                            <i class="fa fa-refresh"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body" style="padding:0">
+                <ul class="mail-list">
+                    <li th:each="mail : ${emails}">
+                        <a href="#" class="mail-header" onclick="toggleMail(this); return false;">
+                            <span class="mail-sender" th:text="${mail.shortSender}">WebGoat</span>
+                            <span class="mail-title" th:text="${mail.title}">Title</span>
+                            <span class="mail-summary" th:text="${mail.summary}">- summary</span>
+                            <span class="mail-time" th:text="${mail.time}">12:10 AM</span>
+                        </a>
+                        <div class="mail-body">
+                            <p>
+                                <b><span th:text="${mail.title}">Title</span></b>
+                                <span class="pull-right text-muted" th:text="${mail.sender}">sender</span>
+                            </p>
+                            <pre th:utext="${mail.contents}">contents</pre>
+                        </div>
+                    </li>
+                </ul>
+                <div class="mailbox-empty" th:if="${emails == null}">
+                    Your mailbox is empty.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    function toggleMail(element) {
+        var body = element.parentNode.querySelector('.mail-body');
+        body.style.display = (body.style.display === 'block') ? 'none' : 'block';
+    }
+</script>
+</body>
+</html>

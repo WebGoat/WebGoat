@@ -58,4 +58,3 @@ try {
 ----
 
 Can you spot the weakness?
-

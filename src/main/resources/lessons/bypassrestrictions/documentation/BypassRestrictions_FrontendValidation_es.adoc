@@ -1,0 +1,6 @@
+== Validación
+
+A menudo, hay algún mecanismo para evitar que los usuarios envíen valores de campo alterados al servidor, como la validación antes del envío. La mayoría de los navegadores populares, como Chrome, no permiten editar scripts durante la ejecución. Tendremos que eludir la validación de alguna otra manera.
+
+=== Tarea
+Envía una solicitud que no cumpla con la expresión regular ubicada encima del campo en todos los campos.

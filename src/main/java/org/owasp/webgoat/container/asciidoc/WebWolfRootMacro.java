@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: Copyright © 2019 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 package org.owasp.webgoat.container.asciidoc;
 
 import java.util.Map;
@@ -16,10 +20,5 @@ public class WebWolfRootMacro extends WebWolfMacro {
 
   public WebWolfRootMacro(String macroName, Map<String, Object> config) {
     super(macroName, config);
-  }
-
-  @Override
-  protected boolean includeWebWolfContext() {
-    return false;
   }
 }

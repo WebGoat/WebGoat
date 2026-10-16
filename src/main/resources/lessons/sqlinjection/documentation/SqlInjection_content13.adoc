@@ -34,7 +34,7 @@ This means an `orderExpression` can be a `selectExpression` which can be a funct
 a `case` statement we might be able to ask the database some questions, like:
 
 ----
-SELECT * FROM users ORDER BY (CASE WHEN (TRUE) THEN lastname ELSE firstname)
+SELECT * FROM users ORDER BY (CASE WHEN (TRUE) THEN lastname ELSE firstname END)
 ----
 
 So we can substitute any kind of boolean operation in the `when(....)` part. The statement will just work because

@@ -1,43 +1,30 @@
 /*
- * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
- *
- * Copyright (c) 2002 - 2019 Bruce Mayhew
- *
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- *
- * Getting Source ==============
- *
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
+ * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
  */
-
 package org.owasp.webgoat.webwolf;
 
+import static java.util.Comparator.comparing;
 import static org.springframework.http.MediaType.ALL_VALUE;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.attribute.FileTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import java.util.TimeZone;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.owasp.webgoat.webwolf.user.WebGoatUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,11 +39,23 @@ import org.springframework.web.servlet.view.RedirectView;
 @Slf4j
 public class FileServer {
 
+  private static final DateTimeFormatter dateTimeFormatter =
+      DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+  /** Messages shown on the files page, the upload redirects to it with one of them. */
+  static final String UPLOAD_SUCCESSFUL = "File uploaded successful";
+
+  static final String NOTHING_TO_UPLOAD = "Nothing to upload";
+  static final String UPLOAD_TOO_LARGE = "File is too large to upload";
+
   @Value("${webwolf.fileserver.location}")
   private String fileLocation;
 
   @Value("${server.address}")
   private String server;
+
+  @Value("${server.servlet.context-path}")
+  private String contextPath;
 
   @Value("${server.port}")
   private int port;
@@ -71,53 +70,78 @@ public class FileServer {
   }
 
   @PostMapping(value = "/fileupload")
-  public ModelAndView importFile(@RequestParam("file") MultipartFile myFile) throws IOException {
-    var user = (WebGoatUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    var destinationDir = new File(fileLocation, user.getUsername());
+  public ModelAndView importFile(
+      @RequestParam("file") MultipartFile multipartFile, Authentication authentication)
+      throws IOException {
+    var username = authentication.getName();
+    if (multipartFile == null
+        || multipartFile.isEmpty()
+        || !StringUtils.hasText(multipartFile.getOriginalFilename())) {
+      log.debug("No file selected for upload by {}", username);
+      return new ModelAndView(
+          new RedirectView("files", true),
+          new ModelMap().addAttribute("uploadSuccess", NOTHING_TO_UPLOAD));
+    }
+
+    var destinationDir = new File(fileLocation, username);
     destinationDir.mkdirs();
-    myFile.transferTo(new File(destinationDir, myFile.getOriginalFilename()));
-    log.debug("File saved to {}", new File(destinationDir, myFile.getOriginalFilename()));
+    // DO NOT use multipartFile.transferTo(), see
+    // https://stackoverflow.com/questions/60336929/java-nio-file-nosuchfileexception-when-file-transferto-is-called
+    try (InputStream is = multipartFile.getInputStream()) {
+      var destinationFile = destinationDir.toPath().resolve(multipartFile.getOriginalFilename());
+      Files.deleteIfExists(destinationFile);
+      Files.copy(is, destinationFile);
+    }
+    log.debug("File saved to {}", new File(destinationDir, multipartFile.getOriginalFilename()));
 
     return new ModelAndView(
         new RedirectView("files", true),
-        new ModelMap().addAttribute("uploadSuccess", "File uploaded successful"));
-  }
-
-  @AllArgsConstructor
-  @Getter
-  private class UploadedFile {
-    private final String name;
-    private final String size;
-    private final String link;
+        new ModelMap().addAttribute("uploadSuccess", UPLOAD_SUCCESSFUL));
   }
 
   @GetMapping(value = "/files")
-  public ModelAndView getFiles(HttpServletRequest request) {
-    WebGoatUser user =
-        (WebGoatUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    String username = user.getUsername();
+  public ModelAndView getFiles(
+      HttpServletRequest request, Authentication authentication, TimeZone timezone) {
+    String username = (null != authentication) ? authentication.getName() : "anonymous";
     File destinationDir = new File(fileLocation, username);
 
     ModelAndView modelAndView = new ModelAndView();
     modelAndView.setViewName("files");
-    File changeIndicatorFile = new File(destinationDir, user.getUsername() + "_changed");
-    if (changeIndicatorFile.exists()) {
-      modelAndView.addObject("uploadSuccess", request.getParameter("uploadSuccess"));
+    // the message of the upload we are redirected from, see importFile and
+    // FileUploadExceptionAdvice
+    var uploadMessage = request.getParameter("uploadSuccess");
+    if (StringUtils.hasText(uploadMessage)) {
+      modelAndView.addObject("uploadSuccess", uploadMessage);
+      modelAndView.addObject("uploadFailed", !UPLOAD_SUCCESSFUL.equals(uploadMessage));
     }
-    changeIndicatorFile.delete();
 
-    var uploadedFiles = new ArrayList<>();
+    record UploadedFile(String name, String size, String link, String creationTime) {}
+
+    var uploadedFiles = new ArrayList<UploadedFile>();
     File[] files = destinationDir.listFiles(File::isFile);
     if (files != null) {
       for (File file : files) {
         String size = FileUtils.byteCountToDisplaySize(file.length());
         String link = String.format("files/%s/%s", username, file.getName());
-        uploadedFiles.add(new UploadedFile(file.getName(), size, link));
+        uploadedFiles.add(
+            new UploadedFile(file.getName(), size, link, getCreationTime(timezone, file)));
       }
     }
 
-    modelAndView.addObject("files", uploadedFiles);
-    modelAndView.addObject("webwolf_url", "http://" + server + ":" + port);
+    modelAndView.addObject(
+        "files",
+        uploadedFiles.stream().sorted(comparing(UploadedFile::creationTime).reversed()).toList());
+    modelAndView.addObject("webwolf_url", "http://" + server + ":" + port + contextPath);
     return modelAndView;
+  }
+
+  private String getCreationTime(TimeZone timezone, File file) {
+    try {
+      FileTime creationTime = (FileTime) Files.getAttribute(file.toPath(), "creationTime");
+      ZonedDateTime zonedDateTime = creationTime.toInstant().atZone(timezone.toZoneId());
+      return dateTimeFormatter.format(zonedDateTime);
+    } catch (IOException e) {
+      return "unknown";
+    }
   }
 }

@@ -1,28 +1,7 @@
 /*
- * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
- * please see http://www.owasp.org/
- * <p>
- * Copyright (c) 2002 - 2017 Bruce Mayhew
- * <p>
- * This program is free software; you can redistribute it and/or modify it under the terms of the
- * GNU General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License along with this program; if
- * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
- * 02111-1307, USA.
- * <p>
- * Getting Source ==============
- * <p>
- * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software
- * projects.
- * <p>
+ * SPDX-FileCopyrightText: Copyright © 2017 WebGoat authors
+ * SPDX-License-Identifier: GPL-2.0-or-later
  */
-
 package org.owasp.webgoat.container.i18n;
 
 import java.io.IOException;
@@ -32,9 +11,6 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 
 /**
  * Message resource bundle for plugins.
- *
- * @author nbaars
- * @date 2/4/17
  */
 public class PluginMessages extends ReloadableResourceBundleMessageSource {
   private static final String PROPERTIES_SUFFIX = ".properties";
@@ -55,10 +31,16 @@ public class PluginMessages extends ReloadableResourceBundleMessageSource {
     Properties properties = new Properties();
     long lastModified = System.currentTimeMillis();
 
+    // filename is passed by Spring as e.g. "WebGoatLabels" or "WebGoatLabels_nl".
+    // Strip any path prefix so we get just the bare file basename to use in the
+    // classpath glob, preserving the locale suffix (e.g. "_nl", "_de", "_fr").
+    String fileBasename =
+        filename.contains("/") ? filename.substring(filename.lastIndexOf('/') + 1) : filename;
+
     try {
       var resources =
           resourcePatternResolver.getResources(
-              "classpath:/lessons/**/i18n" + "/WebGoatLabels" + PROPERTIES_SUFFIX);
+              "classpath:/lessons/**/i18n/" + fileBasename + PROPERTIES_SUFFIX);
       for (var resource : resources) {
         String sourcePath = resource.getURI().toString().replace(PROPERTIES_SUFFIX, "");
         PropertiesHolder holder = super.refreshProperties(sourcePath, propHolder);

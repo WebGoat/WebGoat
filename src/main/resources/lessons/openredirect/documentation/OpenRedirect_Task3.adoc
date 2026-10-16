@@ -1,0 +1,17 @@
+== Challenge – flawed normalization
+
+A new "fix" attempts to treat anything starting with `http(s)://webgoat.local` as trusted after a single decode and lowercase.
+
+However, URLs can include a userinfo part before the `@` sign. The code only checks the string prefix. It does not verify the real host.
+
+Goal:
+
+* Supply a value that appears to start with the trusted host but whose real host (after parsing) is external.
+
+Try payload ideas:
+
+* `https://webgoat.local@evil.com`  (userinfo trick)
+* `https://webgoat.local.evil.com`  (subdomain – may or may not pass prefix test depending on code)
+* Encoded userinfo: `https://webgoat.local%40evil.com` (if additional normalization were present)
+
+You succeed when the debug output shows `AppearsInternal: true` but `RealHost` is an external domain.

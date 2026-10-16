@@ -1,0 +1,25 @@
+== Attacks
+
+JSON Web Tokens (JWTs) have gained popularity for securely transmitting information between parties. However, like any technology, they are not immune to certain vulnerabilities and attacks. Here's an overview of various JWT attacks:
+
+- **Token expiration manipulation**: JWTs typically contain an "exp" claim indicating the expiration time. An attacker might try to manipulate this claim to extend the validity of a token, allowing them to continue using it even after its intended expiration.
+
+- **Token tampering**: Attackers may try to modify the token's contents, such as claims in the payload or header, to impersonate other users, gain unauthorized access, or modify permissions.
+
+- **Token leakage**: If JWTs are not securely stored on the client side (e.g., in a cookie, local storage), they might be susceptible to cross-site scripting (XSS) attacks, leading to token leakage and potential unauthorized access.
+
+- **Brute force attacks**: Since JWTs are self-contained, an attacker could attempt to brute force the signature by trying various combinations of secret keys to forge a valid signature.
+
+- **Key confusion attack**: If the "kid" (key ID) claim is misused or not properly validated, an attacker could manipulate it to use a different key for signature verification, leading to unauthorized access.
+
+- **Replay attacks**: An attacker might capture a valid JWT and use it multiple times within its validity period to impersonate the original user or repeat a specific action.
+
+- **Token side jacking**: If JWTs are transmitted over insecure channels (e.g., unencrypted HTTP), attackers can intercept and steal them, gaining unauthorized access to user accounts.
+
+- **Algorithm downgrade attack**: An attacker might attempt to change the "alg" claim in the header to force the use of a weaker cryptographic algorithm.
+
+- **Token forgery**: Attackers could craft their JWTs, potentially bypassing authentication or authorization checks if validation is not robust.
+
+- **Clock tampering**: If the server's clock can be manipulated, attackers might change the server time to extend the validity of expired tokens.
+
+This lesson will contain some common attacks, giving you an insight into what can go wrong and how you can protect yourself against them.

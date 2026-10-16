@@ -1,0 +1,44 @@
+{
+  "questions": [
+    {
+      "text": "GoatBank returns the allowCredentials list for every user name typed on the sign in page, and an empty list for unknown users. What is the risk?",
+      "solutions": {
+        "1": "None, credential IDs are public values",
+        "2": "User enumeration: an attacker learns which accounts exist and use security keys",
+        "3": "An attacker can derive the private key from the credential ID"
+      }
+    },
+    {
+      "text": "Why must the relying party compare the origin in clientDataJSON with its own origin?",
+      "solutions": {
+        "1": "To make CORS work for the WebAuthn API",
+        "2": "So an assertion obtained by a look-alike (phishing) site is rejected by the real site",
+        "3": "Because the origin is not covered by the authenticator signature"
+      }
+    },
+    {
+      "text": "A security key is the only factor for signing in (passwordless). Which flag must the server require in authenticatorData?",
+      "solutions": {
+        "1": "UP (user present)",
+        "2": "UV (user verified)",
+        "3": "BE (backup eligible)"
+      }
+    },
+    {
+      "text": "A security key that always increments its signature counter returns a counter lower than the stored value. What does this indicate?",
+      "solutions": {
+        "1": "The clock of the security key is out of sync",
+        "2": "The credential may have been cloned",
+        "3": "The user has registered the key twice"
+      }
+    },
+    {
+      "text": "Why should adding a new passkey or security key require recent re-authentication?",
+      "solutions": {
+        "1": "Otherwise an attacker with a hijacked session can register their own key and keep access",
+        "2": "Because authenticators refuse to register while a session cookie exists",
+        "3": "Because the WebAuthn API only works on freshly loaded pages"
+      }
+    }
+  ]
+}

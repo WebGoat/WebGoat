@@ -4,7 +4,7 @@
 ----
 public static bool isUsernameValid(string username) {
     RegEx r = new Regex("^[A-Za-z0-9]{16}$");
-    return r.isMatch(username); 
+    return r.isMatch(username);
 }
 
 // java.sql.Connection conn is set elsewhere for brevity.
@@ -48,4 +48,3 @@ statement.setString(2, "webgoat");
 statement.setString(3, "webgoat@owasp.org");
 statement.executeUpdate();
 ----
-

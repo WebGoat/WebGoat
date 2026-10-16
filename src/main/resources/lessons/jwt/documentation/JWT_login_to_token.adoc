@@ -16,4 +16,3 @@ information in the token to identify the user.
 
 The token contains claims to identify the user and all other information necessary for the server to fulfill the request.
 Be aware not to store sensitive information in the token and always send it over a secure channel.
-
