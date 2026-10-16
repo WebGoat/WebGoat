@@ -7,6 +7,10 @@ on:
     branches:
     - main
     - master
+
+permissions:
+  contents: read
+  security-events: write
     
 jobs:
   semgrep:
