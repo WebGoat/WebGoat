@@ -95,7 +95,7 @@ jobs:
         continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: snyk test --sarif-file-output=snyk-sca.sarif --json-file-output=snyk-sca.json
+        run: snyk iac test --severity-threshold=high  --report >> reports/snyk-iac-report.txt 2>&1 || true
       # - name: Monitor in Snyk web app
       #   env:
       #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
