@@ -1,0 +1,24 @@
+<% layout( 'layout' ) -%>
+<style>
+strong {font-weight: bold}
+</style>
+
+<div class="patch-header">
+  <img class="snyk-patch" src="/public/images/snyk_patch.jpeg" />
+  <h1 id="page-title"><%= title %></h1>
+</div>
+
+<div id="list">
+  <form action="/create" method="post" accept-charset="utf-8">
+    <div class="item-new">
+      <input class="input" type="text" name="content" />
+    </div>
+  </form>
+
+<% todos.forEach( function ( todo ){ %>
+  <div class="item">
+    <a class="update-link" href="/edit/<%= todo._id %>" title="Update this todo item"><%- marked(new String(todo.content)) %></a>
+    <a class="del-btn" href="/destroy/<%= todo._id %>" title="Delete this todo item">Delete</a>
+  </div>
+<% }); %>
+</div>

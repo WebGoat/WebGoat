@@ -1,0 +1,3209 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "SnykCode",
+          "semanticVersion": "1.0.0",
+          "version": "1.0.0",
+          "rules": [
+            {
+              "id": "javascript/NoRateLimitingForExpensiveWebOperation",
+              "name": "NoRateLimitingForExpensiveWebOperation",
+              "shortDescription": {
+                "text": "Allocation of Resources Without Limits or Throttling"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "help": {
+                "markdown": "",
+                "text": ""
+              },
+              "properties": {
+                "tags": [
+                  "javascript",
+                  "maintenance",
+                  "server",
+                  "file",
+                  "page"
+                ],
+                "categories": [
+                  "Security"
+                ],
+                "exampleCommitFixes": [
+                  {
+                    "commitURL": "https://github.com/odota/core/commit/7d60d51f777de4c338fc3716a7fe553d08c7e6e1?diff=split#diff-09461573a85e2d94f056dd6814769042L26",
+                    "lines": [
+                      {
+                        "line": "});",
+                        "lineNumber": 23,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.get('/', function(req, res, next) {",
+                        "lineNumber": 25,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    var fileName = req.query.fileName;",
+                        "lineNumber": 26,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    var url = req.query.url;",
+                        "lineNumber": 27,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "     var inStream;",
+                        "lineNumber": 28,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "     var bz;",
+                        "lineNumber": 29,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    });",
+                        "lineNumber": 34,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "}",
+                        "lineNumber": 35,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "var parser = spawn(\"java\", [\"-jar\",",
+                        "lineNumber": 36,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "    });",
+                        "lineNumber": 37,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "}",
+                        "lineNumber": 38,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "parser = spawn(\"java\", [\"-jar\",",
+                        "lineNumber": 39,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "\"-Xmx64m\",",
+                        "lineNumber": 40,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "\"parser/target/stats-0.1.0.jar\"",
+                        "lineNumber": 41,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/jfrux/workbench/commit/8d8eedf48b26a8e86d2bf0b4c722fdcd8e634934?diff=split#diff-f53e59f241bb62f0261e245350683e07L9",
+                    "lines": [
+                      {
+                        "line": "const express = require('express');",
+                        "lineNumber": 25,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "const app = express();",
+                        "lineNumber": 26,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "// console.log(pty);",
+                        "lineNumber": 27,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "const pty = require('node-pty');",
+                        "lineNumber": 28,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "const argv = require('yargs').argv;",
+                        "lineNumber": 29,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "require('express-ws')(app);",
+                        "lineNumber": 60,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.post('/terminals', function (req, res) {",
+                        "lineNumber": 62,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  let shell = argv.shell && argv.shell !== '' ? argv.shell : process.platform === 'win32' ? 'cmd.exe' : 'bash';",
+                        "lineNumber": 63,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  let cols = parseInt(req.query.cols, 10);",
+                        "lineNumber": 64,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  let rows = parseInt(req.query.rows, 10);",
+                        "lineNumber": 65,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  let term = pty.spawn(shell, [], {",
+                        "lineNumber": 46,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "  let term = pty.fork(shell, [], {",
+                        "lineNumber": 66,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    name: 'xterm-color',",
+                        "lineNumber": 67,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    cols: cols || 80,",
+                        "lineNumber": 68,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/soomtong/blititor/commit/6627d47e769eaa3308445105f924a514f9e750bd?diff=split#diff-832a2c38c4705ad5036bd453a0a9390bL7",
+                    "lines": [
+                      {
+                        "line": "var winston = require('winston');",
+                        "lineNumber": 4,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "var childProcess = require('child_process');",
+                        "lineNumber": 6,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "var common = require('../../../core/lib/common');",
+                        "lineNumber": 8,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "}",
+                        "lineNumber": 55,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "function viewGateway(req, res) {",
+                        "lineNumber": 57,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    var params = {",
+                        "lineNumber": 58,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "        title: '넷 앱 컨트롤러 허브',",
+                        "lineNumber": 59,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "};",
+                        "lineNumber": 71,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "childProcess.execFile(cmd.list, { env: gatewayConnectionInfo }, function (error, stdout, stderr) {",
+                        "lineNumber": 73,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "    var result = stdout.toString().replace(/\\\\n/g, '\\n');",
+                        "lineNumber": 74,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "console.log(result);",
+                        "lineNumber": 76,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "};",
+                        "lineNumber": 80,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "childProcess.execFile(consoleCommand.list, gatewayConnectionInfo, function (error, stdout, stderr) {",
+                        "lineNumber": 82,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    var result = stdout.toString().replace(/\\\\n/g, '\\n');",
+                        "lineNumber": 83,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "console.log(result);",
+                        "lineNumber": 85,
+                        "lineChange": "added"
+                      }
+                    ]
+                  }
+                ],
+                "exampleCommitDescriptions": [
+                  "WIP Fix server tests.",
+                  "* Fixed tests failing due to a renamed file.",
+                  "* The end-to-end test now works up to the your-claims page."
+                ],
+                "precision": "very-high",
+                "repoDatasetSize": 1163,
+                "cwe": [
+                  "CWE-770"
+                ]
+              }
+            },
+            {
+              "id": "javascript/XSS",
+              "name": "XSS",
+              "shortDescription": {
+                "text": "Cross-site Scripting (XSS)"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "help": {
+                "markdown": "## Details\n\nA cross-site scripting attack occurs when the attacker tricks a legitimate web-based application or site to accept a request as originating from a trusted source.\n\nThis is done by escaping the context of the web application; the web application then delivers that data to its users along with other trusted dynamic content, without validating it. The browser unknowingly executes malicious script on the client side (through client-side languages; usually JavaScript or HTML)  in order to perform actions that are otherwise typically blocked by the browser's Same Origin Policy.\n\nInjecting malicious code is the most prevalent manner by which XSS is exploited; for this reason, escaping characters in order to prevent this manipulation is the top method for securing code against this vulnerability.\n\nEscaping means that the application is coded to mark key characters, and particularly key characters included in user input, to prevent those characters from being interpreted in a dangerous context. For example, in HTML, `<` can be coded as  `&lt`; and `>` can be coded as `&gt`; in order to be interpreted and displayed as themselves in text, while within the code itself, they are used for HTML tags. If malicious content is injected into an application that escapes special characters and that malicious content uses `<` and `>` as HTML tags, those characters are nonetheless not interpreted as HTML tags by the browser if they've been correctly escaped in the application code and in this way the attempted attack is diverted.\n\nThe most prominent use of XSS is to steal cookies (source: OWASP HttpOnly) and hijack user sessions, but XSS exploits have been used to expose sensitive information, enable access to privileged services and functionality and deliver malware.\n\n### Types of attacks\nThere are a few methods by which XSS can be manipulated:\n\n|Type|Origin|Description|\n|--|--|--|\n|**Stored**|Server|The malicious code is inserted in the application (usually as a link) by the attacker. The code is activated every time a user clicks the link.|\n|**Reflected**|Server|The attacker delivers a malicious link externally from the vulnerable web site application to a user. When clicked, malicious code is sent to the vulnerable web site, which reflects the attack back to the user's browser.|\n|**DOM-based**|Client|The attacker forces the user's browser to render a malicious page. The data in the page itself delivers the cross-site scripting data.|\n|**Mutated**| |The attacker injects code that appears safe, but is then rewritten and modified by the browser, while parsing the markup. An example is rebalancing unclosed quotation marks or even adding quotation marks to unquoted parameters.|\n\n### Affected environments\nThe following environments are susceptible to an XSS attack:\n\n* Web servers\n* Application servers\n* Web application environments\n\n### How to prevent\nThis section describes the top best practices designed to specifically protect your code:\n\n* Sanitize data input in an HTTP request before reflecting it back, ensuring all data is validated, filtered or escaped before echoing anything back to the user, such as the values of query parameters during searches.\n* Convert special characters such as `?`, `&`, `/`, `<`, `>` and spaces to their respective HTML or URL encoded equivalents.\n* Give users the option to disable client-side scripts.\n* Redirect invalid requests.\n* Detect simultaneous logins, including those from two separate IP addresses, and invalidate those sessions.\n* Use and enforce a Content Security Policy (source: Wikipedia) to disable any features that might be manipulated for an XSS attack.\n* Read the documentation for any of the libraries referenced in your code to understand which elements allow for embedded HTML.",
+                "text": ""
+              },
+              "properties": {
+                "tags": [
+                  "javascript",
+                  "maintenance",
+                  "API",
+                  "server",
+                  "error"
+                ],
+                "categories": [
+                  "Security"
+                ],
+                "exampleCommitFixes": [
+                  {
+                    "commitURL": "https://github.com/scriptoLLC/take-five/commit/2afebbd008b056355ef7a32d3047e49abcd40363?diff=split#diff-3e18a4ee36b162703e52321c242f6960L285",
+                    "lines": [
+                      {
+                        "line": "const server = five({maxPost: 100})",
+                        "lineNumber": 282,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "const server = new TF(opts)",
+                        "lineNumber": 446,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "server.listen(3000)",
+                        "lineNumber": 447,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "server.post('/', (req, res) => res.send(req.body))",
+                        "lineNumber": 284,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "// can't seem to override content-length to report a false value in either",
+                        "lineNumber": 286,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "server.post('/', (req, res, ctx) => ctx.send(req.body))",
+                        "lineNumber": 448,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "t.test('invalid json', (t) => {",
+                        "lineNumber": 450,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/rowanmanning/joblint/commit/7a7b3b3ee515a6756d1476e839ad95aedd310987?diff=split#diff-f14ed86984d5e672043bf2effee59011L9",
+                    "lines": [
+                      {
+                        "line": "function defineController (app) {",
+                        "lineNumber": 7,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    app.post('/ws', requireUrlEncodedPostBody, requireUnemptyJobSpec, function (req, res) {",
+                        "lineNumber": 8,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "        res.send(joblint(req.body.spec));",
+                        "lineNumber": 9,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "        res.jsonp(joblint(req.body.spec));",
+                        "lineNumber": 9,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    });",
+                        "lineNumber": 10,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    app.all('/ws', function (req, res) {",
+                        "lineNumber": 11,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/justsml/escape-from-callback-mountain/commit/9dd1fe21cb54fcfc83294a2114a5ed6b62383b2e?diff=split#diff-166589e929a882bbe77d71545a5969a7L6",
+                    "lines": [
+                      {
+                        "line": "const {TimeoutError, QueueEmpty, NotFound} = require('../util/errors')",
+                        "lineNumber": 3,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "const enqueueHandler = (req, res, next) => {",
+                        "lineNumber": 7,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  enqueueAsync(req.body)",
+                        "lineNumber": 8,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    .then(result => res.send(result))",
+                        "lineNumber": 7,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "    .then(result => res.send({result}))",
+                        "lineNumber": 9,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    .catch(next)",
+                        "lineNumber": 10,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "}",
+                        "lineNumber": 11,
+                        "lineChange": "none"
+                      }
+                    ]
+                  }
+                ],
+                "exampleCommitDescriptions": [
+                  "Adding api tests for consumer",
+                  "Refactored to ensure the server is running before the test runs",
+                  "* fixing linting error"
+                ],
+                "precision": "very-high",
+                "repoDatasetSize": 1046,
+                "cwe": [
+                  "CWE-79"
+                ]
+              }
+            },
+            {
+              "id": "javascript/DisablePoweredBy",
+              "name": "DisablePoweredBy",
+              "shortDescription": {
+                "text": "Information Exposure"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "help": {
+                "markdown": "## Details\n\nSensitive data includes: personally identifiable information (PII) of employees, customers, users, or other third parties; financial information; code; intellectual property; or protected network information such as passwords. Exposure of sensitive information to an unauthorized actor occurs when any party who does not require this information for business purposes can remove this information from the secure network.\nConsequences of exposure can include holding it for ransom payment, identity theft, or access to other internal network resources-along with financial loss due to regulatory fines, court settlements, or cost to restore compromised systems. As most hackers aim to extract sensitive information, this CWE only describes exploits that take advantage of vulnerabilities related to how data is handled: the management, storage, transfer, or removal of sensitive information.\n\n### Best practices for prevention\n- Encrypt data at all times, whether in transit or at rest.\n- When transporting data, always use a secure protocol such as TLS.\n- Before collecting PII or financial information, consider whether there is a true business need for this information; similarly, before storing the data, ensure that there is an ongoing business need.\n- Classify all incoming data according to privacy and security guidelines to improve awareness of sensitive data.\n- Ensure that caching is disabled for all transactions involving sensitive information.\n- Store passwords with secure, salted hashing functions.\n- Apply a network-wide least-privilege policy so sensitive data is provided only to users with business need to know.",
+                "text": ""
+              },
+              "properties": {
+                "tags": [
+                  "javascript",
+                  "maintenance",
+                  "express",
+                  "helmet",
+                  "security"
+                ],
+                "categories": [
+                  "Security"
+                ],
+                "exampleCommitFixes": [
+                  {
+                    "commitURL": "https://github.com/eclipse/orion.client/commit/ad8f3bce33a1ea9d1e2144e6c42f075ad25829d6?diff=split#diff-16594450dc1f06f7d9cf4a47859cfa52L175",
+                    "lines": [
+                      {
+                        "line": "}",
+                        "lineNumber": 172,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "return express()",
+                        "lineNumber": 174,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "return express.Router()",
+                        "lineNumber": 174,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": ".use(bodyParser.json())",
+                        "lineNumber": 175,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": ".use(resource(workspaceRoot, {",
+                        "lineNumber": 176,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": ".use(apiPath(root))",
+                        "lineNumber": 176,
+                        "lineChange": "added"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/flowgrammable/flowsim/commit/1681245625230c6d71e1e74b0ada6551cbf2d935?diff=split#diff-4cb60403ef79ea471c0c046e9873a1e2L6",
+                    "lines": [
+                      {
+                        "line": "var cookieSession = require('cookie-session');",
+                        "lineNumber": 3,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "express()",
+                        "lineNumber": 5,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "connect()",
+                        "lineNumber": 5,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  .use(cookieParser())",
+                        "lineNumber": 6,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  .use(cookieSession({ secret: 'testsecret' }))",
+                        "lineNumber": 7,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/ajmueller/express-auth-session/commit/74209d7901e8b3cf4cf0e6f532d03f8e54e97381?diff=split#diff-0364f57fbff2fabbe941ed20c328ef1aL22",
+                    "lines": [
+                      {
+                        "line": "var authentication = require('./authentication');",
+                        "lineNumber": 20,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "var app = express();",
+                        "lineNumber": 22,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.use(sslRedirect());",
+                        "lineNumber": 24,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.use(helmet());",
+                        "lineNumber": 25,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "mongoose.connect(config.db.uri);",
+                        "lineNumber": 27,
+                        "lineChange": "none"
+                      }
+                    ]
+                  }
+                ],
+                "exampleCommitDescriptions": [
+                  "Test without express",
+                  "secure the api with helmet",
+                  "Fix some security vulnerabilities, refactor the error constants a little"
+                ],
+                "precision": "very-high",
+                "repoDatasetSize": 835,
+                "cwe": [
+                  "CWE-200"
+                ]
+              }
+            },
+            {
+              "id": "javascript/Sqli",
+              "name": "Sqli",
+              "shortDescription": {
+                "text": "SQL Injection"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "help": {
+                "markdown": "## Details\n\nIn an SQL injection attack, the user can submit an SQL query directly to the database, gaining access without providing appropriate credentials. Hackers can then view, export, modify, and delete confidential information; change passwords and other authentication information; and possibly gain access to other systems within the network. This is one of the most commonly exploited categories of vulnerability, but can largely be avoided through good coding practices.\n\n### Best practices for prevention\n- Avoid passing user-entered parameters directly to the SQL server.\n- When coding, define SQL code first, then pass in parameters. Use prepared statements with parameterized queries. Examples include `SqlCommand()` in .NET and `bindParam()` in PHP.\n- Use strong typing for all parameters so unexpected user data will be rejected.\n- Where direct user input cannot be avoided for performance reasons, validate input against a very strict allowlist of permitted characters, avoiding special characters such as `? & / < > ; -` and spaces. Use a vendor-supplied escaping routine if possible.\n- Develop your application in an environment and/or using libraries that provide protection against SQL injection.\n- Harden your entire environment around a least-privilege model, ideally with isolated accounts with privileges only for particular tasks.",
+                "text": ""
+              },
+              "properties": {
+                "tags": [
+                  "javascript",
+                  "maintenance",
+                  "tests",
+                  "database",
+                  "adapter"
+                ],
+                "categories": [
+                  "Security"
+                ],
+                "exampleCommitFixes": [
+                  {
+                    "commitURL": "https://github.com/ecaron/smart-nightlight-manager/commit/6b477d9209244c0b15c63207f4867777683cb48c?diff=split#diff-9ccf639a80fa742c5209118e795b96afL64",
+                    "lines": [
+                      {
+                        "line": "});",
+                        "lineNumber": 61,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "router.post('/', function (req, res, next) {",
+                        "lineNumber": 63,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  if (!req.body.cmd) {",
+                        "lineNumber": 64,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    return next(new Error('POST without a cmd'));",
+                        "lineNumber": 65,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  }",
+                        "lineNumber": 66,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  var button;",
+                        "lineNumber": 67,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  var light;",
+                        "lineNumber": 68,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  switch (req.body.cmd) {",
+                        "lineNumber": 69,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    case 'associate-button':",
+                        "lineNumber": 70,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      button = db('buttons').find({mac: req.body.button});",
+                        "lineNumber": 71,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "      button = db.get('buttons').find({mac: req.body.button}).value();",
+                        "lineNumber": 71,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "      if (button) {",
+                        "lineNumber": 72,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "        button.light = req.body.light;",
+                        "lineNumber": 73,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/CloudTask/cloudtask-web/commit/41230f587b03e7f3a10bdfb8d8fcb656afec80a5?diff=split#diff-d17537c36c16616befe463458f310e74L197",
+                    "lines": [
+                      {
+                        "line": "}",
+                        "lineNumber": 194,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "exports.updateJob = (req, res, next) => {",
+                        "lineNumber": 196,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  let db = req.db;",
+                        "lineNumber": 197,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "  let envConfig = req.envConfig;",
+                        "lineNumber": 198,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  let postJob = req.body;",
+                        "lineNumber": 199,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  let groupId = postJob.groupid;",
+                        "lineNumber": 200,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  let jobId = postJob.jobid;",
+                        "lineNumber": 201,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  let job = {};",
+                        "lineNumber": 202,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  let jobLocation = '';",
+                        "lineNumber": 203,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  let collectionLocation = db.collection('sys_jobs');",
+                        "lineNumber": 205,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "  collectionLocation.find({ 'groupid': groupId }).toArray((err, resultJob) => {",
+                        "lineNumber": 206,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "  dbFactory.getCollection(collectionName).find({ 'groupid': groupId }).toArray((err, resultJob) => {",
+                        "lineNumber": 199,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    if (err) {",
+                        "lineNumber": 207,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      console.log('Error:' + err);",
+                        "lineNumber": 208,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/Cezerin2/cezerin2/commit/8acc87adae90bed93be5d819ea65d8fd56b11980?diff=split#diff-0071f220f9a824f927625640c7065422L9",
+                    "lines": [
+                      {
+                        "line": "import handlebars from 'handlebars';",
+                        "lineNumber": 6,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "import lruCache from 'lru-cache';",
+                        "lineNumber": 7,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "import { db } from '../../lib/mongo';",
+                        "lineNumber": 8,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "import parse from '../../lib/parse';",
+                        "lineNumber": 9,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "import settings from '../../lib/settings';",
+                        "lineNumber": 10,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "class SecurityTokensService {",
+                        "lineNumber": 21,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  getTokens(params = {}) {",
+                        "lineNumber": 22,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    let filter = {",
+                        "lineNumber": 23,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "    const filter = {",
+                        "lineNumber": 23,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "      is_revoked: false",
+                        "lineNumber": 24,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    };",
+                        "lineNumber": 25,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    const id = parse.getObjectIDIfValid(params.id);",
+                        "lineNumber": 26,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    if (id) {",
+                        "lineNumber": 27,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      filter._id = new ObjectID(id);",
+                        "lineNumber": 28,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    }",
+                        "lineNumber": 29,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    const email = parse.getString(params.email).toLowerCase();",
+                        "lineNumber": 31,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    if (email && email.length > 0) {",
+                        "lineNumber": 32,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      filter.email = email;",
+                        "lineNumber": 33,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    }",
+                        "lineNumber": 34,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    return db",
+                        "lineNumber": 36,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      .collection('tokens')",
+                        "lineNumber": 37,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      .find(filter)",
+                        "lineNumber": 38,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      .toArray()",
+                        "lineNumber": 39,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      .then(items => items.map(item => this.changeProperties(item)));",
+                        "lineNumber": 40,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "}",
+                        "lineNumber": 73,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "getSingleTokenByEmail(email) {",
+                        "lineNumber": 75,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  return this.getTokens({ email }).then(items => {",
+                        "lineNumber": 76,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "    return items.length > 0 ? items[0] : null;",
+                        "lineNumber": 77,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "  });",
+                        "lineNumber": 78,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "  return this.getTokens({ email }).then(items =>",
+                        "lineNumber": 75,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    items.length > 0 ? items[0] : null",
+                        "lineNumber": 76,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  );",
+                        "lineNumber": 77,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "}",
+                        "lineNumber": 79,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "}",
+                        "lineNumber": 222,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "getDashboardSigninUrl(email) {",
+                        "lineNumber": 224,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  return SettingsService.getSettings().then(generalSettings =>",
+                        "lineNumber": 225,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    this.getSingleTokenByEmail(email).then(token => {",
+                        "lineNumber": 226,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      if (token) {",
+                        "lineNumber": 227,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "        return this.getSignedToken(token).then(signedToken => {",
+                        "lineNumber": 228,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "}",
+                        "lineNumber": 278,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "async sendDashboardSigninUrl(req) {",
+                        "lineNumber": 280,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  const email = req.body.email;",
+                        "lineNumber": 281,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "  const { email } = req.body;",
+                        "lineNumber": 278,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  const userAgent = uaParser(req.get('user-agent'));",
+                        "lineNumber": 282,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  const country = req.get('cf-ipcountry') || '';",
+                        "lineNumber": 283,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  const ip = this.getIP(req);",
+                        "lineNumber": 284,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  const date = moment(new Date()).format('dddd, MMMM DD, YYYY h:mm A');",
+                        "lineNumber": 285,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  const link = await this.getDashboardSigninUrl(email);",
+                        "lineNumber": 286,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  if (link) {",
+                        "lineNumber": 288,
+                        "lineChange": "none"
+                      }
+                    ]
+                  }
+                ],
+                "exampleCommitDescriptions": [
+                  "* Additional tests",
+                  "* Added more indepth error handling to connections on all database adapters.",
+                  "* Adapt deletion + fix dependencies errors from yarn control"
+                ],
+                "precision": "very-high",
+                "repoDatasetSize": 255,
+                "cwe": [
+                  "CWE-89"
+                ]
+              }
+            },
+            {
+              "id": "javascript/NoHardcodedPasswords",
+              "name": "NoHardcodedPasswords",
+              "shortDescription": {
+                "text": "Use of Hard-coded Credentials"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "help": {
+                "markdown": "\n## Details\n\nDevelopers may use hard-coded credentials for convenience when coding in order to simplify their workflow. While they are responsible for removing these before production, occasionally this task may fall through the cracks. This also becomes a maintenance challenge when credentials are re-used across multiple applications.\n\nOnce hackers gain access, they may take advantage of privilege level to remove or alter data, take down a site or app, or hold any of the above for ransom. The risk across multiple similar projects is even greater. If code containing the credentials is reused across multiple projects, they will all be compromised.\n\n### Best practices for prevention\n* Plan software architecture such that keys and passwords are always stored outside the code, wherever possible.\n* Plan encryption into software architecture for all credential information and ensure proper handling of keys, credentials, and passwords.\n* Prompt for a secure password on first login rather than hard-code a default password.\n* If a hard-coded password or credential must be used, limit its use, for example, to system console users rather than via the network.\n* Use strong hashes for inbound password authentication, ideally with randomly assigned salts to increase the difficulty level in case of brute-force attack.",
+                "text": ""
+              },
+              "properties": {
+                "tags": [
+                  "javascript",
+                  "maintenance",
+                  "usability",
+                  "room",
+                  "mock"
+                ],
+                "categories": [
+                  "Security"
+                ],
+                "exampleCommitFixes": [
+                  {
+                    "commitURL": "https://github.com/kbrsh/snip/commit/67f9fb8e117583da57af1bbac7ad31e02e360b08?diff=split#diff-783b3c178e66001d7fc3799c08ec6a30L107",
+                    "lines": [
+                      {
+                        "line": "// Users",
+                        "lineNumber": 104,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "User.create({",
+                        "lineNumber": 106,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  username: \"test\",",
+                        "lineNumber": 107,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  password: \"123\",",
+                        "lineNumber": 108,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "  salt: \"WquZ012C\",",
+                        "lineNumber": 108,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  hash: \"c5e635ec235a51e89f6ed7d4857afe58663d54f5\",",
+                        "lineNumber": 109,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  links: \"\"",
+                        "lineNumber": 110,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "});",
+                        "lineNumber": 111,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/spmjs/spm/commit/68f545853f7234f829f17e4e807a26c39721c747?diff=split#diff-ee71e8c29e7bc68ca4bd61bf722a5c56L10",
+                    "lines": [
+                      {
+                        "line": "  var service = yuan();",
+                        "lineNumber": 7,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  var stub = sinon.stub(service, 'request');",
+                        "lineNumber": 8,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  service.login({username: 'spm', password: 'spm'}, function() {});",
+                        "lineNumber": 9,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "  service.login({username: 'spm', token: 'spm'}, function() {});",
+                        "lineNumber": 9,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  stub.callCount.should.eql(1);",
+                        "lineNumber": 10,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "});",
+                        "lineNumber": 11,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/codefordenver/Comrad/commit/a0485e6701869c0f0b558fefa946c6eca2d54022?diff=split#diff-aee85098e751c8ecb7298387b9364bd7L12",
+                    "lines": [
+                      {
+                        "line": "},",
+                        "lineNumber": 9,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "create: (req, res) => {",
+                        "lineNumber": 11,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  const { username, password } = req.body;",
+                        "lineNumber": 12,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  db.User",
+                        "lineNumber": 14,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    .create({ username: 'UserOne', password: 'password' })",
+                        "lineNumber": 12,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "    .create({ username, password })",
+                        "lineNumber": 15,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    .then(dbNote => res.json(dbNote))",
+                        "lineNumber": 16,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    .catch(err => res.json(err));",
+                        "lineNumber": 17,
+                        "lineChange": "none"
+                      }
+                    ]
+                  }
+                ],
+                "exampleCommitDescriptions": [
+                  "- Join room e2e tests added",
+                  "Mock api() tests"
+                ],
+                "precision": "very-high",
+                "repoDatasetSize": 189,
+                "cwe": [
+                  "CWE-798",
+                  "CWE-259"
+                ]
+              }
+            },
+            {
+              "id": "javascript/HttpToHttps",
+              "name": "HttpToHttps",
+              "shortDescription": {
+                "text": "Cleartext Transmission of Sensitive Information"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "help": {
+                "markdown": "\n## Details\nThis weakness occurs when software transmits sensitive information, such as passwords or credit card numbers, in unencrypted form. This information may then be intercepted by threat actors using sniffer tools or interception techniques such as man-in-the-middle (MITM) attacks (often involving social engineering). Hackers can then use information gleaned to perform a variety of actions, depending on the information type. Possible actions include gaining unauthorized access, impersonating a user, moving laterally within the organization's network, or retrieving and potentially modifying files. This weakness is almost completely avoidable through intelligent architecture and design.\n\n### Best practices for prevention\n* Build web applications around a security mindset and the awareness that sniffers may be present at any time.\n* Ensure that all sensitive data transmission uses reliable encryption.\n* Implement security measures so that sensitive results are never returned in plain text.\n* Implement multiple-factor authentication methods to validate remote instances.\n* Use SSL not only at logon but throughout communications.",
+                "text": ""
+              },
+              "properties": {
+                "tags": [
+                  "javascript",
+                  "maintenance",
+                  "http"
+                ],
+                "categories": [
+                  "Security"
+                ],
+                "exampleCommitFixes": [
+                  {
+                    "commitURL": "https://github.com/Rocket1184/qq-bot-rebown/commit/5255a8398cf1d80f60e182c53e8532c7562e76c2?diff=split#diff-62a4be7247c4abe75f2cc11746422b86L12",
+                    "lines": [
+                      {
+                        "line": "'use strict';",
+                        "lineNumber": 9,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "const http = require('http');",
+                        "lineNumber": 11,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "const https = require('https');",
+                        "lineNumber": 11,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "function http2https(link) {",
+                        "lineNumber": 13,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": " ",
+                        "lineNumber": 20,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "function shortenUrl(url) {",
+                        "lineNumber": 21,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/qmachine/qmachine/commit/1f9f08b5b1f9be78dd6625d93ec934befb255df7?diff=split#diff-54387be96a26d96583a0c7585e8607c5L56",
+                    "lines": [
+                      {
+                        "line": "};",
+                        "lineNumber": 57,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "http = require('http');",
+                        "lineNumber": 55,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "https = require('https');",
+                        "lineNumber": 59,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "http_GET = function (x) {",
+                        "lineNumber": 57,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "https_GET = function (x) {",
+                        "lineNumber": 61,
+                        "lineChange": "added"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/vmware-samples/vmware-blockchain-samples/commit/92bf99244de7b145eb4b22e36575d9fef376600b?diff=split#diff-21a000feb5ae912714215842b628c63cL3",
+                    "lines": [
+                      {
+                        "line": "const fs = require(\"fs\");",
+                        "lineNumber": 7,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "const http = require(\"http\");",
+                        "lineNumber": 2,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "const https = require(\"https\");",
+                        "lineNumber": 8,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "verifyMigrations();",
+                        "lineNumber": 10,
+                        "lineChange": "none"
+                      }
+                    ]
+                  }
+                ],
+                "exampleCommitDescriptions": [
+                  "Added https imposter tests;"
+                ],
+                "precision": "very-high",
+                "repoDatasetSize": 689,
+                "cwe": [
+                  "CWE-319"
+                ]
+              }
+            },
+            {
+              "id": "javascript/NoHardcodedCredentials",
+              "name": "NoHardcodedCredentials",
+              "shortDescription": {
+                "text": "Use of Hard-coded Credentials"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "help": {
+                "markdown": "\n## Details\n\nDevelopers may use hard-coded credentials for convenience when coding in order to simplify their workflow. While they are responsible for removing these before production, occasionally this task may fall through the cracks. This also becomes a maintenance challenge when credentials are re-used across multiple applications.\n\nOnce hackers gain access, they may take advantage of privilege level to remove or alter data, take down a site or app, or hold any of the above for ransom. The risk across multiple similar projects is even greater. If code containing the credentials is reused across multiple projects, they will all be compromised.\n\n### Best practices for prevention\n* Plan software architecture such that keys and passwords are always stored outside the code, wherever possible.\n* Plan encryption into software architecture for all credential information and ensure proper handling of keys, credentials, and passwords.\n* Prompt for a secure password on first login rather than hard-code a default password.\n* If a hard-coded password or credential must be used, limit its use, for example, to system console users rather than via the network.\n* Use strong hashes for inbound password authentication, ideally with randomly assigned salts to increase the difficulty level in case of brute-force attack.",
+                "text": ""
+              },
+              "properties": {
+                "tags": [
+                  "javascript",
+                  "maintenance",
+                  "tests",
+                  "user",
+                  "login"
+                ],
+                "categories": [
+                  "Security"
+                ],
+                "exampleCommitFixes": [
+                  {
+                    "commitURL": "https://github.com/dfoderick/fullcyclereact/commit/a6abd97bd776ce56da8ac321ad0e1b500f67721d?diff=split#diff-ca64812ac15b141271f726a5a95a3402L9",
+                    "lines": [
+                      {
+                        "line": "const SSE = require('sse');",
+                        "lineNumber": 6,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "const bodyParser = require('body-parser');",
+                        "lineNumber": 7,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "const redis = require('redis');",
+                        "lineNumber": 8,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "const amqp = require('amqplib/callback_api');",
+                        "lineNumber": 9,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "const redis_port = 6379",
+                        "lineNumber": 19,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "const redis_host = serverhost",
+                        "lineNumber": 20,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "const redis_password = ''",
+                        "lineNumber": 21,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "//Message envelope for putting messages on the bus",
+                        "lineNumber": 23,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "function redisclient(){",
+                        "lineNumber": 98,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  var client = redis.createClient(redis_port, redis_host, {no_ready_check: true});",
+                        "lineNumber": 99,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "  client.auth(redis_password, function (err) {",
+                        "lineNumber": 100,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "  var client = redis.createClient(services.redis.port, services.redis.host, {no_ready_check: true});",
+                        "lineNumber": 54,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  client.auth(services.redis.password, function (err) {",
+                        "lineNumber": 55,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "     if (err) throw err;",
+                        "lineNumber": 101,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  });",
+                        "lineNumber": 102,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/foxhound87/mobx-react-form/commit/3120097eb35365742aaa55914461f3702c4c0b9e?diff=split#diff-4cd745890a2a3a4ed716894e77383749L38",
+                    "lines": [
+                      {
+                        "line": " ",
+                        "lineNumber": 35,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  onInit(form) {",
+                        "lineNumber": 36,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    // form.update({ user: { email: 'notAnEmail' } }); // TO FIX",
+                        "lineNumber": 36,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "    form.$('user').update({ email: 'notAnEmail' });",
+                        "lineNumber": 37,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "    form.update({ user: { email: 'notAnEmail' } });",
+                        "lineNumber": 37,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  }",
+                        "lineNumber": 38,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "}",
+                        "lineNumber": 39,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/DAVFoundation/community/commit/22bfd8d1c7bdad79421868ace378731ccc76c6f3?diff=split#diff-ffbabba1d71222fff38a087e3cb7d372L13",
+                    "lines": [
+                      {
+                        "line": "// restrict.canPostDavUpdates();",
+                        "lineNumber": 10,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "restrict.canPostDavUpdates();",
+                        "lineNumber": 10,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "let person = await Person.findOne({email:\"a@3.com\"}).exec();",
+                        "lineNumber": 12,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "let person = await Person.findOne({email:config.dav.email}).exec();",
+                        "lineNumber": 12,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "let account = await DavAccount.findById(person.account.id).exec();",
+                        "lineNumber": 14,
+                        "lineChange": "none"
+                      }
+                    ]
+                  }
+                ],
+                "exampleCommitDescriptions": [
+                  "get users test",
+                  "updated login unit test"
+                ],
+                "precision": "very-high",
+                "repoDatasetSize": 256,
+                "cwe": [
+                  "CWE-798"
+                ]
+              }
+            },
+            {
+              "id": "javascript/CommandInjection",
+              "name": "CommandInjection",
+              "shortDescription": {
+                "text": "Command Injection"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "help": {
+                "markdown": "## Details\n\nWith an OS command injection attack a web application user can pass commands directly to the system shell, attached to a legitimate request. These commands can then be executed on the application server, potentially leading to harmful consequences, including data exposure or deletion. Like code injection attacks, command injection attacks are essentially a failure of data validation. Unlike code injection attacks, which introduce new code, command injection attacks use existing system functions, often taking advantage of the application's unnecessarily high privilege level, increasing the risk of serious harm and reputational damage.\n\n### Best practices for prevention\n- Never trust user input. Assume any input may transmit harmful values.\n- Adopt the principle of least privilege: No application should have a greater access level than needed to run its required tasks.\n- Control user access policies on a task-by-task basis.\n- Don't pass user input directly to the system; use libraries or APIs that lack system access.\n- Where shell commands must be passed, escape values using functions like shlex for Python, or escapeshellarg() for PHP.\n- Sanitize user input with regular expressions to define permitted characters along with maximum string length.\n- Convert special characters such as `& |  ; $ > < \\ !` before passing to the server.\n- Whitelist permitted commands and validate user responses against these expectations.\n- Remember that code injection can take place on multiple fronts: GET and POST requests, but also cookies and HTTP headers.\n- Ensure up-to-date patching across all systems to remediate known vulnerabilities.\n- Educate all team members on safer data handling procedures to prevent attacks.",
+                "text": ""
+              },
+              "properties": {
+                "tags": [
+                  "javascript",
+                  "maintenance",
+                  "synclet",
+                  "spawn",
+                  "command"
+                ],
+                "categories": [
+                  "Security"
+                ],
+                "exampleCommitFixes": [
+                  {
+                    "commitURL": "https://github.com/chaitin/passionfruit/commit/40dd558be3ead073bcc97a0ee4ae864a29f832ba?diff=split#diff-0364f57fbff2fabbe941ed20c328ef1aL212",
+                    "lines": [
+                      {
+                        "line": "})",
+                        "lineNumber": 210,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": ".post('/spawn', async ctx => {",
+                        "lineNumber": 211,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  let pid = await state.device.spawn([ctx.request.body.bundle])",
+                        "lineNumber": 212,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "  let { device, bundle } = ctx.request.body",
+                        "lineNumber": 122,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  let dev = await FridaUtil.getDevice(ctx.params.device)",
+                        "lineNumber": 124,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  let pid = await dev.spawn([ctx.request.body.bundle])",
+                        "lineNumber": 125,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  // todo: attach",
+                        "lineNumber": 213,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  ctx.body = { status: 'ok'}",
+                        "lineNumber": 214,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/raphael-group/magi/commit/c3a8ce20a9b6137beacd605bd3d0074fdfab8340?diff=split#diff-79ebb237c38dc62bd81e097e4fb92c61L12",
+                    "lines": [
+                      {
+                        "line": "// Compute enrichment given a JSON object. Expected to be called from AJAX",
+                        "lineNumber": 9,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "// as it returns a JSON object.",
+                        "lineNumber": 10,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "exports.stats = function stats(req, res){",
+                        "lineNumber": 11,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  console.log('/enrichments/stats');",
+                        "lineNumber": 12,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  // Parse the given data",
+                        "lineNumber": 14,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  var pathToScript = 'stats/computeEnrichments.py'",
+                        "lineNumber": 15,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  var command = pathToScript + \" -r '\" +  JSON.stringify(req.body) + \"'\";",
+                        "lineNumber": 16,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "  var command = pathToScript;// + \" -r '\" +  JSON.stringify(req.body) + \"'\";",
+                        "lineNumber": 16,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  // Spawn the child process to compute the enrichments. The only output",
+                        "lineNumber": 18,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  // to stdout is a JSON dump of the response",
+                        "lineNumber": 19,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  require('child_process').exec(command, function(err, stdout, stderr){",
+                        "lineNumber": 20,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "  var child = require('child_process').execFile(command, function(err, stdout, stderr){",
+                        "lineNumber": 20,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    if (err){",
+                        "lineNumber": 21,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      error = 'return code: ' + err.code + ', signal: ' + err.signal;",
+                        "lineNumber": 22,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "\t\t}",
+                        "lineNumber": 30,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "\t});",
+                        "lineNumber": 31,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": " child.stdin.write(JSON.stringify(req.body) + '\\n');",
+                        "lineNumber": 32,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": " child.stdin.end();",
+                        "lineNumber": 33,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "}",
+                        "lineNumber": 34,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/jupitex/sisyphe/commit/e20429a0dace6de8ce88a48aebb3548f0df16d21?diff=split#diff-78c12f5adc1848d13b1c6f07055d996eL2",
+                    "lines": [
+                      {
+                        "line": "const cp = require('child_process');",
+                        "lineNumber": 1,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "var express = require('express');",
+                        "lineNumber": 2,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "var serveStatic = require('serve-static');",
+                        "lineNumber": 3,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "const { spawn } = require('child_process');",
+                        "lineNumber": 8,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "let sisyphe = null;",
+                        "lineNumber": 9,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "var app = express();",
+                        "lineNumber": 10,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.use(serveStatic(path.join(__dirname, 'out')));",
+                        "lineNumber": 11,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.use(bodyParser.json());",
+                        "lineNumber": 12,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  res.send('stop');",
+                        "lineNumber": 34,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "});",
+                        "lineNumber": 35,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.post('/launch', async function (req, res) {",
+                        "lineNumber": 36,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  if (!sisyphe) {",
+                        "lineNumber": 37,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    console.log(`launch: ${req.body.command}`);",
+                        "lineNumber": 38,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    res.send(true);",
+                        "lineNumber": 39,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    sisyphe = cp.exec(`./app ${req.body.command}`, (error, stdout, stderr) => (sisyphe = null));",
+                        "lineNumber": 40,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "    sisyphe = cp.spawn(`./app`, req.body.command.split(' '));",
+                        "lineNumber": 40,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    sisyphe.stdout.pipe(process.stdout);",
+                        "lineNumber": 41,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    sisyphe.on('exit', _=>{",
+                        "lineNumber": 42,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "} else {",
+                        "lineNumber": 45,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  console.log('Already launch');",
+                        "lineNumber": 46,
+                        "lineChange": "none"
+                      }
+                    ]
+                  }
+                ],
+                "exampleCommitDescriptions": [
+                  "Support multiple synclets for a provider.",
+                  "Handle errors in spawn",
+                  "Refactoring log command."
+                ],
+                "precision": "very-high",
+                "repoDatasetSize": 54,
+                "cwe": [
+                  "CWE-78"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "javascript/NoRateLimitingForExpensiveWebOperation",
+          "ruleIndex": 0,
+          "level": "warning",
+          "message": {
+            "text": "This endpoint handler performs a system command execution and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "markdown": "This {0} performs {1} and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "arguments": [
+              "[endpoint handler](0)",
+              "[a system command execution](1)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "routes/index.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 77,
+                  "endLine": 113,
+                  "startColumn": 18,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "f927008c43b00df60dbeccb9e5565bb0529ea1454f7e3e665d29c61801357953",
+            "1": "a3c051e6.9c6e2949.98501263.c559ebce.b5c66366.5fce695c.83265159.89d75565.a3c051e6.4773f344.c2905f73.c559ebce.b6be8b13.5fce695c.83265159.89d75565"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 77,
+                            "endLine": 113,
+                            "startColumn": 18,
+                            "endColumn": 1
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 1,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 86,
+                            "endLine": 86,
+                            "startColumn": 10,
+                            "endColumn": 26
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 672,
+            "priorityScoreFactors": [
+              {
+                "label": true,
+                "type": "multipleOccurrence"
+              },
+              {
+                "label": true,
+                "type": "hotFileSource"
+              },
+              {
+                "label": true,
+                "type": "fixability"
+              },
+              {
+                "label": true,
+                "type": "socialTrends"
+              }
+            ]
+          }
+        },
+        {
+          "ruleId": "javascript/NoRateLimitingForExpensiveWebOperation",
+          "ruleIndex": 0,
+          "level": "warning",
+          "message": {
+            "text": "This endpoint handler performs a file system operation and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "markdown": "This {0} performs {1} and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "arguments": [
+              "[endpoint handler](0)",
+              "[a file system operation](1)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "routes/index.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 166,
+                  "endLine": 221,
+                  "startColumn": 18,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "c2357a8e5cf9d2246841d185e94a82260932a6b66fb086b92a0fc28744a2ea65",
+            "1": "ae77ea27.9c6e2949.98501263.c559ebce.fd1fa73f.5fce695c.83265159.89d75565.c3f8dfad.4773f344.1ec824b2.c559ebce.546471fb.5fce695c.83265159.2f05c567"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 166,
+                            "endLine": 221,
+                            "startColumn": 18,
+                            "endColumn": 1
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 1,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 184,
+                            "endLine": 184,
+                            "startColumn": 17,
+                            "endColumn": 28
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 672,
+            "priorityScoreFactors": [
+              {
+                "label": true,
+                "type": "multipleOccurrence"
+              },
+              {
+                "label": true,
+                "type": "hotFileSource"
+              },
+              {
+                "label": true,
+                "type": "fixability"
+              },
+              {
+                "label": true,
+                "type": "socialTrends"
+              }
+            ]
+          }
+        },
+        {
+          "ruleId": "javascript/NoRateLimitingForExpensiveWebOperation",
+          "ruleIndex": 0,
+          "level": "warning",
+          "message": {
+            "text": "This endpoint handler performs a file system operation and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "markdown": "This {0} performs {1} and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "arguments": [
+              "[endpoint handler](0)",
+              "[a file system operation](1)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "routes/index.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 223,
+                  "endLine": 231,
+                  "startColumn": 21,
+                  "endColumn": 1
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "105f8e1c4dcec8019b54822c6e014d3a4adb434b6f04ea2ea105529ee7ef33c2",
+            "1": "ae77ea27.4773f344.607187b5.1c17f46e.93e94ad5.5fce695c.83265159.89d75565.ae77ea27.4773f344.607187b5.1c17f46e.93e94ad5.5fce695c.83265159.89d75565"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 223,
+                            "endLine": 231,
+                            "startColumn": 21,
+                            "endColumn": 1
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 1,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 225,
+                            "endLine": 225,
+                            "startColumn": 21,
+                            "endColumn": 36
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 672,
+            "priorityScoreFactors": [
+              {
+                "label": true,
+                "type": "multipleOccurrence"
+              },
+              {
+                "label": true,
+                "type": "hotFileSource"
+              },
+              {
+                "label": true,
+                "type": "fixability"
+              },
+              {
+                "label": true,
+                "type": "socialTrends"
+              }
+            ]
+          }
+        },
+        {
+          "ruleId": "javascript/XSS",
+          "ruleIndex": 1,
+          "level": "error",
+          "message": {
+            "text": "Unsanitized input from the HTTP request body flows into send, where it is used to render an HTML page returned to the user. This may result in a Cross-Site Scripting attack (XSS).",
+            "markdown": "Unsanitized input from {0} {1} into {2}, where it is used to render an HTML page returned to the user. This may result in a Cross-Site Scripting attack (XSS).",
+            "arguments": [
+              "[the HTTP request body](0)",
+              "[flows](1),(2),(3),(4),(5),(6),(7),(8),(9),(10),(11),(12),(13),(14),(15),(16),(17),(18),(19)",
+              "[send](20)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "routes/index.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 109,
+                  "endLine": 109,
+                  "startColumn": 5,
+                  "endColumn": 24
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "f5323d40026d0bcf8049af1258ca023b387f736da9868cb155eb39f11140d498",
+            "1": "f0155d5f.4773f344.a32ed1a1.5e127924.b0f6e810.e9c60572.cd61fc56.7b9afb6b.6849fe68.7f46b8bf.b3570a8d.08906714.3f452f8c.97d5e2e9.f0256597.46608d7c"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 80,
+                            "endLine": 80,
+                            "startColumn": 14,
+                            "endColumn": 21
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 1,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 80,
+                            "endLine": 80,
+                            "startColumn": 14,
+                            "endColumn": 21
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 2,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 80,
+                            "endLine": 80,
+                            "startColumn": 7,
+                            "endColumn": 10
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 3,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 82,
+                            "endLine": 82,
+                            "startColumn": 36,
+                            "endColumn": 39
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 4,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 94,
+                            "endLine": 94,
+                            "startColumn": 18,
+                            "endColumn": 21
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 5,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 55,
+                            "endLine": 55,
+                            "startColumn": 16,
+                            "endColumn": 19
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 6,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 56,
+                            "endLine": 56,
+                            "startColumn": 11,
+                            "endColumn": 14
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 7,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 56,
+                            "endLine": 56,
+                            "startColumn": 7,
+                            "endColumn": 7
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 8,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 59,
+                            "endLine": 59,
+                            "startColumn": 18,
+                            "endColumn": 18
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 9,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 61,
+                            "endLine": 61,
+                            "startColumn": 16,
+                            "endColumn": 16
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 10,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 69,
+                            "endLine": 69,
+                            "startColumn": 9,
+                            "endColumn": 9
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 11,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 69,
+                            "endLine": 69,
+                            "startColumn": 9,
+                            "endColumn": 15
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 12,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 74,
+                            "endLine": 74,
+                            "startColumn": 10,
+                            "endColumn": 10
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 13,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 98,
+                            "endLine": 98,
+                            "startColumn": 14,
+                            "endColumn": 17
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 14,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 98,
+                            "endLine": 98,
+                            "startColumn": 5,
+                            "endColumn": 11
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 15,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 100,
+                            "endLine": 100,
+                            "startColumn": 26,
+                            "endColumn": 29
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 16,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 109,
+                            "endLine": 109,
+                            "startColumn": 26,
+                            "endColumn": 29
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 17,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 109,
+                            "endLine": 109,
+                            "startColumn": 26,
+                            "endColumn": 37
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 18,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 109,
+                            "endLine": 109,
+                            "startColumn": 26,
+                            "endColumn": 46
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 19,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 109,
+                            "endLine": 109,
+                            "startColumn": 26,
+                            "endColumn": 56
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 20,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 109,
+                            "endLine": 109,
+                            "startColumn": 5,
+                            "endColumn": 24
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 908,
+            "priorityScoreFactors": [
+              {
+                "label": true,
+                "type": "hotFileSource"
+              },
+              {
+                "label": true,
+                "type": "fixability"
+              },
+              {
+                "label": true,
+                "type": "socialTrends"
+              }
+            ]
+          }
+        },
+        {
+          "ruleId": "javascript/DisablePoweredBy",
+          "ruleIndex": 2,
+          "level": "warning",
+          "message": {
+            "text": "Disable X-Powered-By header for your Express app (consider using Helmet middleware), because it exposes information about the used framework to potential attackers.",
+            "markdown": "Disable X-Powered-By header for your {0} (consider using Helmet middleware), because it exposes information about the used framework to potential attackers.",
+            "arguments": [
+              "[Express app](0)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 27,
+                  "endLine": 27,
+                  "startColumn": 11,
+                  "endColumn": 19
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "2f7b39f14456c8a7778312cb453e23aee53912793417b935a46181d29113db3f",
+            "1": "ae77ea27.4773f344.607187b5.d7919eeb.a1fb1152.5fce695c.fee35010.89d75565.630e4ed1.4773f344.aa4dda5f.d7919eeb.f30fb760.49b28873.85bdc101.83642794"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "app.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 27,
+                            "endLine": 27,
+                            "startColumn": 11,
+                            "endColumn": 19
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 558,
+            "priorityScoreFactors": [
+              {
+                "label": true,
+                "type": "hotFileSource"
+              },
+              {
+                "label": true,
+                "type": "fixability"
+              }
+            ]
+          }
+        },
+        {
+          "ruleId": "javascript/Sqli",
+          "ruleIndex": 3,
+          "level": "error",
+          "message": {
+            "text": "Unsanitized input from the HTTP request body flows into find, where it is used in an SQL query. This may result in an SQL Injection vulnerability.",
+            "markdown": "Unsanitized input from {0} {1} into {2}, where it is used in an SQL query. This may result in an SQL Injection vulnerability.",
+            "arguments": [
+              "[the HTTP request body](0)",
+              "[flows](1),(2),(3),(4),(5)",
+              "[find](6)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "routes/index.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 39,
+                  "endLine": 39,
+                  "startColumn": 3,
+                  "endColumn": 11
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "90e45b3929624a1afa5d50d5e2a4b6d662d6c79e155f7b0bf66b7dd7fac306e5",
+            "1": "12567ef6.4773f344.7fde84c3.750eb3ec.cea4e9be.8020cfdf.cd61fc56.3cd69235.f759b1f9.4773f344.7fde84c3.08906714.79a7d027.5fce695c.c0a0d45c.1ce8e212"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 38,
+                            "endLine": 38,
+                            "startColumn": 15,
+                            "endColumn": 22
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 1,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 38,
+                            "endLine": 38,
+                            "startColumn": 15,
+                            "endColumn": 22
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 2,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 39,
+                            "endLine": 39,
+                            "startColumn": 25,
+                            "endColumn": 32
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 3,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 39,
+                            "endLine": 39,
+                            "startColumn": 54,
+                            "endColumn": 61
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 4,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 39,
+                            "endLine": 39,
+                            "startColumn": 44,
+                            "endColumn": 51
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 5,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 39,
+                            "endLine": 39,
+                            "startColumn": 13,
+                            "endColumn": 72
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 6,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 39,
+                            "endLine": 39,
+                            "startColumn": 3,
+                            "endColumn": 11
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 808,
+            "priorityScoreFactors": [
+              {
+                "label": true,
+                "type": "hotFileSource"
+              },
+              {
+                "label": true,
+                "type": "fixability"
+              }
+            ]
+          }
+        },
+        {
+          "ruleId": "javascript/NoHardcodedPasswords",
+          "ruleIndex": 5,
+          "level": "warning",
+          "message": {
+            "text": "Do not hardcode passwords in code. Found hardcoded password used in typeorm.createConnection.",
+            "markdown": "Do not hardcode passwords in code. Found hardcoded password used in {0}.",
+            "arguments": [
+              "[typeorm.createConnection](0)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "typeorm-db.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 12,
+                  "endLine": 12,
+                  "startColumn": 3,
+                  "endColumn": 10
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "714f86014c4086a83e6ec5960f6b9e15a6bcbc65618ec26be52f928c28e1e54e",
+            "1": "12567ef6.4773f344.bd65d204.e052b9a9.79a7d027.fcf3002d.ce4a9d89.2036d596.0d9a312e.4773f344.bd65d204.93494013.79a7d027.34a4d81a.3cc2afb5.7a8e32e9"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "typeorm-db.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 6,
+                            "endLine": 6,
+                            "startColumn": 1,
+                            "endColumn": 24
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 558,
+            "priorityScoreFactors": [
+              {
+                "label": true,
+                "type": "hotFileSource"
+              },
+              {
+                "label": true,
+                "type": "fixability"
+              }
+            ]
+          }
+        },
+        {
+          "ruleId": "javascript/HttpToHttps",
+          "ruleIndex": 7,
+          "level": "warning",
+          "message": {
+            "text": "http (used in require) is an insecure protocol and should not be used in new code.",
+            "markdown": "{0} (used in {1}) is an insecure protocol and should not be used in new code.",
+            "arguments": [
+              "[http](0)",
+              "[require](1)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 12,
+                  "endLine": 12,
+                  "startColumn": 12,
+                  "endColumn": 26
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "65c97aa4d6e154bd67e57be8f5e716753e24e81eb81f7e6a4a8566f586b55496",
+            "1": "7a85a498.4773f344.607187b5.d7919eeb.f7b6c27c.5fce695c.fee35010.89d75565.7a85a498.4773f344.607187b5.d7919eeb.f7b6c27c.5fce695c.fee35010.89d75565"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "app.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 12,
+                            "endLine": 12,
+                            "startColumn": 20,
+                            "endColumn": 25
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 1,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "app.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 12,
+                            "endLine": 12,
+                            "startColumn": 12,
+                            "endColumn": 26
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 558,
+            "priorityScoreFactors": [
+              {
+                "label": true,
+                "type": "hotFileSource"
+              },
+              {
+                "label": true,
+                "type": "fixability"
+              }
+            ]
+          }
+        },
+        {
+          "ruleId": "javascript/NoHardcodedCredentials",
+          "ruleIndex": 9,
+          "level": "warning",
+          "message": {
+            "text": "Do not hardcode credentials in code. Found hardcoded credential used in typeorm.createConnection.",
+            "markdown": "Do not hardcode credentials in code. Found hardcoded credential used in {0}.",
+            "arguments": [
+              "[typeorm.createConnection](0)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "typeorm-db.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 11,
+                  "endLine": 11,
+                  "startColumn": 3,
+                  "endColumn": 10
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "4b7c3803820ba34684e825a2b41eff46f61fb0395fd6edba254171183b51c31c",
+            "1": "12567ef6.4773f344.5db24211.e052b9a9.79a7d027.fcf3002d.ce4a9d89.5eeba349.0d9a312e.4773f344.bd65d204.93494013.79a7d027.34a4d81a.3cc2afb5.7a8e32e9"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "typeorm-db.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 6,
+                            "endLine": 6,
+                            "startColumn": 1,
+                            "endColumn": 24
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 558,
+            "priorityScoreFactors": [
+              {
+                "label": true,
+                "type": "hotFileSource"
+              },
+              {
+                "label": true,
+                "type": "fixability"
+              }
+            ]
+          }
+        },
+        {
+          "ruleId": "javascript/CommandInjection",
+          "ruleIndex": 10,
+          "level": "error",
+          "message": {
+            "text": "Unsanitized input from the HTTP request body flows into child_process.exec, where it is used to build a shell command. This may result in a Command Injection vulnerability.",
+            "markdown": "Unsanitized input from {0} {1} into {2}, where it is used to build a shell command. This may result in a Command Injection vulnerability.",
+            "arguments": [
+              "[the HTTP request body](0)",
+              "[flows](1),(2),(3),(4),(5),(6),(7),(8)",
+              "[child_process.exec](9)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "routes/index.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 86,
+                  "endLine": 86,
+                  "startColumn": 5,
+                  "endColumn": 26
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "b053cedba2933766d177f0e26c5d46c80df62492ab5c6b93312f7c7c41e25000",
+            "1": "8981fa39.4773f344.c2905f73.7da15f0a.b6be8b13.2f4e1548.cd61fc56.b20a940a.6849fe68.4773f344.b3570a8d.08906714.3f452f8c.97d5e2e9.83265159.f51872e4"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 80,
+                            "endLine": 80,
+                            "startColumn": 14,
+                            "endColumn": 21
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 1,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 80,
+                            "endLine": 80,
+                            "startColumn": 14,
+                            "endColumn": 21
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 2,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 80,
+                            "endLine": 80,
+                            "startColumn": 7,
+                            "endColumn": 10
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 3,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 82,
+                            "endLine": 82,
+                            "startColumn": 36,
+                            "endColumn": 39
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 4,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 83,
+                            "endLine": 83,
+                            "startColumn": 15,
+                            "endColumn": 18
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 5,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 83,
+                            "endLine": 83,
+                            "startColumn": 15,
+                            "endColumn": 24
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 6,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 83,
+                            "endLine": 83,
+                            "startColumn": 15,
+                            "endColumn": 34
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 7,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 83,
+                            "endLine": 83,
+                            "startColumn": 9,
+                            "endColumn": 11
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 8,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 86,
+                            "endLine": 86,
+                            "startColumn": 10,
+                            "endColumn": 26
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 9,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 86,
+                            "endLine": 86,
+                            "startColumn": 5,
+                            "endColumn": 26
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 808,
+            "priorityScoreFactors": [
+              {
+                "label": true,
+                "type": "hotFileSource"
+              },
+              {
+                "label": true,
+                "type": "fixability"
+              }
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "coverage": [
+          {
+            "files": 8,
+            "isSupported": true,
+            "lang": "JavaScript"
+          },
+          {
+            "files": 1,
+            "isSupported": true,
+            "lang": "HTML"
+          },
+          {
+            "files": 4,
+            "isSupported": true,
+            "lang": "EJS"
+          }
+        ]
+      }
+    }
+  ]
+}
+
