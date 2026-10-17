@@ -38,8 +38,9 @@ jobs:
         with:
           draft: true
           generate_release_notes: true
+          fail_on_unmatched_files: true
           files: |
-            target/webgoat-${{ env.WEBGOAT_MAVEN_VERSION }}.jar
+            target/webgoat-*.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
