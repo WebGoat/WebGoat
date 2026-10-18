@@ -172,14 +172,16 @@ jobs:
           # Count high and critical severity issues using jq
           HIGH_COUNT=$(jq '[.infrastructureAsCodeIssues[]? | select(.severity == "high")] | length' "$REPORT_FILE")
           CRITICAL_COUNT=$(jq '[.infrastructureAsCodeIssues[]? | select(.severity == "critical")] | length' "$REPORT_FILE")
+          MEDIUM_COUNT=$(jq '[.infrastructureAsCodeIssues[]? | select(.severity == "medium")] | length' "$REPORT_FILE")
           
           echo "Found $CRITICAL_COUNT critical and$HIGH_COUNT high-severity IaC issues."
 
           # Print details of the violations for visibility
-          jq -r '.infrastructureAsCodeIssues[]? | "[\(.severity | ascii_upcase)] \(.id): \(.title) (Line \(.lineNumber))"' "$REPORT_FILE"
+          #jq -r '.infrastructureAsCodeIssues[]? | "[\(.severity | ascii_upcase)] \(.id): \(.title) (Line \(.lineNumber))"' "$REPORT_FILE"
+          jq -r '.infrastructureAsCodeIssues[]? | select(.severity == "critical" or .severity == "high" or .severity == "medium") | "[\(.severity | ascii_upcase)] \(.id): \(.title) (Line \(.lineNumber))"' "$REPORT_FILE" || true
 
           # Fail the build if critical or high issues are found
-          if [ "$HIGH_COUNT" -gt 0 ] \vert{}\vert{} [ "$CRITICAL_COUNT" -gt 0 ]; then
+          if [ "$HIGH_COUNT" -gt 0 ] || [ "$CRITICAL_COUNT" -gt 0 ] || [ "$MEDIUM_COUNT" -gt 0 ]; then
             echo "❌ Security Gate FAILED: High or Critical IaC vulnerabilities detected."
             exit 1
           else
@@ -195,12 +197,12 @@ jobs:
           name: zap-security-report
           path: zap-report
 
-      - name: Debug downloaded files
-        run: |
-          echo "Downloaded files:"
-          ls -laR zap-report
-          echo "Finding Files"
-          find . -maxdepth 3 -name '*json*' -type f
+      # - name: Debug downloaded files
+      #   run: |
+      #     echo "Downloaded files:"
+      #     ls -laR zap-report
+      #     echo "Finding Files"
+      #     find . -maxdepth 3 -name '*json*' -type f
           
       - name: ZAP Security Gate
         continue-on-error: true
