@@ -151,7 +151,7 @@ jobs:
           - zap_scan
           - iac_security_scan
     steps:
-      - name: Security Gate
+      - name: IaC Security Gate
         shell: bash
         run: |
           echo "=========================================================="
@@ -193,5 +193,56 @@ jobs:
           echo ""
           exit 1
 
+      - name: Download ZAP Report
+        uses: actions/download-artifact@v4
+        with:
+          name: zap-security-report
+          path: zap-report
+
+      # - name: Debug downloaded files
+      #   run: |
+      #     echo "Downloaded files:"
+      #     ls -laR zap-report
+      #     echo "Finding Files"
+      #     find . -maxdepth 3 -name '*json*' -type f
+          
+      - name: ZAP Security Gate
+        shell: bash
+        run: |
+          REPORT="zap-report/zap-report.json"
+
+          if [[ ! -s "$REPORT" ]]; then
+            echo "❌ Security Gate FAILED: ZAP report missing"
+            exit 1
+          fi
+
+          HIGH_COUNT=$(jq '[.site[]?.alerts[]? | select((.riskcode | tostring) == "3")] | length' "$REPORT") || exit 1
+          MEDIUM_COUNT=$(jq '[.site[]?.alerts[]? | select((.riskcode | tostring) == "2")] | length' "$REPORT") || exit 1
+          LOW_COUNT=$(jq '[.site[]?.alerts[]? | select((.riskcode | tostring) == "1")] | length' "$REPORT") || exit 1
+          INFO_COUNT=$(jq '[.site[]?.alerts[]? | select((.riskcode | tostring) == "1")] | length' "$REPORT") || exit 1
 
 
+          if (( HIGH_COUNT > 0 || LOW_COUNT > 0 || INFO_COUNT > 0 )); then
+          echo "❌ SECURITY GATE FAILED"
+
+          if (( HIGH_COUNT > 0 )); then
+          echo "High-risk findings: $HIGH_COUNT"
+          fi
+
+          if (( MEDIUM_COUNT > 0 )); then
+          echo "Medium-risk findings: $MEDIUM_COUNT"
+          fi
+
+          if (( LOW_COUNT > 0 )); then
+          echo "Low-risk findings: $LOW_COUNT"
+          fi
+
+          if (( INFO_COUNT > 0 )); then
+          echo "Informational findings: $INFO_COUNT"
+          fi
+
+          exit 1
+          fi
+
+          echo "✅ SECURITY GATE PASSED"
+          echo "No High, Low, or Informational findings detected."
