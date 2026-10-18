@@ -131,7 +131,7 @@ jobs:
           # - semgrep
           # - ggshield
           # - snyk
-          # - zap_scan
+          - zap_scan
           - iac_security_scan
           
     steps:
@@ -193,14 +193,14 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: zap-security-report
-          path: zap-report
+          path: zap-report/zap-report.json
 
-      # - name: Debug downloaded files
-      #   run: |
-      #     echo "Downloaded files:"
-      #     ls -laR zap-report
-      #     echo "Finding Files"
-      #     find . -maxdepth 3 -name '*json*' -type f
+      - name: Debug downloaded files
+        run: |
+          echo "Downloaded files:"
+          ls -laR zap-report
+          echo "Finding Files"
+          find . -maxdepth 3 -name '*json*' -type f
           
       - name: ZAP Security Gate
         continue-on-error: true
