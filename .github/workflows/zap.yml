@@ -46,7 +46,14 @@ jobs:
         with:
           name: zap-security-report
           path: zap-report
-            
+
+      - name: Debug downloaded files
+        run: |
+          echo "Downloaded files:"
+          ls -laR zap-report
+          echo "Finding Files"
+          find . -maxdepth 3 -name '*json*' -type f
+          
       - name: Security Gate
         shell: bash
         run: |
