@@ -181,14 +181,25 @@ jobs:
           - iac_security_scan
           
     steps:
-      - name: Download Snyk Reports
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          name: IaC-security-report
-          path: snyk-iac.json
+      # - name: Download Snyk Reports
+      #   uses: actions/download-artifact@v4
+      #   continue-on-error: true
+      #   with:
+      #     name: IaC-security-report
+      #     path: snyk-iac.json
+
+
             
       - name: Evaluate Snyk IaC Security Gate
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - uses: snyk/actions/setup@master
+      - name: IaC scan (report only)
+        #if: always()
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         shell: bash
         
         run: |
