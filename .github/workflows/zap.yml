@@ -1,7 +1,8 @@
 name: ZAP Scan
 
-on: workflow_dispatch: {} #[push]
-
+on:
+  workflow_dispatch: {}
+  
 permissions:
   contents: read
 
@@ -21,3 +22,50 @@ jobs:
           target: 'https://preview.owasp-juice.shop'
           #rules_file_name: '.zap/rules.tsv'
           #cmd_options: '-a'
+          cmd_options: '-J zap-report.json -I'
+          allow_issue_writing: false
+
+
+      - name: Upload ZAP Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-security-report
+          path: zap-report.json
+          if-no-files-found: warn
+
+
+  security_gate:
+    runs-on: ubuntu-latest
+    if: always()
+    needs:
+          - zap_scan
+    steps:
+      - name: Security Gate
+        shell: bash
+        run: |
+          REPORT="zap-report.json"
+
+          if [[ ! -s "$REPORT" ]]; then
+            echo "❌ Security Gate FAILED: ZAP report missing"
+            exit 1
+          fi
+
+          HIGH_COUNT=$(jq '
+            [.site[]?.alerts[]?
+             | select((.riskcode | tostring) == "3")]
+            | length
+          ' "$REPORT") || exit 1
+
+          echo "High-risk findings: $HIGH_COUNT"
+
+          if (( HIGH_COUNT > 0 )); then
+            echo "❌ SECURITY GATE FAILED"
+            echo "High-risk vulnerabilities detected."
+            exit 1
+          fi
+
+          echo "✅ SECURITY GATE PASSED"
+          echo "No High-risk vulnerabilities detected."
+
+
