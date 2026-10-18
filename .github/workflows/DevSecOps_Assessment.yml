@@ -189,47 +189,35 @@ jobs:
       #     path: snyk-iac.json
 
 
-            
-      - name: Evaluate Snyk IaC Security Gate
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - uses: snyk/actions/setup@master
-      - name: IaC scan (report only)
-        #if: always()
-        continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        shell: bash
-        
+      - name: Evaluate Security Gate
         run: |
-          SNYK_RESULT=0
+          REPORT_FILE=snyk-iac.json
 
-          snyk iac test . --severity-threshold=high || SNYK_RESULT=$?
-
-          echo "Snyk Exit Code : $SNYK_RESULT"
-
-          if [ "$SNYK_RESULT" -eq 0 ]; then
-            echo ""
-            echo "✅ SECURITY GATE PASSED"
-            echo "✅ No HIGH or CRITICAL vulnerabilities detected."
-            echo "✅ Code is allowed to proceed."
-            echo ""
-            exit 0
+          if [ ! -f "$REPORT_FILE" ]; then
+            echo "Error: Report file $REPORT_FILE not found!"
+            exit 1
           fi
-        
-          echo ""
-          echo "❌ SECURITY GATE FAILED"
-          echo ""
-    
-          if [ "$SNYK_RESULT" -ne 0 ]; then
-            echo "❌ Snyk detected HIGH/CRITICAL IaC findings OR encountered a scan error."
-          fi
+
+          echo "Evaluating Snyk IaC issues from $REPORT_FILE..."
+
+          # Count high-severity infrastructure as code issues
+          HIGH_COUNT=$(jq '[.infrastructureAsCodeIssues[]? \vert{} select(.severity == "high")] \vert{} length' "$REPORT_FILE")
+          CRITICAL_COUNT=$(jq '[.infrastructureAsCodeIssues[]? \vert{} select(.severity == "critical")] \vert{} length' "$REPORT_FILE")
           
-          echo ""
-          echo "❌ Build blocked due to security policy."
-          echo "❌ Review scan reports uploaded as GitHub artifacts."
-          echo ""
+          echo "Found $CRITICAL_COUNT critical and$HIGH_COUNT high-severity IaC issues."
+
+          # Print details of the violations for visibility
+          jq -r '.infrastructureAsCodeIssues[]? | "[\(.severity | ascii_upcase)] \(.id): \(.title) (Line \(.lineNumber))"' "$REPORT_FILE"
+
+          # Fail the build if critical or high issues are found
+          if [ "$HIGH_COUNT" -gt 0 ] \vert{}\vert{} [ "$CRITICAL_COUNT" -gt 0 ]; then
+            echo "❌ Security Gate FAILED: High or Critical IaC vulnerabilities detected."
+            exit 1
+          else
+            echo "✅ Security Gate PASSED: No blocking vulnerabilities found."
+            exit 0
+          }
+
 
       # - name: IaC Security Gate
       #   continue-on-error: true
