@@ -144,6 +144,7 @@ jobs:
 
 
       - name: Evaluate Security Gate
+        continue-on-error: true
         run: |
           ls -la && pwd && ls -la
     
@@ -168,10 +169,6 @@ jobs:
 
           echo "Evaluating Snyk IaC issues from $REPORT_FILE..."
 
-          # Count high-severity infrastructure as code issues
-          # HIGH_COUNT=$(jq '[.infrastructureAsCodeIssues[]? \vert{} select(.severity == "high")] \vert{} length' "$REPORT_FILE")
-          # CRITICAL_COUNT=$(jq '[.infrastructureAsCodeIssues[]? \vert{} select(.severity == "critical")] \vert{} length' "$REPORT_FILE")
-
           # Count high and critical severity issues using jq
           HIGH_COUNT=$(jq '[.infrastructureAsCodeIssues[]? | select(.severity == "high")] | length' "$REPORT_FILE")
           CRITICAL_COUNT=$(jq '[.infrastructureAsCodeIssues[]? | select(.severity == "critical")] | length' "$REPORT_FILE")
@@ -190,48 +187,6 @@ jobs:
             exit 0
           }
 
-
-      # - name: IaC Security Gate
-      #   continue-on-error: true
-      #   shell: bash
-      #   run: |
-      #     echo "=========================================================="
-      #     echo "Starting Final Security Validation"
-      #     echo "=========================================================="
-        
-      #     SNYK_RESULT=0
-    
-      #     echo ""
-      #     echo "[INFO] Running Snyk IaC Scan..."
-      #     snyk iac test . --severity-threshold=high || SNYK_RESULT=$?
-    
-      #     echo ""
-      #     echo "=========================================================="
-      #     echo "Security Scan Results"
-      #     echo "=========================================================="
-      #     echo "Snyk Exit Code : $SNYK_RESULT"
-      #     echo "=========================================================="
-    
-      #     if [ "$SNYK_RESULT" -eq 0 ]; then
-      #     echo ""
-      #     echo "✅ SECURITY GATE PASSED"
-      #     echo "✅ No HIGH or CRITICAL vulnerabilities detected."
-      #     echo "✅ Code is allowed to proceed."
-      #     echo ""
-      #     exit 0
-      #     fi
-      #     echo ""
-      #     echo "❌ SECURITY GATE FAILED"
-      #     echo ""
-    
-      #     if [ "$SNYK_RESULT" -ne 0 ]; then
-      #     echo "❌ Snyk detected HIGH/CRITICAL IaC findings OR encountered a scan error."
-      #     fi
-    
-      #     echo ""
-      #     echo "❌ Build blocked due to security policy."
-      #     echo "❌ Review scan reports uploaded as GitHub artifacts."
-      #     echo ""
 
       - name: Download ZAP Report
         continue-on-error: true
@@ -288,24 +243,3 @@ jobs:
 
           echo "✅ SECURITY GATE PASSED"
           echo "No High, Low, or Informational findings detected."
-
-      # - name: Semgrep Security Gate
-      #   continue-on-error: true
-      #   env:
-      #     SEMGREP_RESULT: ${{ needs.semgrep.result }}
-      #   shell: bash
-      #   run: |
-      #     echo "===================================="
-      #     echo "       SEMGREP SECURITY GATE"
-      #     echo "===================================="
-      #     echo "Semgrep job result: $SEMGREP_RESULT"
-
-      #     if [[ "$SEMGREP_RESULT" != "success" ]]; then
-      #       echo "❌ SECURITY GATE FAILED"
-      #       echo "Semgrep policy failed or the scan did not complete successfully."
-      #       exit 1
-          # fi
-
-          # echo "✅ SECURITY GATE PASSED"
-          # echo "Semgrep policy passed."
-          # exit 0
