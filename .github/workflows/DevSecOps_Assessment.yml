@@ -191,6 +191,14 @@ jobs:
 
       - name: Evaluate Security Gate
         run: |
+          ls -l && pwd
+
+          echo "Searching for snyk-iac.json..."
+          find "$GITHUB_WORKSPACE" -type f -name "snyk-iac.json" -print
+
+          echo "Searching for all JSON files..."
+          find "$GITHUB_WORKSPACE" -type f -name "*.json" -print
+    
           REPORT_FILE="snyk-iac.json"
 
           if [ ! -f "$REPORT_FILE" ]; then
