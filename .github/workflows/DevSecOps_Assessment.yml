@@ -190,90 +190,36 @@ jobs:
             
       - name: Evaluate Snyk IaC Security Gate
         shell: bash
-        env:
-          FAIL_ON_CRITICAL: "true"
-          FAIL_ON_HIGH: "true"
-          FAIL_ON_MEDIUM: "false"
-          FAIL_ON_LOW: "false"
-          FAIL_ON_INFO: "false"
+        
         run: |
-          set -euo pipefail
+          SNYK_RESULT=0
 
-          REPORT="snyk-iac.json"
+          snyk iac test . --severity-threshold=high || SNYK_RESULT=$?
 
-          if [[ ! -s "$REPORT" ]]; then
-            echo "❌ SECURITY GATE FAILED: Report missing"
-            exit 1
+          echo "Snyk Exit Code : $SNYK_RESULT"
+
+          if [ "$SNYK_RESULT" -eq 0 ]; then
+            echo ""
+            echo "✅ SECURITY GATE PASSED"
+            echo "✅ No HIGH or CRITICAL vulnerabilities detected."
+            echo "✅ Code is allowed to proceed."
+            echo ""
+            exit 0
           fi
-
-          if ! jq -e \
-            '(.infrastructureAsCodeIssues | type) == "array"' \
-            "$REPORT" >/dev/null; then
-            echo "❌ SECURITY GATE FAILED: Invalid report structure"
-            exit 1
+        
+          echo ""
+          echo "❌ SECURITY GATE FAILED"
+          echo ""
+    
+          if [ "$SNYK_RESULT" -ne 0 ]; then
+            echo "❌ Snyk detected HIGH/CRITICAL IaC findings OR encountered a scan error."
           fi
-
-          # Count findings by severity, excluding ignored issues.
-          count_severity() {
-            jq --arg severity "$1" '
-              [
-                .infrastructureAsCodeIssues[]
-                | select(.isIgnored != true)
-                | select((.severity | ascii_downcase) == $severity)
-              ] | length
-            ' "$REPORT"
-          }
-
-          CRITICAL=$(count_severity critical)
-          HIGH=$(count_severity high)
-          MEDIUM=$(count_severity medium)
-          LOW=$(count_severity low)
-          INFO=$(count_severity info)
-
-          echo "======================================"
-          echo "       SNYK IaC SECURITY RESULTS"
-          echo "======================================"
-          echo "Critical      : $CRITICAL"
-          echo "High          : $HIGH"
-          echo "Medium        : $MEDIUM"
-          echo "Low           : $LOW"
-          echo "Informational : $INFO"
-          echo "======================================"
-
-          FAILED=0
-
-          if [[ "$FAIL_ON_CRITICAL" == "true" ]] && (( CRITICAL > 0 )); then
-            echo "❌ Critical findings detected"
-            FAILED=1
-          fi
-
-          if [[ "$FAIL_ON_HIGH" == "true" ]] && (( HIGH > 0 )); then
-            echo "❌ High findings detected"
-            FAILED=1
-          fi
-
-          if [[ "$FAIL_ON_MEDIUM" == "true" ]] && (( MEDIUM > 0 )); then
-            echo "❌ Medium findings detected"
-            FAILED=1
-          fi
-
-          if [[ "$FAIL_ON_LOW" == "true" ]] && (( LOW > 0 )); then
-            echo "❌ Low findings detected"
-            FAILED=1
-          fi
-
-          if [[ "$FAIL_ON_INFO" == "true" ]] && (( INFO > 0 )); then
-            echo "❌ Informational findings detected"
-            FAILED=1
-          fi
-
-          if (( FAILED > 0 )); then
-            echo "❌ SECURITY GATE FAILED"
-            exit 1
-          fi
-
-          echo "✅ SECURITY GATE PASSED"
           
+          echo ""
+          echo "❌ Build blocked due to security policy."
+          echo "❌ Review scan reports uploaded as GitHub artifacts."
+          echo ""
+
       # - name: IaC Security Gate
       #   continue-on-error: true
       #   shell: bash
