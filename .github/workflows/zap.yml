@@ -42,11 +42,11 @@ jobs:
     needs:
           - zap_scan
     steps:
-      # - name: Download ZAP Report
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: zap-security-report
-      #     path: zap-report
+      - name: Download ZAP Report
+        uses: actions/download-artifact@v4
+        with:
+          name: zap-security-report
+          path: zap-report
 
       # - name: Debug downloaded files
       #   run: |
