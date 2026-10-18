@@ -42,18 +42,18 @@ jobs:
     needs:
           - zap_scan
     steps:
-      - name: Download ZAP Report
-        uses: actions/download-artifact@v4
-        with:
-          name: zap-security-report
-          path: zap-report
+      # - name: Download ZAP Report
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: zap-security-report
+      #     path: zap-report
 
-      - name: Debug downloaded files
-        run: |
-          echo "Downloaded files:"
-          ls -laR zap-report
-          echo "Finding Files"
-          find . -maxdepth 3 -name '*json*' -type f
+      # - name: Debug downloaded files
+      #   run: |
+      #     echo "Downloaded files:"
+      #     ls -laR zap-report
+      #     echo "Finding Files"
+      #     find . -maxdepth 3 -name '*json*' -type f
           
       - name: Security Gate
         shell: bash
@@ -65,12 +65,8 @@ jobs:
             exit 1
           fi
 
-          HIGH_COUNT=$(jq '
-            [.site[]?.alerts[]?
-             | select((.riskcode | tostring) == "3")]
-            | length
-          ' "$REPORT") || exit 1
-
+          HIGH_COUNT=$(jq '[.site[]?.alerts[]? | select((.riskcode | tostring) == "3")] | length' "$REPORT") || exit 1
+          MEDIUM_COUNT=$(jq '[.site[]?.alerts[]? | select((.riskcode | tostring) == "2")] | length' "$REPORT") || exit 1
           LOW_COUNT=$(jq '[.site[]?.alerts[]? | select((.riskcode | tostring) == "1")] | length' "$REPORT") || exit 1
           INFO_COUNT=$(jq '[.site[]?.alerts[]? | select((.riskcode | tostring) == "1")] | length' "$REPORT") || exit 1
 
@@ -80,6 +76,10 @@ jobs:
 
           if (( HIGH_COUNT > 0 )); then
           echo "High-risk findings: $HIGH_COUNT"
+          fi
+
+          if (( MEDIUM_COUNT > 0 )); then
+          echo "Medium-risk findings: $MEDIUM_COUNT"
           fi
 
           if (( LOW_COUNT > 0 )); then
