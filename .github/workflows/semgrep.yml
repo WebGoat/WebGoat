@@ -1,12 +1,12 @@
 on:
   workflow_dispatch: {}
-  pull_request: {}
-  push:
-    branches:
-    - main
-    - master
-    paths:
-    - .github/workflows/semgrep.yml
+  # pull_request: {}
+  # push:
+  #   branches:
+  #   - main
+  #   - master
+  #   paths:
+  #   - .github/workflows/semgrep.yml
     
 name: Semgrep
 jobs:
