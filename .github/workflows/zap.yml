@@ -16,6 +16,7 @@ jobs:
           
       - name: ZAP Scan
         uses: zaproxy/action-baseline@v0.15.0
+        continue-on-error: true
         with:
           #token: ${{ secrets.GITHUB_TOKEN }}
           #docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
@@ -70,15 +71,32 @@ jobs:
             | length
           ' "$REPORT") || exit 1
 
-          echo "High-risk findings: $HIGH_COUNT"
+          LOW_COUNT=$(jq '[.site[]?.alerts[]? | select((.riskcode | tostring) == "1")] | length' "$REPORT") || exit 1
+          INFO_COUNT=$(jq '[.site[]?.alerts[]? | select((.riskcode | tostring) == "1")] | length' "$REPORT") || exit 1
+
+
+          if (( HIGH_COUNT > 0 || LOW_COUNT > 0 || INFO_COUNT > 0 )); then
+          echo "❌ SECURITY GATE FAILED"
 
           if (( HIGH_COUNT > 0 )); then
-            echo "❌ SECURITY GATE FAILED"
-            echo "High-risk vulnerabilities detected."
-            exit 1
+          echo "High-risk findings: $HIGH_COUNT"
+          fi
+
+          if (( LOW_COUNT > 0 )); then
+          echo "Low-risk findings: $LOW_COUNT"
+          fi
+
+          if (( INFO_COUNT > 0 )); then
+          echo "Informational findings: $INFO_COUNT"
+          fi
+
+          exit 1
           fi
 
           echo "✅ SECURITY GATE PASSED"
-          echo "No High-risk vulnerabilities detected."
+          echo "No High, Low, or Informational findings detected."
+   
+          
+
 
 
