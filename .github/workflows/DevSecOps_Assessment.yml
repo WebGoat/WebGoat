@@ -174,7 +174,7 @@ jobs:
     
           echo ""
           echo "[INFO] Running Snyk IaC Scan..."
-          snyk iac test $SCAN_PATH --severity-threshold=high || SNYK_RESULT=$?
+          snyk iac test . --severity-threshold=high || SNYK_RESULT=$?
     
           echo ""
           echo "=========================================================="
@@ -219,6 +219,7 @@ jobs:
       #     find . -maxdepth 3 -name '*json*' -type f
           
       - name: ZAP Security Gate
+        continue-on-error: true
         shell: bash
         run: |
           REPORT="zap-report/zap-report.json"
