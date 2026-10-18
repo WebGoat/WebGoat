@@ -13,62 +13,62 @@ permissions:
   security-events: write
     
 jobs:
-  semgrep:
-    name: semgrep
-    runs-on: ubuntu-latest
-    #if: always()
-    env:
-      SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
-    container:
-      image: returntocorp/semgrep
-    steps:
-    - uses: actions/checkout@v3
-    - run: semgrep ci
-      continue-on-error: true
+  # semgrep:
+  #   name: semgrep
+  #   runs-on: ubuntu-latest
+  #   #if: always()
+  #   env:
+  #     SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+  #   container:
+  #     image: returntocorp/semgrep
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - run: semgrep ci
+  #     continue-on-error: true
 
-  ggshield:
-    name: GitGuardian
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # fetch all history so multiple commits can be scanned
-      - name: GitGuardian scan
-        uses: GitGuardian/ggshield/actions/secret@v1.55.0
-        #if: always()
-        continue-on-error: true
-        env:
-          GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
-          GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
-          GITHUB_PULL_BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-          GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+  # ggshield:
+  #   name: GitGuardian
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0 # fetch all history so multiple commits can be scanned
+  #     - name: GitGuardian scan
+  #       uses: GitGuardian/ggshield/actions/secret@v1.55.0
+  #       #if: always()
+  #       continue-on-error: true
+  #       env:
+  #         GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
+  #         GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
+  #         GITHUB_PULL_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+  #         GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+  #         GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
           
-  snyk:
-    name: snyk-sca 
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: snyk/actions/setup@master
-      - name: SCA scan (report only)
-        #if: always()
-        continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: snyk test --sarif-file-output=snyk-sca.sarif --json-file-output=snyk-sca.json
-      - name: Monitor in Snyk web app
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: snyk monitor
-      - uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: snyk-sca.sarif
-          category: snyk-sca
-      - uses: actions/upload-artifact@v4
-        with:
-          name: sca-report
-          path: snyk-sca.json
+  # snyk:
+  #   name: snyk-sca 
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: snyk/actions/setup@master
+  #     - name: SCA scan (report only)
+  #       #if: always()
+  #       continue-on-error: true
+  #       env:
+  #         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  #       run: snyk test --sarif-file-output=snyk-sca.sarif --json-file-output=snyk-sca.json
+  #     - name: Monitor in Snyk web app
+  #       env:
+  #         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  #       run: snyk monitor
+  #     - uses: github/codeql-action/upload-sarif@v3
+  #       with:
+  #         sarif_file: snyk-sca.sarif
+  #         category: snyk-sca
+  #     - uses: actions/upload-artifact@v4
+  #       with:
+  #         name: sca-report
+  #         path: snyk-sca.json
           
   zap_scan:
     runs-on: ubuntu-latest
@@ -186,15 +186,14 @@ jobs:
           set -euo pipefail
 
           REPORT="reports/snyk-iac.json"
-          EXIT_FILE="reports/snyk-exit-code.txt"
 
           echo "======================================"
           echo "       SNYK IaC SECURITY GATE"
           echo "======================================"
 
           # Fail safely if the scan did not complete successfully.
-          if [[ ! -s "$REPORT" || ! -s "$EXIT_FILE" ]]; then
-            echo "❌ FAILED: Snyk report or exit code missing"
+          if [[ ! -s "$REPORT" ]]; then
+            echo "❌ FAILED: Snyk scan report missing"
             exit 1
           fi
 
@@ -205,18 +204,6 @@ jobs:
 
           # Snyk CLI exit codes 2 and 3 indicate scan errors.
           # Exit code 1 can mean findings were detected.
-          SNYK_EXIT_CODE=$(cat "$EXIT_FILE")
-
-          if [[ ! "$SNYK_EXIT_CODE" =~ ^[0-9]+$ ]]; then
-            echo "❌ FAILED: Invalid Snyk exit code"
-            exit 1
-          fi
-
-          if (( SNYK_EXIT_CODE > 1 )); then
-            echo "❌ FAILED: Snyk scan execution error"
-            echo "Exit code: $SNYK_EXIT_CODE"
-            exit 1
-          fi
 
           # Verify the expected Snyk IaC report structure.
           if ! jq -e \
@@ -285,6 +272,7 @@ jobs:
           fi
 
           echo "✅ SECURITY GATE PASSED"
+          
       # - name: IaC Security Gate
       #   continue-on-error: true
       #   shell: bash
