@@ -191,7 +191,7 @@ jobs:
 
       - name: Evaluate Security Gate
         run: |
-          REPORT_FILE=snyk-iac.json
+          REPORT_FILE="snyk-iac.json"
 
           if [ ! -f "$REPORT_FILE" ]; then
             echo "Error: Report file $REPORT_FILE not found!"
