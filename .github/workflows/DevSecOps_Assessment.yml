@@ -143,7 +143,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: snyk-iac-report
-        path: reports/
+        path: $GITHUB_WORKSPACE/reports/
         if-no-files-found: warn
 
     # - name: Upload All Reports
@@ -170,7 +170,7 @@ jobs:
         continue-on-error: true
         with:
           name: snyk-iac-reports
-          path: reports
+          path: $GITHUB_WORKSPACE/reports/snyk-iac.json
             
       - name: Evaluate Snyk Security Policy
         shell: bash
