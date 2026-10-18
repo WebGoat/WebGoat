@@ -158,11 +158,12 @@ jobs:
     #if: always()
     continue-on-error: true
     needs:
-          - semgrep
-          - ggshield
-          - snyk
-          - zap_scan
+          # - semgrep
+          # - ggshield
+          # - snyk
+          # - zap_scan
           - iac_security_scan
+          
     steps:
       - name: Download Snyk Reports
         uses: actions/download-artifact@v4
@@ -171,98 +172,90 @@ jobs:
           name: snyk-iac-reports
           path: reports
             
-      - name: IaC Security Gate
-        if: always()
+      - name: Evaluate Snyk Security Policy
         shell: bash
         env:
-          # CUSTOMIZABLE POLICY
           FAIL_ON_CRITICAL: "true"
           FAIL_ON_HIGH: "true"
           FAIL_ON_MEDIUM: "false"
           FAIL_ON_LOW: "false"
           FAIL_ON_INFO: "false"
-
         run: |
           set -euo pipefail
 
           REPORT="reports/snyk-iac.json"
 
-          echo "======================================"
-          echo "       SNYK IaC SECURITY GATE"
-          echo "======================================"
-
-          # Fail safely if the scan did not complete successfully.
           if [[ ! -s "$REPORT" ]]; then
-            echo "❌ FAILED: Snyk scan report missing"
+            echo "❌ SECURITY GATE FAILED: Report missing"
+            find reports -maxdepth 2 -type f -print 2>/dev/null || true
             exit 1
           fi
 
           if ! jq empty "$REPORT" >/dev/null 2>&1; then
-            echo "❌ FAILED: Invalid Snyk JSON report"
+            echo "❌ SECURITY GATE FAILED: Invalid JSON"
             exit 1
           fi
 
-          # Snyk CLI exit codes 2 and 3 indicate scan errors.
-          # Exit code 1 can mean findings were detected.
-
-          # Verify the expected Snyk IaC report structure.
           if ! jq -e \
             '(.infrastructureAsCodeIssues | type) == "array"' \
             "$REPORT" >/dev/null; then
-            echo "❌ FAILED: Unexpected Snyk report structure"
+            echo "❌ Unexpected Snyk IaC JSON structure"
             exit 1
           fi
 
           # Count findings by severity.
-          CRITICAL=$(jq '[.infrastructureAsCodeIssues[]? |
-            select((.issue.severity // .severity // "" | ascii_downcase) == "critical")] | length' "$REPORT")
+          count_severity() {
+            jq --arg severity "$1" '
+              [
+                .infrastructureAsCodeIssues[]?
+                | select(
+                    ((.issue.severity // .severity // "") | ascii_downcase)
+                    == $severity
+                  )
+              ] | length
+            ' "$REPORT"
+          }
 
-          HIGH=$(jq '[.infrastructureAsCodeIssues[]? |
-            select((.issue.severity // .severity // "" | ascii_downcase) == "high")] | length' "$REPORT")
+          CRITICAL=$(count_severity critical)
+          HIGH=$(count_severity high)
+          MEDIUM=$(count_severity medium)
+          LOW=$(count_severity low)
+          INFO=$(count_severity info)
 
-          MEDIUM=$(jq '[.infrastructureAsCodeIssues[]? |
-            select((.issue.severity // .severity // "" | ascii_downcase) == "medium")] | length' "$REPORT")
-
-          LOW=$(jq '[.infrastructureAsCodeIssues[]? |
-            select((.issue.severity // .severity // "" | ascii_downcase) == "low")] | length' "$REPORT")
-
-          INFO=$(jq '[.infrastructureAsCodeIssues[]? |
-            select((.issue.severity // .severity // "" | ascii_downcase) == "info" or
-                   (.issue.severity // .severity // "" | ascii_downcase) == "informational")] | length' "$REPORT")
-
-          echo "--------------------------------------"
-          echo "Critical       : $CRITICAL"
-          echo "High           : $HIGH"
-          echo "Medium         : $MEDIUM"
-          echo "Low            : $LOW"
-          echo "Informational  : $INFO"
-          echo "Snyk exit code : $SNYK_EXIT_CODE"
-          echo "--------------------------------------"
+          echo "======================================"
+          echo "        SNYK IaC RESULTS"
+          echo "======================================"
+          echo "Critical      : $CRITICAL"
+          echo "High          : $HIGH"
+          echo "Medium        : $MEDIUM"
+          echo "Low           : $LOW"
+          echo "Informational : $INFO"
+          echo "======================================"
 
           FAILED=0
 
           if [[ "$FAIL_ON_CRITICAL" == "true" ]] && (( CRITICAL > 0 )); then
-            echo "❌ Critical findings violate policy"
+            echo "❌ Critical findings detected"
             FAILED=1
           fi
 
           if [[ "$FAIL_ON_HIGH" == "true" ]] && (( HIGH > 0 )); then
-            echo "❌ High findings violate policy"
+            echo "❌ High findings detected"
             FAILED=1
           fi
 
           if [[ "$FAIL_ON_MEDIUM" == "true" ]] && (( MEDIUM > 0 )); then
-            echo "❌ Medium findings violate policy"
+            echo "❌ Medium findings detected"
             FAILED=1
           fi
 
           if [[ "$FAIL_ON_LOW" == "true" ]] && (( LOW > 0 )); then
-            echo "❌ Low findings violate policy"
+            echo "❌ Low findings detected"
             FAILED=1
           fi
 
           if [[ "$FAIL_ON_INFO" == "true" ]] && (( INFO > 0 )); then
-            echo "❌ Informational findings violate policy"
+            echo "❌ Informational findings detected"
             FAILED=1
           fi
 
