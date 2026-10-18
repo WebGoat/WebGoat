@@ -188,7 +188,7 @@ jobs:
           name: IaC-security-report
           path: snyk-iac.json
             
-      - name: Evaluate Snyk Security Policy
+      - name: Evaluate Snyk IaC Security Gate
         shell: bash
         env:
           FAIL_ON_CRITICAL: "true"
@@ -203,31 +203,23 @@ jobs:
 
           if [[ ! -s "$REPORT" ]]; then
             echo "❌ SECURITY GATE FAILED: Report missing"
-            find reports -maxdepth 2 -type f -print 2>/dev/null || true
-            exit 1
-          fi
-
-          if ! jq empty "$REPORT" >/dev/null 2>&1; then
-            echo "❌ SECURITY GATE FAILED: Invalid JSON"
             exit 1
           fi
 
           if ! jq -e \
             '(.infrastructureAsCodeIssues | type) == "array"' \
             "$REPORT" >/dev/null; then
-            echo "❌ Unexpected Snyk IaC JSON structure"
+            echo "❌ SECURITY GATE FAILED: Invalid report structure"
             exit 1
           fi
 
-          # Count findings by severity.
+          # Count findings by severity, excluding ignored issues.
           count_severity() {
             jq --arg severity "$1" '
               [
-                .infrastructureAsCodeIssues[]?
-                | select(
-                    ((.issue.severity // .severity // "") | ascii_downcase)
-                    == $severity
-                  )
+                .infrastructureAsCodeIssues[]
+                | select(.isIgnored != true)
+                | select((.severity | ascii_downcase) == $severity)
               ] | length
             ' "$REPORT"
           }
@@ -239,7 +231,7 @@ jobs:
           INFO=$(count_severity info)
 
           echo "======================================"
-          echo "        SNYK IaC RESULTS"
+          echo "       SNYK IaC SECURITY RESULTS"
           echo "======================================"
           echo "Critical      : $CRITICAL"
           echo "High          : $HIGH"
@@ -275,7 +267,7 @@ jobs:
             FAILED=1
           fi
 
-          if (( FAILED != 0 )); then
+          if (( FAILED > 0 )); then
             echo "❌ SECURITY GATE FAILED"
             exit 1
           fi
