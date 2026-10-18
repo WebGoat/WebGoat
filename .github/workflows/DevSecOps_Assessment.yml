@@ -17,7 +17,6 @@ jobs:
     name: semgrep
     runs-on: ubuntu-latest
     #if: always()
-    continue-on-error: true
     env:
       SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
     container:
@@ -25,6 +24,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - run: semgrep ci
+      continue-on-error: true
 
   ggshield:
     name: GitGuardian
@@ -87,6 +87,8 @@ jobs:
           target: 'https://preview.owasp-juice.shop'
           #rules_file_name: '.zap/rules.tsv'
           #cmd_options: '-a'
+          cmd_options: '-J zap-report.json -I'
+          allow_issue_writing: false
           
  
   iac_security_scan:
@@ -246,3 +248,23 @@ jobs:
 
           echo "✅ SECURITY GATE PASSED"
           echo "No High, Low, or Informational findings detected."
+
+      - name: Semgrep Security Gate
+        env:
+          SEMGREP_RESULT: ${{ needs.semgrep.result }}
+        shell: bash
+        run: |
+          echo "===================================="
+          echo "       SEMGREP SECURITY GATE"
+          echo "===================================="
+          echo "Semgrep job result: $SEMGREP_RESULT"
+
+          if [[ "$SEMGREP_RESULT" != "success" ]]; then
+            echo "❌ SECURITY GATE FAILED"
+            echo "Semgrep policy failed or the scan did not complete successfully."
+            exit 1
+          fi
+
+          echo "✅ SECURITY GATE PASSED"
+          echo "Semgrep policy passed."
+          exit 0
