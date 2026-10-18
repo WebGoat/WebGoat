@@ -106,45 +106,61 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    - name: Create Report Folder and List Docs files
-      run: |
-        mkdir -p reports
-        ls -al reports
-        echo "List Docs Folders"
-        ls $SCAN_PATH -al 
-        
-    - name: Setup NodeJS
-      uses: actions/setup-node@v4
-      with:
-        node-version: 22
-
-    - name: Install Snyk CLI
-      run: |
-        npm install -g snyk
-        snyk --version
-
-    - name: Run Snyk IaC Scan
-      env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    - uses: snyk/actions/setup@master
+    - name: IaC scan (report only)
+      #if: always()
       continue-on-error: true
-      run: |
-        echo "Snyk Version"
-        snyk --version
-        echo "Testing Authentication"
-        snyk auth $SNYK_TOKEN
-        echo "Testing Account Access"
-        snyk whoami
-        echo "============= SNYK IaC SCAN =============" > reports/snyk-iac-report.txt
-        snyk iac test .  --severity-threshold=high  --json-file-output=reports/snyk-iac.json
-        # snyk monitor  => For Monitoring in Snyk Dashboard all vulnerabilties
-        
-    - name: Upload Snyk Report
+      env:
+         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      run: snyk iac test . --severity-threshold=high --json-file-output=snyk-iac.json
+
+    - name: Upload IaC Report
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: snyk-iac-report
-        path: reports/snyk-iac.json
-        if-no-files-found: warn
+          name: IaC-security-report
+          path: snyk-iac.json
+          if-no-files-found: warn
+
+    # - name: Create Report Folder and List Docs files
+    #   run: |
+    #     mkdir -p reports
+    #     ls -al reports
+    #     echo "List Docs Folders"
+    #     ls $SCAN_PATH -al 
+        
+    # - name: Setup NodeJS
+    #   uses: actions/setup-node@v4
+    #   with:
+    #     node-version: 22
+
+    # - name: Install Snyk CLI
+    #   run: |
+    #     npm install -g snyk
+    #     snyk --version
+
+    # - name: Run Snyk IaC Scan
+    #   env:
+    #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    #   continue-on-error: true
+    #   run: |
+    #     echo "Snyk Version"
+    #     snyk --version
+    #     echo "Testing Authentication"
+    #     snyk auth $SNYK_TOKEN
+    #     echo "Testing Account Access"
+    #     snyk whoami
+    #     echo "============= SNYK IaC SCAN =============" > reports/snyk-iac-report.txt
+    #     snyk iac test .  --severity-threshold=high  --json-file-output=reports/snyk-iac.json
+    #     # snyk monitor  => For Monitoring in Snyk Dashboard all vulnerabilties
+        
+    # - name: Upload Snyk Report
+    #   if: always()
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: snyk-iac-report
+    #     path: snyk-iac.json
+    #     if-no-files-found: warn
 
     # - name: Upload All Reports
     #   uses: actions/upload-artifact@v4
@@ -170,7 +186,7 @@ jobs:
         continue-on-error: true
         with:
           name: snyk-iac-reports
-          path: reports/snyk-iac.json
+          path: snyk-iac.json
             
       - name: Evaluate Snyk Security Policy
         shell: bash
@@ -183,7 +199,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          REPORT="reports/snyk-iac.json"
+          REPORT="snyk-iac.json"
 
           if [[ ! -s "$REPORT" ]]; then
             echo "❌ SECURITY GATE FAILED: Report missing"
