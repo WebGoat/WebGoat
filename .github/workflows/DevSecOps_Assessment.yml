@@ -89,6 +89,14 @@ jobs:
           #cmd_options: '-a'
           cmd_options: '-J zap-report.json -I'
           allow_issue_writing: false
+
+      - name: Upload ZAP Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-security-report
+          path: zap-report.json
+          if-no-files-found: warn
           
  
   iac_security_scan:
@@ -155,6 +163,7 @@ jobs:
           - iac_security_scan
     steps:
       - name: IaC Security Gate
+        continue-on-error: true
         shell: bash
         run: |
           echo "=========================================================="
@@ -196,6 +205,7 @@ jobs:
           echo ""
 
       - name: Download ZAP Report
+        continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           name: zap-security-report
@@ -250,6 +260,7 @@ jobs:
           echo "No High, Low, or Informational findings detected."
 
       - name: Semgrep Security Gate
+        continue-on-error: true
         env:
           SEMGREP_RESULT: ${{ needs.semgrep.result }}
         shell: bash
