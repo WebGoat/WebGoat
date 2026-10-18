@@ -108,7 +108,7 @@ jobs:
 
     - name: Create Report Folder and List Docs files
       run: |
-        mkdir -p $GITHUB_WORKSPACE/reports
+        mkdir -p reports
         ls -al reports
         echo "List Docs Folders"
         ls $SCAN_PATH -al 
@@ -135,7 +135,7 @@ jobs:
         echo "Testing Account Access"
         snyk whoami
         echo "============= SNYK IaC SCAN =============" > reports/snyk-iac-report.txt
-        snyk iac test .  --severity-threshold=high  --json-file-output=$GITHUB_WORKSPACE/reports/snyk-iac.json >> $GITHUB_WORKSPACE/reports/snyk-iac-report.txt 2>&1 || true
+        snyk iac test .  --severity-threshold=high  --json-file-output=reports/snyk-iac.json
         # snyk monitor  => For Monitoring in Snyk Dashboard all vulnerabilties
         
     - name: Upload Snyk Report
@@ -143,7 +143,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: snyk-iac-report
-        path: $GITHUB_WORKSPACE/reports/
+        path: reports/snyk-iac.json
         if-no-files-found: warn
 
     # - name: Upload All Reports
@@ -170,7 +170,7 @@ jobs:
         continue-on-error: true
         with:
           name: snyk-iac-reports
-          path: $GITHUB_WORKSPACE/reports/snyk-iac.json
+          path: reports/snyk-iac.json
             
       - name: Evaluate Snyk Security Policy
         shell: bash
@@ -183,7 +183,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          REPORT="$GITHUB_WORKSPACE/reports/snyk-iac.json"
+          REPORT="reports/snyk-iac.json"
 
           if [[ ! -s "$REPORT" ]]; then
             echo "❌ SECURITY GATE FAILED: Report missing"
