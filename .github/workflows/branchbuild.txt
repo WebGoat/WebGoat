@@ -1,9 +1,6 @@
 name: "Branch build"
 on:
-    push:
-      branches:
-        - "*"
-        - "!main"
+  workflow_dispatch: {}
 
 jobs:
     branch-build:
