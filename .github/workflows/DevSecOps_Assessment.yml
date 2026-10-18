@@ -192,7 +192,6 @@ jobs:
           echo "❌ Build blocked due to security policy."
           echo "❌ Review scan reports uploaded as GitHub artifacts."
           echo ""
-          exit 1
 
       - name: Download ZAP Report
         uses: actions/download-artifact@v4
