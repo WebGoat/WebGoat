@@ -126,7 +126,7 @@ jobs:
   security_gate:
     runs-on: ubuntu-latest
     #if: always()
-    continue-on-error: true
+    #continue-on-error: true
     needs:
           # - semgrep
           # - ggshield
@@ -191,7 +191,8 @@ jobs:
 
 
       - name: Download ZAP Report
-        continue-on-error: true
+        #continue-on-error: true
+        if: always()
         uses: actions/download-artifact@v4
         with:
           name: zap-security-report
