@@ -41,10 +41,16 @@ jobs:
     needs:
           - zap_scan
     steps:
+      - name: Download ZAP Report
+        uses: actions/download-artifact@v4
+        with:
+          name: zap-security-report
+          path: zap-report
+            
       - name: Security Gate
         shell: bash
         run: |
-          REPORT="zap-report.json"
+          REPORT="zap-report/zap-report.json"
 
           if [[ ! -s "$REPORT" ]]; then
             echo "❌ Security Gate FAILED: ZAP report missing"
