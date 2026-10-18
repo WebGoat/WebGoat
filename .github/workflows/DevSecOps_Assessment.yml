@@ -169,8 +169,12 @@ jobs:
           echo "Evaluating Snyk IaC issues from $REPORT_FILE..."
 
           # Count high-severity infrastructure as code issues
-          HIGH_COUNT=$(jq '[.infrastructureAsCodeIssues[]? \vert{} select(.severity == "high")] \vert{} length' "$REPORT_FILE")
-          CRITICAL_COUNT=$(jq '[.infrastructureAsCodeIssues[]? \vert{} select(.severity == "critical")] \vert{} length' "$REPORT_FILE")
+          # HIGH_COUNT=$(jq '[.infrastructureAsCodeIssues[]? \vert{} select(.severity == "high")] \vert{} length' "$REPORT_FILE")
+          # CRITICAL_COUNT=$(jq '[.infrastructureAsCodeIssues[]? \vert{} select(.severity == "critical")] \vert{} length' "$REPORT_FILE")
+
+          # Count high and critical severity issues using jq
+          HIGH_COUNT=$(jq '[.infrastructureAsCodeIssues[]? | select(.severity == "high")] | length' "$REPORT_FILE")
+          CRITICAL_COUNT=$(jq '[.infrastructureAsCodeIssues[]? | select(.severity == "critical")] | length' "$REPORT_FILE")
           
           echo "Found $CRITICAL_COUNT critical and$HIGH_COUNT high-severity IaC issues."
 
