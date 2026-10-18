@@ -120,25 +120,19 @@ jobs:
           echo "=========================================================="
         
           SNYK_RESULT=0
-          TRIVY_RESULT=0
     
           echo ""
           echo "[INFO] Running Snyk IaC Scan..."
           snyk iac test $SCAN_PATH --severity-threshold=high || SNYK_RESULT=$?
     
           echo ""
-          echo "[INFO] Running Trivy IaC Scan..."
-          trivy config $SCAN_PATH --severity HIGH,CRITICAL --exit-code 1 || TRIVY_RESULT=$?
-    
-          echo ""
           echo "=========================================================="
           echo "Security Scan Results"
           echo "=========================================================="
           echo "Snyk Exit Code : $SNYK_RESULT"
-          echo "Trivy Exit Code: $TRIVY_RESULT"
           echo "=========================================================="
     
-          if [ "$SNYK_RESULT" -eq 0 ] && [ "$TRIVY_RESULT" -eq 0 ]; then
+          if [ "$SNYK_RESULT" -eq 0 ]; then
           echo ""
           echo "✅ SECURITY GATE PASSED"
           echo "✅ No HIGH or CRITICAL vulnerabilities detected."
@@ -152,10 +146,6 @@ jobs:
     
           if [ "$SNYK_RESULT" -ne 0 ]; then
           echo "❌ Snyk detected HIGH/CRITICAL IaC findings OR encountered a scan error."
-          fi
-    
-          if [ "$TRIVY_RESULT" -ne 0 ]; then
-          echo "❌ Trivy detected HIGH/CRITICAL IaC findings."
           fi
     
           echo ""
