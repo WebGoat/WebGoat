@@ -4,53 +4,54 @@ on:
  workflow_dispatch: {} #[push, pull_request]
  
 jobs:
-    ggshield:
-      name: GitGuardian scan
-      runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # fetch all history so multiple commits can be scanned
-      - name: Install and Run GitGuardian (ggshield)
-        run: |
+  ggshield:
+     name: GitGuardian scan
+     runs-on: ubuntu-latest
+     steps:
+       - name: Checkout
+         uses: actions/checkout@v4
+         with:
+           fetch-depth: 0 # fetch all history so multiple commits can be scanned
+       - name: Install and Run GitGuardian (ggshield)
+         run: |
           echo "Running GitGuardian scan..."
           pip install ggshield
           # Run ggshield secret scan and save output to JSON
           ggshield secret scan ci --json > gitguardian.json || true
-        env:
+          env:
           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
           GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
           GITHUB_PUSH_COMMIT_SHA: ${{ github.event.after }}
           GITGUARDIAN_API_URL: "https://api.gitguardian.com"
 
 
-      - name: Upload ggshield Report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
+       - name: Upload ggshield Report
+         if: always()
+         uses: actions/upload-artifact@v4
+         with:
           name: secrets-security-report
           path: gitguardian.json
           if-no-files-found: warn
-          
-          
+            
   security_gate:
     runs-on: ubuntu-latest
     #if: always()
     #continue-on-error: true
     needs:
-           - ggshield
+          - ggshield
           
     steps:
-      - name: Download ggshield Reports
+      - name: Download ggshield Snyk Reports
         uses: actions/download-artifact@v4
         continue-on-error: true
         with:
-          name: secrets-security-report
-          #path: snyk-iac.json
+          name: ggshield-security-report
+          #path: gitguardian.json
 
 
-    run: |
+      - name: ggshield Security Gate
+        continue-on-error: true
+        run: |
           REPORT_FILE="gitguardian.json"
 
           if [ -z "$REPORT_FILE" ] || [ ! -f "$REPORT_FILE" ]; then
