@@ -178,16 +178,13 @@ jobs:
           jq -r '.infrastructureAsCodeIssues[]? | select(.severity == "critical" or .severity == "high" or .severity == "medium") | "[\(.severity | ascii_upcase)] \(.id): \(.title) (Line \(.lineNumber))"' "$REPORT_FILE" || true
 
           if [ "$HIGH_COUNT" -gt 0 ] || [ "$CRITICAL_COUNT" -gt 0 ] || [ "$MEDIUM_COUNT" -gt 0 ]; then
-            echo "❌ Security IaC Gate FAILED: High or Critical IaC vulnerabilities detected."
+            echo "Security IaC Gate FAILED: High or Critical IaC vulnerabilities detected."
             echo "IAC_FAILED=true" >> $GITHUB_ENV
           else
-            echo "✅ Security IaC Gate PASSED: No blocking vulnerabilities found."
+            echo "Security IaC Gate PASSED: No blocking vulnerabilities found."
             echo "IAC_FAILED=false" >> $GITHUB_ENV
           fi
 
-      # ==========================================
-      # 2. GGSHIELD SECURITY GATE
-      # ==========================================
       - name: Download ggshield Reports
         uses: actions/download-artifact@v4
         continue-on-error: true
@@ -212,16 +209,13 @@ jobs:
           echo "Total occurrences found: $OCCURRENCES"
           
           if [ "$INCIDENTS" -gt 0 ]; then
-            echo "❌ GitGuardian Gate Failed: $INCIDENTS incident(s) ($OCCURRENCES occurrence(s)) detected!"
+            echo "GitGuardian Gate Failed: $INCIDENTS incident(s) ($OCCURRENCES occurrence(s)) detected!"
             echo "GG_FAILED=true" >> $GITHUB_ENV
           else
-            echo "✅ GitGuardian Gate Passed: No secrets found."
+            echo "GitGuardian Gate Passed: No secrets found."
             echo "GG_FAILED=false" >> $GITHUB_ENV
           fi
 
-      # ==========================================
-      # 3. SNYK SCA SECURITY GATE
-      # ==========================================
       - name: Download Snyk-sca Reports
         uses: actions/download-artifact@v4
         continue-on-error: true
@@ -253,9 +247,6 @@ jobs:
             echo "SCA_FAILED=false" >> $GITHUB_ENV
           fi
 
-      # ==========================================
-      # 4. SEMGREP SECURITY GATE
-      # ==========================================
       - name: Download Semgrep Reports
         uses: actions/download-artifact@v4
         continue-on-error: true
@@ -286,9 +277,6 @@ jobs:
             echo "SEMGREP_FAILED=false" >> $GITHUB_ENV
           fi
 
-      # ==========================================
-      # 5. ZAP SECURITY GATE
-      # ==========================================
       - name: Download ZAP Report
         uses: actions/download-artifact@v4
         continue-on-error: true
@@ -302,7 +290,7 @@ jobs:
           REPORT="zap-report/zap-report.json"
 
           if [[ ! -s "$REPORT" ]]; then
-            echo "❌ ZAP Security Gate FAILED: ZAP report missing"
+            echo "ZAP Security Gate FAILED: ZAP report missing"
             echo "ZAP_FAILED=true" >> $GITHUB_ENV
             exit 0
           fi
@@ -313,20 +301,17 @@ jobs:
           INFO_COUNT=$(jq '[.site[]?.alerts[]? | select((.riskcode | tostring) == "0")] | length' "$REPORT") || 0
 
           if (( HIGH_COUNT > 0 || LOW_COUNT > 0 || INFO_COUNT > 0 )); then
-            echo "❌ ZAP Security Gate FAILED"
+            echo "ZAP Security Gate FAILED"
             [[ HIGH_COUNT -gt 0 ]] && echo "High-risk findings: $HIGH_COUNT"
             [[ MEDIUM_COUNT -gt 0 ]] && echo "Medium-risk findings: $MEDIUM_COUNT"
             [[ LOW_COUNT -gt 0 ]] && echo "Low-risk findings: $LOW_COUNT"
             [[ INFO_COUNT -gt 0 ]] && echo "Informational findings: $INFO_COUNT"
             echo "ZAP_FAILED=true" >> $GITHUB_ENV
           else
-            echo "✅ ZAP Security Gate PASSED"
+            echo "ZAP Security Gate PASSED"
             echo "ZAP_FAILED=false" >> $GITHUB_ENV
           fi
 
-      # ==========================================
-      # 6. FINAL GATE ENFORCER (Turns Red if any failed)
-      # ==========================================
       - name: Final Security Gate Enforcement
         if: always()
         run: |
@@ -341,12 +326,12 @@ jobs:
           echo "=========================================="
 
           if [ "$IAC_FAILED" == "true" ] || [ "$GG_FAILED" == "true" ] || [ "$SCA_FAILED" == "true" ] || [ "$SEMGREP_FAILED" == "true" ] || [ "$ZAP_FAILED" == "true" ]; then
-            echo "❌ OVERALL SECURITY GATE FAILED: One or more security checks found blocking vulnerabilities."
+            echo "OVERALL SECURITY GATE FAILED: One or more security checks found blocking vulnerabilities."
             exit 1
           else
-            echo "✅ OVERALL SECURITY GATE PASSED: All checks clean."
+            echo "OVERALL SECURITY GATE PASSED: All checks clean."
             exit 0
           fi
 
-          echo "✅ SECURITY GATE PASSED"
+          echo "SECURITY GATE PASSED"
           echo "No High, Low, or Informational findings detected."
