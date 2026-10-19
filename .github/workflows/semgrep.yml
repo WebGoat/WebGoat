@@ -19,4 +19,12 @@ jobs:
       image: returntocorp/semgrep
     steps:
     - uses: actions/checkout@v3
-    - run: semgrep ci >> semgrep_report.txt 2&1
+    - run: semgrep ci --json-output=semgrep-findings.json
+
+    - name: Upload Semgrep Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+          name: semgrep-report
+          path: semgrep-findings.json
+          if-no-files-found: warn
