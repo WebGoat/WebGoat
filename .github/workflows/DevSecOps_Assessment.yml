@@ -33,23 +33,34 @@ jobs:
           if-no-files-found: warn
 
   ggshield:
-    name: GitGuardian
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # fetch all history so multiple commits can be scanned
-      - name: GitGuardian scan
-        uses: GitGuardian/ggshield/actions/secret@v1.55.0
-        #if: always()
-        continue-on-error: true
-        env:
-          GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
-          GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
-          GITHUB_PULL_BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-          GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+     name: GitGuardian scan
+     continue-on-error: true
+     runs-on: ubuntu-latest
+     steps:
+       - name: Checkout
+         uses: actions/checkout@v4
+         with:
+           fetch-depth: 0 # fetch all history so multiple commits can be scanned
+       - name: Install and Run GitGuardian (ggshield)
+         continue-on-error: true
+         env:
+           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+
+         run: |
+          echo "Running GitGuardian scan..."
+          pip install ggshield
+          
+          # Run ggshield secret scan and save output to JSON
+          ggshield secret scan path --recursive --all-secrets -y . --json > gitguardian.json 
+
+
+       - name: Upload ggshield Report
+         if: always()
+         uses: actions/upload-artifact@v4
+         with:
+          name: secrets-security-report
+          path: gitguardian.json
+          if-no-files-found: warn
           
   snyk-sca:
     name: snyk-sca 
@@ -135,7 +146,7 @@ jobs:
     #continue-on-error: true
     needs:
           - semgrep
-          # - ggshield
+          - ggshield
           - snyk-sca
           - zap_scan
           - iac_security_scan
@@ -181,6 +192,40 @@ jobs:
             exit 1
           else
             echo "✅ Security IaC Gate PASSED: No blocking vulnerabilities found."
+            exit 0
+          fi
+
+      - name: Download ggshield Reports
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: secrets-security-report
+
+      - name: ggshield Security Gate
+        continue-on-error: true
+        run: |
+          REPORT_FILE="gitguardian.json"
+
+          if [ -z "$REPORT_FILE" ] || [ ! -f "$REPORT_FILE" ]; then
+            echo "Error: Report file not found!"
+            exit 1
+          fi
+
+          echo "Evaluating GitGuardian issues from $REPORT_FILE..."
+
+          # Extract counts cleanly using one-line Python with a shell fallback
+          INCIDENTS=$(python3 -c "import json; print(json.load(open('gitguardian.json')).get('total_incidents', 0))" 2>/dev/null || echo 0)
+          OCCURRENCES=$(python3 -c "import json; print(json.load(open('gitguardian.json')).get('total_occurrences', 0))" 2>/dev/null || echo 0)
+          
+          echo "Total incidents found: $INCIDENTS"
+          echo "Total occurrences found: $OCCURRENCES"
+          
+          # If incidents are found, fail the security gate
+          if [ "$INCIDENTS" -gt 0 ]; then
+            echo "❌ Security Gate Failed: $INCIDENTS incident(s) ($OCCURRENCES occurrence(s)) detected!"
+            exit 1
+          else
+            echo "✅ Security Gate Passed: No secrets found."
             exit 0
           fi
 
