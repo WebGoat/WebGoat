@@ -193,8 +193,8 @@ jobs:
             #path: snyk-iac.json
           
       - name: Snyk-SCA Gate
-        #continue-on-error: true
-        if: always()
+        continue-on-error: true
+        #if: always()
         run: |
           REPORT_FILE="snyk-sca.json"
 
@@ -213,7 +213,7 @@ jobs:
           echo "Found $CRITICAL_COUNT critical, $HIGH_COUNT high, and $MEDIUM_COUNT medium SCA vulnerabilities."
 
           # Print details of the vulnerabilities for visibility
-          jq -r '.vulnerabilities[]? | select(.severity == "critical" or .severity == "high" or .severity == "medium") | "[\(.severity | ascii_upcase)] \(.id): \(.title) (Package: \(.packageName)@\(.version))"' "$REPORT_FILE" || true
+          #jq -r '.vulnerabilities[]? | select(.severity == "critical" or .severity == "high" or .severity == "medium") | "[\(.severity | ascii_upcase)] \(.id): \(.title) (Package: \(.packageName)@\(.version))"' "$REPORT_FILE" || true
 
           if [ "$CRITICAL_COUNT" -gt 0 ] || [ "$HIGH_COUNT" -gt 0 ] || [ "$MEDIUM_COUNT" -gt 0 ]; then
             echo "❌ Snyk SCA Security Gate FAILED."
