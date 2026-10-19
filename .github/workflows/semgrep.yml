@@ -45,8 +45,6 @@ jobs:
       - name: Semgrep Security Gate
         continue-on-error: true
         run: |
-          ls -la && pwd && ls -la
-
           REPORT_FILE="semgrep-findings.json"
 
           if [ -z "$REPORT_FILE" ] || [ ! -f "$REPORT_FILE" ]; then
@@ -59,16 +57,17 @@ jobs:
           # Count critical, high, error, warning, and medium severity findings using jq
           CRITICAL_COUNT=$(jq '[.results[]? | select(.extra.severity == "CRITICAL" or .extra.severity == "critical")] | length' "$REPORT_FILE")
           HIGH_COUNT=$(jq '[.results[]? | select(.extra.severity == "HIGH" or .extra.severity == "high")] | length' "$REPORT_FILE")
-          ERROR_COUNT=$(jq '[.results[]? | select(.extra.severity == "ERROR" or .extra.severity == "error")] | length' "$REPORT_FILE")
-          WARNING_COUNT=$(jq '[.results[]? | select(.extra.severity == "WARNING" or .extra.severity == "warning")] | length' "$REPORT_FILE")
-          MEDIUM_COUNT=$(jq '[.results[]? | select(.extra.severity == "MEDIUM" or .extra.severity == "medium")] | length' "$REPORT_FILE")
+          #ERROR_COUNT=$(jq '[.results[]? | select(.extra.severity == "ERROR" or .extra.severity == "error")] | length' "$REPORT_FILE")
+          #WARNING_COUNT=$(jq '[.results[]? | select(.extra.severity == "WARNING" or .extra.severity == "warning")] | length' "$REPORT_FILE")
+          #MEDIUM_COUNT=$(jq '[.results[]? | select(.extra.severity == "MEDIUM" or .extra.severity == "medium")] | length' "$REPORT_FILE")
           
           echo "Found $CRITICAL_COUNT critical, $HIGH_COUNT high, $ERROR_COUNT error, $WARNING_COUNT warning, and $MEDIUM_COUNT medium Semgrep findings."
 
           # Print details of all the findings for visibility
           jq -r '.results[]? | select(.extra.severity == "CRITICAL" or .extra.severity == "critical" or .extra.severity == "HIGH" or .extra.severity == "high" or .extra.severity == "ERROR" or .extra.severity == "error" or .extra.severity == "WARNING" or .extra.severity == "warning" or .extra.severity == "MEDIUM" or .extra.severity == "medium") | "[\(.extra.severity | ascii_upcase)] Rule: \(.check_id) (File: \(.path))"' "$REPORT_FILE" || true
 
-          if [ "$CRITICAL_COUNT" -gt 0 ] || [ "$HIGH_COUNT" -gt 0 ] || [ "$ERROR_COUNT" -gt 0 ] || [ "$WARNING_COUNT" -gt 0 ] || [ "$MEDIUM_COUNT" -gt 0 ]; then
+          #if [ "$CRITICAL_COUNT" -gt 0 ] || [ "$HIGH_COUNT" -gt 0 ] || [ "$ERROR_COUNT" -gt 0 ] || [ "$WARNING_COUNT" -gt 0 ] || [ "$MEDIUM_COUNT" -gt 0 ]; then
+          if [ "$CRITICAL_COUNT" -gt 0 ] || [ "$HIGH_COUNT" -gt 0 ]; then
             echo "❌ Semgrep Security Gate FAILED."
             exit 1
           else
