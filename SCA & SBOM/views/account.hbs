@@ -1,0 +1,44 @@
+
+<style>
+strong {font-weight: bold}
+</style>
+{{#if firstname}}
+    <h1 id="page-title">Account details for: {{firstname}}</h1>
+    <center>
+        <h3 style="color: green">details saved</h2>
+    </center>
+{{else}}
+    <h1 id="page-title" style="color: red">Account details missing</h1>
+{{/if}}
+
+<div id="list">
+  <form action="/account_details" method="POST" accept-charset="utf-8">
+    <div class="item-new">
+      <center>First name</center>
+      <input class="input" type="text" name="firstname" value="{{firstname}}" />
+      <br/>
+
+     <center>Last name</center>
+     <input class="input" type="text" name="lastname"  value="{{lastname}}" />
+     <br/>
+
+     <center>Country</center>
+     <input class="input" type="text" name="country" value="{{country}}" />
+     <br/>
+
+     <center>Phone number</center>
+     <input class="input" type="text" name="phone" value="{{phone}}" />
+     <br/>
+
+     <center>Email</center>
+     <input class="input" type="text" name="email" value="{{email}}" />
+     <br/>
+
+    </div>
+
+    <br/>
+    <br/>
+     <button type="submit">Save account details</button>
+
+  </form>
+</div>

@@ -1,0 +1,78 @@
+on:
+  workflow_dispatch: {}
+  # pull_request: {}
+  # push:
+  #   branches:
+  #   - main
+  #   - master
+  #   paths:
+  #   - .github/workflows/semgrep.yml
+    
+name: Semgrep
+jobs:
+  semgrep:
+    name: semgrep/ci
+    runs-on: ubuntu-latest
+    env:
+      SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+    container:
+      image: returntocorp/semgrep
+    steps:
+    - uses: actions/checkout@v3
+    - run: semgrep ci --json-output=semgrep-findings.json
+
+    - name: Upload Semgrep Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+          name: semgrep-report
+          path: semgrep-findings.json
+          if-no-files-found: warn
+
+  security_gate:
+    runs-on: ubuntu-latest
+    #if: always()
+    #continue-on-error: true
+    needs:
+           - semgrep
+    steps:
+      - name: Download Semgrep Reports
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: semgrep-report
+
+      - name: Semgrep Security Gate
+        continue-on-error: true
+        run: |
+          REPORT_FILE="semgrep-findings.json"
+
+          if [ -z "$REPORT_FILE" ] || [ ! -f "$REPORT_FILE" ]; then
+            echo "Error: Report file not found!"
+            exit 1
+          fi
+
+          echo "Evaluating Semgrep issues from $REPORT_FILE..."
+
+          # Count critical, high, error, warning, and medium severity findings using jq
+          CRITICAL_COUNT=$(jq '[.results[]? | select(.extra.severity == "CRITICAL" or .extra.severity == "critical")] | length' "$REPORT_FILE")
+          HIGH_COUNT=$(jq '[.results[]? | select(.extra.severity == "HIGH" or .extra.severity == "high")] | length' "$REPORT_FILE")
+          #ERROR_COUNT=$(jq '[.results[]? | select(.extra.severity == "ERROR" or .extra.severity == "error")] | length' "$REPORT_FILE")
+          #WARNING_COUNT=$(jq '[.results[]? | select(.extra.severity == "WARNING" or .extra.severity == "warning")] | length' "$REPORT_FILE")
+          #MEDIUM_COUNT=$(jq '[.results[]? | select(.extra.severity == "MEDIUM" or .extra.severity == "medium")] | length' "$REPORT_FILE")
+          
+          echo "Found $CRITICAL_COUNT critical, $HIGH_COUNT high, $ERROR_COUNT error, $WARNING_COUNT warning, and $MEDIUM_COUNT medium Semgrep findings."
+
+          # Print details of all the findings for visibility
+          jq -r '.results[]? | select(.extra.severity == "CRITICAL" or .extra.severity == "critical" or .extra.severity == "HIGH" or .extra.severity == "high" or .extra.severity == "ERROR" or .extra.severity == "error" or .extra.severity == "WARNING" or .extra.severity == "warning" or .extra.severity == "MEDIUM" or .extra.severity == "medium") | "[\(.extra.severity | ascii_upcase)] Rule: \(.check_id) (File: \(.path))"' "$REPORT_FILE" || true
+
+          #if [ "$CRITICAL_COUNT" -gt 0 ] || [ "$HIGH_COUNT" -gt 0 ] || [ "$ERROR_COUNT" -gt 0 ] || [ "$WARNING_COUNT" -gt 0 ] || [ "$MEDIUM_COUNT" -gt 0 ]; then
+          if [ "$CRITICAL_COUNT" -gt 0 ] || [ "$HIGH_COUNT" -gt 0 ]; then
+            echo "❌ Semgrep Security Gate FAILED."
+            exit 1
+          else
+            echo "✅ Semgrep Security Gate PASSED."
+            exit 0
+          fi
+
+          
