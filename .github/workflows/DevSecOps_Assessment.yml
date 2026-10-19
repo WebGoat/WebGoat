@@ -171,10 +171,10 @@ jobs:
 
           # Fail the build if critical or high issues are found
           if [ "$HIGH_COUNT" -gt 0 ] || [ "$CRITICAL_COUNT" -gt 0 ] || [ "$MEDIUM_COUNT" -gt 0 ]; then
-            echo "❌ Security Gate FAILED: High or Critical IaC vulnerabilities detected."
+            echo "❌ Security IaC Gate FAILED: High or Critical IaC vulnerabilities detected."
             exit 1
           else
-            echo "✅ Security Gate PASSED: No blocking vulnerabilities found."
+            echo "✅ Security IaC Gate PASSED: No blocking vulnerabilities found."
             exit 0
           fi
 
@@ -195,18 +195,23 @@ jobs:
             exit 1
           fi
 
-          echo "Evaluating Snyk IaC issues..."
-          CRITICAL_COUNT=$(jq '[.infrastructureAsCodeIssues[]? | select(.severity == "critical")] | length' "$REPORT_FILE")
-          HIGH_COUNT=$(jq '[.infrastructureAsCodeIssues[]? | select(.severity == "high")] | length' "$REPORT_FILE")
-          MEDIUM_COUNT=$(jq '[.infrastructureAsCodeIssues[]? | select(.severity == "medium")] | length' "$REPORT_FILE")
+          echo "Evaluating Snyk SCA (dependencies) issues from $REPORT_FILE..."
+
+          # Count critical, high, and medium severity vulnerabilities using jq
+          CRITICAL_COUNT=$(jq '[.vulnerabilities[]? | select(.severity == "critical")] | length' "$REPORT_FILE")
+          HIGH_COUNT=$(jq '[.vulnerabilities[]? | select(.severity == "high")] | length' "$REPORT_FILE")
+          MEDIUM_COUNT=$(jq '[.vulnerabilities[]? | select(.severity == "medium")] | length' "$REPORT_FILE")
           
-          echo "Found $CRITICAL_COUNT critical, $HIGH_COUNT high, and $MEDIUM_COUNT medium issues."
+          echo "Found $CRITICAL_COUNT critical, $HIGH_COUNT high, and $MEDIUM_COUNT medium SCA vulnerabilities."
+
+          # Print details of the vulnerabilities for visibility
+          jq -r '.vulnerabilities[]? | select(.severity == "critical" or .severity == "high" or .severity == "medium") | "[\(.severity | ascii_upcase)] \(.id): \(.title) (Package: \(.packageName)@\(.version))"' "$REPORT_FILE" || true
 
           if [ "$CRITICAL_COUNT" -gt 0 ] || [ "$HIGH_COUNT" -gt 0 ] || [ "$MEDIUM_COUNT" -gt 0 ]; then
-            echo "❌ Snyk Security Gate FAILED."
+            echo "❌ Snyk SCA Security Gate FAILED."
             exit 1
           else
-            echo "✅ Snyk Security Gate PASSED."
+            echo "✅ Snyk SCA Security Gate PASSED."
             exit 0
           fi
 
