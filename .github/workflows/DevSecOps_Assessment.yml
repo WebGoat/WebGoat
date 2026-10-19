@@ -45,7 +45,7 @@ jobs:
           GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
           
-  snyk:
+  snyk-sca:
     name: snyk-sca 
     runs-on: ubuntu-latest
     steps:
@@ -130,7 +130,7 @@ jobs:
     needs:
           # - semgrep
           # - ggshield
-          # - snyk
+          - snyk-sca
           - zap_scan
           - iac_security_scan
           
@@ -143,7 +143,7 @@ jobs:
           #path: snyk-iac.json
 
 
-      - name: Evaluate Security Gate
+      - name: IaC Security Gate
         continue-on-error: true
         run: |
           ls -la && pwd && ls -la
@@ -186,6 +186,38 @@ jobs:
             exit 1
           else
             echo "✅ Security Gate PASSED: No blocking vulnerabilities found."
+            exit 0
+          fi
+
+
+          - name: Download Snyk-sca Reports
+            uses: actions/download-artifact@v4
+            continue-on-error: true
+            with:
+            name: sca-report
+            #path: snyk-iac.json
+          
+          - name: Snyk-SCA Gate
+            run: |
+          REPORT_FILE="snyk-sca.json"
+
+          if [ -z "$REPORT_FILE" ] || [ ! -f "$REPORT_FILE" ]; then
+            echo "Error: Report file not found!"
+            exit 1
+          fi
+
+          echo "Evaluating Snyk IaC issues..."
+          CRITICAL_COUNT=$(jq '[.infrastructureAsCodeIssues[]? | select(.severity == "critical")] | length' "$REPORT_FILE")
+          HIGH_COUNT=$(jq '[.infrastructureAsCodeIssues[]? | select(.severity == "high")] | length' "$REPORT_FILE")
+          MEDIUM_COUNT=$(jq '[.infrastructureAsCodeIssues[]? | select(.severity == "medium")] | length' "$REPORT_FILE")
+          
+          echo "Found $CRITICAL_COUNT critical, $HIGH_COUNT high, and $MEDIUM_COUNT medium issues."
+
+          if [ "$CRITICAL_COUNT" -gt 0 ] || [ "$HIGH_COUNT" -gt 0 ] || [ "$MEDIUM_COUNT" -gt 0 ]; then
+            echo "❌ Snyk Security Gate FAILED."
+            exit 1
+          else
+            echo "✅ Snyk Security Gate PASSED."
             exit 0
           fi
 
