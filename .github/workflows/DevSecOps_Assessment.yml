@@ -188,10 +188,10 @@ jobs:
 
           # Fail the build if critical or high issues are found
           if [ "$HIGH_COUNT" -gt 0 ] || [ "$CRITICAL_COUNT" -gt 0 ] || [ "$MEDIUM_COUNT" -gt 0 ]; then
-            echo "❌ Security IaC Gate FAILED: High or Critical IaC vulnerabilities detected."
+            echo "Security IaC Gate FAILED: High or Critical IaC vulnerabilities detected."
             exit 1
           else
-            echo "✅ Security IaC Gate PASSED: No blocking vulnerabilities found."
+            echo "Security IaC Gate PASSED: No blocking vulnerabilities found."
             exit 0
           fi
 
@@ -222,10 +222,10 @@ jobs:
           
           # If incidents are found, fail the security gate
           if [ "$INCIDENTS" -gt 0 ]; then
-            echo "❌ Security Gate Failed: $INCIDENTS incident(s) ($OCCURRENCES occurrence(s)) detected!"
+            echo "Security Gate Failed: $INCIDENTS incident(s) ($OCCURRENCES occurrence(s)) detected!"
             exit 1
           else
-            echo "✅ Security Gate Passed: No secrets found."
+            echo "Security Gate Passed: No secrets found."
             exit 0
           fi
 
@@ -330,7 +330,7 @@ jobs:
           REPORT="zap-report/zap-report.json"
 
           if [[ ! -s "$REPORT" ]]; then
-            echo "❌ Security Gate FAILED: ZAP report missing"
+            echo "Security Gate FAILED: ZAP report missing"
             exit 1
           fi
 
@@ -341,7 +341,7 @@ jobs:
 
 
           if (( HIGH_COUNT > 0 || LOW_COUNT > 0 || INFO_COUNT > 0 )); then
-          echo "❌ SECURITY GATE FAILED"
+          echo "SECURITY GATE FAILED"
 
           if (( HIGH_COUNT > 0 )); then
           echo "High-risk findings: $HIGH_COUNT"
