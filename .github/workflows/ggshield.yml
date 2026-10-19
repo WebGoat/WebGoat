@@ -16,7 +16,7 @@ jobs:
        - name: Install and Run GitGuardian (ggshield)
          continue-on-error: true  
          env:
-           GITGUARDIAN_API_KEY: ${{ secrets.1GITGUARDIAN_API_KEY }}
+           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
            GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
            GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
            GITHUB_PULL_BASE_SHA: ${{ github.event.pull_request.base.sha }}
