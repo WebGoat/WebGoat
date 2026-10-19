@@ -150,9 +150,6 @@ jobs:
       - iac_security_scan
         
     steps:
-      # ==========================================
-      # 1. IaC SECURITY GATE
-      # ==========================================
       - name: Download IaC Snyk Reports
         uses: actions/download-artifact@v4
         continue-on-error: true
