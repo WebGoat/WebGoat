@@ -181,12 +181,14 @@ jobs:
 
       - name: Download Snyk-sca Reports
         uses: actions/download-artifact@v4
-        continue-on-error: true
+        #continue-on-error: true
         with:
           name: sca-report
             #path: snyk-iac.json
           
       - name: Snyk-SCA Gate
+        #continue-on-error: true
+        if: always()
         run: |
           REPORT_FILE="snyk-sca.json"
 
