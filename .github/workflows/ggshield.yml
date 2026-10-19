@@ -20,10 +20,10 @@ jobs:
           # Run ggshield secret scan and save output to JSON
           ggshield secret scan ci --json > gitguardian.json || true
           env:
-          GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
-          GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
-          GITHUB_PUSH_COMMIT_SHA: ${{ github.event.after }}
-          GITGUARDIAN_API_URL: "https://api.gitguardian.com"
+           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+           GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
+           GITHUB_PUSH_COMMIT_SHA: ${{ github.event.after }}
+           GITGUARDIAN_API_URL: "https://api.gitguardian.com"
 
 
        - name: Upload ggshield Report
