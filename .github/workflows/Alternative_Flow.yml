@@ -1,4 +1,4 @@
-name: DevSecOps Assessment
+name: Alternative Flow
 
 on:
   workflow_dispatch: {}
