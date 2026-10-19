@@ -4,9 +4,9 @@ on:
  workflow_dispatch: {} #[push, pull_request]
  
 jobs:
-  scanning:
-    name: GitGuardian scan
-    runs-on: ubuntu-latest
+    ggshield:
+      name: GitGuardian scan
+      runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,3 +32,46 @@ jobs:
           name: secrets-security-report
           path: gitguardian.json
           if-no-files-found: warn
+          
+          
+  security_gate:
+    runs-on: ubuntu-latest
+    #if: always()
+    #continue-on-error: true
+    needs:
+           - ggshield
+          
+    steps:
+      - name: Download ggshield Reports
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: secrets-security-report
+          #path: snyk-iac.json
+
+
+    run: |
+          REPORT_FILE="gitguardian.json"
+
+          if [ -z "$REPORT_FILE" ] || [ ! -f "$REPORT_FILE" ]; then
+            echo "Error: Report file not found!"
+            exit 1
+          fi
+
+          echo "Evaluating GitGuardian issues from $REPORT_FILE..."
+
+          # Count secret leaks / policy breaks using jq
+          SECRET_COUNT=$(jq '[.entities[]? | .policy_breaks[]?] | length' "$REPORT_FILE")
+          
+          echo "Found $SECRET_COUNT secret leak(s) / policy break(s) in GitGuardian findings."
+
+          # Print details of the findings for visibility
+          jq -r '.entities[]? | .policy_breaks[]? | "[SECRET LEAK] Type: \(.break_type) (File: \(.filename))"' "$REPORT_FILE" || true
+
+          if [ "$SECRET_COUNT" -gt 0 ]; then
+            echo "❌ GitGuardian Security Gate FAILED."
+            exit 1
+          else
+            echo "✅ GitGuardian Security Gate PASSED."
+            exit 0
+          fi
