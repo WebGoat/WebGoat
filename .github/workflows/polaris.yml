@@ -1,0 +1,19 @@
+name: Polaris Scan
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  polaris:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run Polaris Scan
+        uses: synopsys-sig/polaris-action@v1
+        with:
+          polaris_server_url: ${{ secrets.POLARIS_URL }}
+          polaris_access_token: ${{ secrets.POLARIS_TOKEN }}
+          polaris_project: "DRCWebGoat"
+          polaris_branch: ${{ github.ref_name }}
