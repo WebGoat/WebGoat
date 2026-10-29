@@ -1,0 +1,84 @@
+name: GitGuardian scan
+ 
+on: 
+ workflow_dispatch: {} #[push, pull_request]
+ 
+jobs:
+  ggshield:
+     name: GitGuardian scan
+     continue-on-error: true
+     runs-on: ubuntu-latest
+     steps:
+       - name: Checkout
+         uses: actions/checkout@v4
+         with:
+           fetch-depth: 0 # fetch all history so multiple commits can be scanned
+       - name: Install and Run GitGuardian (ggshield)
+         continue-on-error: true  
+         env:
+           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+           GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
+           GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
+           GITHUB_PULL_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+           GITHUB_PUSH_COMMIT_SHA: ${{ github.event.after }}
+           GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+           #GITGUARDIAN_API_URL: "https://api.gitguardian.com"
+         run: |
+          echo "Running GitGuardian scan..."
+          pip install ggshield
+          # Run ggshield secret scan and save output to JSON
+          #ggshield secret scan ci --json > gitguardian.json || true
+          ggshield secret scan path --recursive . --json > gitguardian.json || true
+
+
+       - name: Upload ggshield Report
+         if: always()
+         uses: actions/upload-artifact@v4
+         with:
+          name: secrets-security-report
+          path: gitguardian.json
+          if-no-files-found: warn
+            
+  security_gate:
+    runs-on: ubuntu-latest
+    #if: always()
+    #continue-on-error: true
+    needs:
+          - ggshield
+          
+    steps:
+      - name: Download ggshield Reports
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: secrets-security-report
+          #path: gitguardian.json
+
+
+      - name: ggshield Security Gate
+        continue-on-error: true
+        run: |
+          REPORT_FILE="gitguardian.json"
+
+          if [ -z "$REPORT_FILE" ] || [ ! -f "$REPORT_FILE" ]; then
+            echo "Error: Report file not found!"
+            exit 1
+          fi
+
+          echo "Evaluating GitGuardian issues from $REPORT_FILE..."
+
+          # Count secret leaks / policy breaks using jq
+          SECRET_COUNT=$(jq '[.entities[]? | .policy_breaks[]?] | length' "$REPORT_FILE")
+          
+          echo "Found $SECRET_COUNT secret leak(s) / policy break(s) in GitGuardian findings."
+
+          # Print details of the findings for visibility
+          jq -r '.entities[]? | .policy_breaks[]? | "[SECRET LEAK] Type: \(.break_type) (File: \(.filename))"' "$REPORT_FILE" || true
+
+          if [ "$SECRET_COUNT" -gt 0 ]; then
+            echo "❌ GitGuardian Security Gate FAILED."
+            exit 1
+          else
+            echo "✅ GitGuardian Security Gate PASSED."
+            exit 0
+          fi

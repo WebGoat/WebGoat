@@ -1,8 +1,9 @@
 name: "Release Pipeline"
 on:
-  push:
-    tags:
-      - v*
+  workflow_dispatch: {}
+  # push:
+  #   tags:
+  #     - v*
 jobs:
   release:
     if: github.repository == 'WebGoat/WebGoat'

@@ -1,0 +1,23 @@
+<% layout( 'layout' ) -%>
+<style>
+strong {font-weight: bold}
+</style>
+<h1 id="page-title"><%= title %></h1>
+
+<div id="list">
+  <form action="/login" method="post" accept-charset="utf-8">
+    <% if( granted == false ){ %>
+    <div class="item-new">
+      <center>username</center>
+      <input class="input" type="text" name="username" />
+      <br/>
+      <center>password</center>
+      <input class="input" type="password" name="password" />
+      <center>
+      <input type="hidden" name="redirectPage" value="<%- redirectPage %>" />
+      <input type="submit">
+      </center>
+    </div>
+    <% } %>
+  </form>
+</div>

@@ -1,0 +1,366 @@
+name: DevSecOps Assessment
+
+on:
+  workflow_dispatch: {}
+  # pull_request: {}
+  # push:
+  #   branches:
+  #   - main
+  #   - master
+
+permissions:
+  contents: read
+  security-events: write
+    
+jobs:
+  semgrep:
+    name: semgrep/ci
+    runs-on: ubuntu-latest
+    env:
+      SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+    container:
+      image: returntocorp/semgrep
+    steps:
+    - uses: actions/checkout@v3
+    - run: semgrep ci --json-output=semgrep-findings.json
+
+    - name: Upload Semgrep Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+          name: semgrep-report
+          path: semgrep-findings.json
+          if-no-files-found: warn
+
+  ggshield:
+     name: GitGuardian scan
+     continue-on-error: true
+     runs-on: ubuntu-latest
+     steps:
+       - name: Checkout
+         uses: actions/checkout@v4
+         with:
+           fetch-depth: 0 # fetch all history so multiple commits can be scanned
+       - name: Install and Run GitGuardian (ggshield)
+         continue-on-error: true
+         env:
+           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+
+         run: |
+          echo "Running GitGuardian scan..."
+          pip install ggshield
+          
+          # Run ggshield secret scan and save output to JSON
+          ggshield secret scan path --recursive --all-secrets -y . --json > gitguardian.json 
+
+
+       - name: Upload ggshield Report
+         if: always()
+         uses: actions/upload-artifact@v4
+         with:
+          name: secrets-security-report
+          path: gitguardian.json
+          if-no-files-found: warn
+          
+  snyk-sca:
+    name: snyk-sca 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: snyk/actions/setup@master
+      - name: SCA scan (report only)
+        #if: always()
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: snyk test --sarif-file-output=snyk-sca.sarif --json-file-output=snyk-sca.json
+      - name: Monitor in Snyk web app
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: snyk monitor
+      - uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk-sca.sarif
+          category: snyk-sca
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sca-report
+          path: snyk-sca.json
+          
+  zap_scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+          
+      - name: ZAP Scan
+        uses: zaproxy/action-baseline@v0.15.0
+        #if: always()
+        continue-on-error: true
+        with:
+          #token: ${{ secrets.GITHUB_TOKEN }}
+          #docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
+          target: 'https://preview.owasp-juice.shop'
+          #rules_file_name: '.zap/rules.tsv'
+          #cmd_options: '-a'
+          cmd_options: '-J zap-report.json -I'
+          allow_issue_writing: false
+
+      - name: Upload ZAP Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-security-report
+          path: zap-report.json
+          if-no-files-found: warn
+          
+ 
+  iac_security_scan:
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - uses: snyk/actions/setup@master
+    - name: IaC scan (report only)
+      #if: always()
+      continue-on-error: true
+      env:
+         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      run: snyk iac test . --severity-threshold=high --json-file-output=snyk-iac.json
+
+    - name: Upload IaC Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+          name: IaC-security-report
+          path: snyk-iac.json
+          if-no-files-found: warn
+          
+
+  security_gate:
+    runs-on: ubuntu-latest
+    #if: always()
+    #continue-on-error: true
+    needs:
+          - semgrep
+          - ggshield
+          - snyk-sca
+          - zap_scan
+          - iac_security_scan
+          
+    steps:
+      - name: Download IaC Snyk Reports
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: IaC-security-report
+          #path: snyk-iac.json
+
+
+      - name: IaC Security Gate
+        continue-on-error: true
+        run: |
+          ls -la && pwd && ls -la
+    
+          #REPORT_FILE="snyk-iac.json"
+          REPORT_FILE=$(echo "snyk-iac.json" | tr -d '\r')
+
+          if [ ! -e "$REPORT_FILE" ]; then
+            echo "Error: Report file $REPORT_FILE not found!"
+            exit 1
+          fi
+
+          echo "Evaluating Snyk IaC issues from $REPORT_FILE..."
+
+          # Count high and critical severity issues using jq
+          HIGH_COUNT=$(jq '[.infrastructureAsCodeIssues[]? | select(.severity == "high")] | length' "$REPORT_FILE")
+          CRITICAL_COUNT=$(jq '[.infrastructureAsCodeIssues[]? | select(.severity == "critical")] | length' "$REPORT_FILE")
+          MEDIUM_COUNT=$(jq '[.infrastructureAsCodeIssues[]? | select(.severity == "medium")] | length' "$REPORT_FILE")
+          
+          echo "Found $CRITICAL_COUNT critical and$HIGH_COUNT high-severity IaC issues."
+
+          # Print details of the violations for visibility
+          #jq -r '.infrastructureAsCodeIssues[]? | "[\(.severity | ascii_upcase)] \(.id): \(.title) (Line \(.lineNumber))"' "$REPORT_FILE"
+          jq -r '.infrastructureAsCodeIssues[]? | select(.severity == "critical" or .severity == "high" or .severity == "medium") | "[\(.severity | ascii_upcase)] \(.id): \(.title) (Line \(.lineNumber))"' "$REPORT_FILE" || true
+
+          # Fail the build if critical or high issues are found
+          if [ "$HIGH_COUNT" -gt 0 ] || [ "$CRITICAL_COUNT" -gt 0 ] || [ "$MEDIUM_COUNT" -gt 0 ]; then
+            echo "Security IaC Gate FAILED: High or Critical IaC vulnerabilities detected."
+            exit 1
+          else
+            echo "Security IaC Gate PASSED: No blocking vulnerabilities found."
+            exit 0
+          fi
+
+      - name: Download ggshield Reports
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: secrets-security-report
+
+      - name: ggshield Security Gate
+        continue-on-error: true
+        run: |
+          REPORT_FILE="gitguardian.json"
+
+          if [ -z "$REPORT_FILE" ] || [ ! -f "$REPORT_FILE" ]; then
+            echo "Error: Report file not found!"
+            exit 1
+          fi
+
+          echo "Evaluating GitGuardian issues from $REPORT_FILE..."
+
+          # Extract counts cleanly using one-line Python with a shell fallback
+          INCIDENTS=$(python3 -c "import json; print(json.load(open('gitguardian.json')).get('total_incidents', 0))" 2>/dev/null || echo 0)
+          OCCURRENCES=$(python3 -c "import json; print(json.load(open('gitguardian.json')).get('total_occurrences', 0))" 2>/dev/null || echo 0)
+          
+          echo "Total incidents found: $INCIDENTS"
+          echo "Total occurrences found: $OCCURRENCES"
+          
+          # If incidents are found, fail the security gate
+          if [ "$INCIDENTS" -gt 0 ]; then
+            echo "Security Gate Failed: $INCIDENTS incident(s) ($OCCURRENCES occurrence(s)) detected!"
+            exit 1
+          else
+            echo "Security Gate Passed: No secrets found."
+            exit 0
+          fi
+
+
+      - name: Download Snyk-sca Reports
+        uses: actions/download-artifact@v4
+        #continue-on-error: true
+        with:
+          name: sca-report
+            #path: snyk-iac.json
+          
+      - name: Snyk-SCA Gate
+        continue-on-error: true
+        #if: always()
+        run: |
+          REPORT_FILE="snyk-sca.json"
+
+          if [ -z "$REPORT_FILE" ] || [ ! -f "$REPORT_FILE" ]; then
+            echo "Error: Report file not found!"
+            exit 1
+          fi
+
+          echo "Evaluating Snyk SCA (dependencies) issues from $REPORT_FILE..."
+
+          # Count critical, high, and medium severity vulnerabilities using jq
+          CRITICAL_COUNT=$(jq '[.vulnerabilities[]? | select(.severity == "critical")] | length' "$REPORT_FILE")
+          HIGH_COUNT=$(jq '[.vulnerabilities[]? | select(.severity == "high")] | length' "$REPORT_FILE")
+          MEDIUM_COUNT=$(jq '[.vulnerabilities[]? | select(.severity == "medium")] | length' "$REPORT_FILE")
+          
+          echo "Found $CRITICAL_COUNT critical, $HIGH_COUNT high, and $MEDIUM_COUNT medium SCA vulnerabilities."
+
+          # Print details of the vulnerabilities for visibility
+          #jq -r '.vulnerabilities[]? | select(.severity == "critical" or .severity == "high" or .severity == "medium") | "[\(.severity | ascii_upcase)] \(.id): \(.title) (Package: \(.packageName)@\(.version))"' "$REPORT_FILE" || true
+
+          if [ "$CRITICAL_COUNT" -gt 0 ] || [ "$HIGH_COUNT" -gt 0 ] || [ "$MEDIUM_COUNT" -gt 0 ]; then
+            echo "❌ Snyk SCA Security Gate FAILED."
+            exit 1
+          else
+            echo "✅ Snyk SCA Security Gate PASSED."
+            exit 0
+          fi
+
+      - name: Download Semgrep Reports
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: semgrep-report
+
+      - name: Semgrep Security Gate
+        continue-on-error: true
+        run: |
+          REPORT_FILE="semgrep-findings.json"
+
+          if [ -z "$REPORT_FILE" ] || [ ! -f "$REPORT_FILE" ]; then
+            echo "Error: Report file not found!"
+            exit 1
+          fi
+
+          echo "Evaluating Semgrep issues from $REPORT_FILE..."
+
+          # Count critical, high, error, warning, and medium severity findings using jq
+          CRITICAL_COUNT=$(jq '[.results[]? | select(.extra.severity == "CRITICAL" or .extra.severity == "critical")] | length' "$REPORT_FILE")
+          HIGH_COUNT=$(jq '[.results[]? | select(.extra.severity == "HIGH" or .extra.severity == "high")] | length' "$REPORT_FILE")
+          #ERROR_COUNT=$(jq '[.results[]? | select(.extra.severity == "ERROR" or .extra.severity == "error")] | length' "$REPORT_FILE")
+          #WARNING_COUNT=$(jq '[.results[]? | select(.extra.severity == "WARNING" or .extra.severity == "warning")] | length' "$REPORT_FILE")
+          #MEDIUM_COUNT=$(jq '[.results[]? | select(.extra.severity == "MEDIUM" or .extra.severity == "medium")] | length' "$REPORT_FILE")
+          
+          echo "Found $CRITICAL_COUNT critical, $HIGH_COUNT high, $ERROR_COUNT error, $WARNING_COUNT warning, and $MEDIUM_COUNT medium Semgrep findings."
+
+          # Print details of all the findings for visibility
+          #jq -r '.results[]? | select(.extra.severity == "CRITICAL" or .extra.severity == "critical" or .extra.severity == "HIGH" or .extra.severity == "high" or .extra.severity == "ERROR" or .extra.severity == "error" or .extra.severity == "WARNING" or .extra.severity == "warning" or .extra.severity == "MEDIUM" or .extra.severity == "medium") | "[\(.extra.severity | ascii_upcase)] Rule: \(.check_id) (File: \(.path))"' "$REPORT_FILE" || true
+
+          #if [ "$CRITICAL_COUNT" -gt 0 ] || [ "$HIGH_COUNT" -gt 0 ] || [ "$ERROR_COUNT" -gt 0 ] || [ "$WARNING_COUNT" -gt 0 ] || [ "$MEDIUM_COUNT" -gt 0 ]; then
+          if [ "$CRITICAL_COUNT" -gt 0 ] || [ "$HIGH_COUNT" -gt 0 ]; then
+            echo "❌ Semgrep Security Gate FAILED."
+            exit 1
+          else
+            echo "✅ Semgrep Security Gate PASSED."
+            exit 0
+          fi
+
+
+      - name: Download ZAP Report
+        #continue-on-error: true
+        if: always()
+        uses: actions/download-artifact@v4
+        with:
+          name: zap-security-report
+          path: zap-report
+
+      # - name: Debug downloaded files
+      #   run: |
+      #     echo "Downloaded files:"
+      #     ls -laR zap-report
+      #     echo "Finding Files"
+      #     find . -maxdepth 3 -name '*json*' -type f
+          
+      - name: ZAP Security Gate
+        continue-on-error: true
+        shell: bash
+        run: |
+          REPORT="zap-report/zap-report.json"
+
+          if [[ ! -s "$REPORT" ]]; then
+            echo "Security Gate FAILED: ZAP report missing"
+            exit 1
+          fi
+
+          HIGH_COUNT=$(jq '[.site[]?.alerts[]? | select((.riskcode | tostring) == "3")] | length' "$REPORT") || exit 1
+          MEDIUM_COUNT=$(jq '[.site[]?.alerts[]? | select((.riskcode | tostring) == "2")] | length' "$REPORT") || exit 1
+          LOW_COUNT=$(jq '[.site[]?.alerts[]? | select((.riskcode | tostring) == "1")] | length' "$REPORT") || exit 1
+          INFO_COUNT=$(jq '[.site[]?.alerts[]? | select((.riskcode | tostring) == "1")] | length' "$REPORT") || exit 1
+
+
+          if (( HIGH_COUNT > 0 || LOW_COUNT > 0 || INFO_COUNT > 0 )); then
+          echo "SECURITY GATE FAILED"
+
+          if (( HIGH_COUNT > 0 )); then
+          echo "High-risk findings: $HIGH_COUNT"
+          fi
+
+          if (( MEDIUM_COUNT > 0 )); then
+          echo "Medium-risk findings: $MEDIUM_COUNT"
+          fi
+
+          if (( LOW_COUNT > 0 )); then
+          echo "Low-risk findings: $LOW_COUNT"
+          fi
+
+          if (( INFO_COUNT > 0 )); then
+          echo "Informational findings: $INFO_COUNT"
+          fi
+
+          exit 1
+          fi
+
+          echo "✅ SECURITY GATE PASSED"
+          echo "No High, Low, or Informational findings detected."
