@@ -171,7 +171,7 @@
       <dependency>
         <groupId>com.auth0</groupId>
         <artifactId>java-jwt</artifactId>
-        <version>4.6.1</version>
+        <version>4.6.2</version>
       </dependency>
       <dependency>
         <groupId>com.google.guava</groupId>
