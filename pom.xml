@@ -231,7 +231,7 @@
       <dependency>
         <groupId>com.microsoft.playwright</groupId>
         <artifactId>playwright</artifactId>
-        <version>1.62.0</version>
+        <version>1.64.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
