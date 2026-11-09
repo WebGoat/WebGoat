@@ -226,7 +226,7 @@
       <dependency>
         <groupId>org.jruby</groupId>
         <artifactId>jruby</artifactId>
-        <version>10.1.2.0</version>
+        <version>10.1.3.0</version>
       </dependency>
       <dependency>
         <groupId>com.microsoft.playwright</groupId>
