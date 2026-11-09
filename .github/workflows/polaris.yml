@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -26,13 +26,12 @@ jobs:
           cache: 'maven'
 
       - name: Run Black Duck Security Scan (Polaris)
-        uses: blackduck-security-scan/blackduck-security-scan@v2.0.0
-        # If your tenant uses the legacy action tag, use: synopsys-sig/synopsys-action@v1.14.0
+        uses: blackduck-inc/black-duck-security-scan@v2
         with:
           polaris_serverUrl: ${{ vars.POLARIS_SERVER_URL }}
           polaris_accessToken: ${{ secrets.POLARIS_ACCESS_TOKEN }}
-          polaris_application_name: "Acme Corp Core Apps"
-          polaris_project_name: "WebGoat-Java"
+          ##polaris_application_name: "Acme Corp Core Apps"
+          ##polaris_project_name: "WebGoat-Java"
           polaris_assessment_types: "SAST,SCA"
           
           ### Developer Feedback & Pull Request Guardrails ###
