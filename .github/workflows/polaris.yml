@@ -1,0 +1,44 @@
+name: Black Duck Polaris Scan
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  polaris-security-scan:
+    name: Polaris SAST & SCA
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Run Black Duck Security Scan (Polaris)
+        uses: blackduck-security-scan/blackduck-security-scan@v2.0.0
+        # If your tenant uses the legacy action tag, use: synopsys-sig/synopsys-action@v1.14.0
+        with:
+          polaris_serverUrl: ${{ vars.POLARIS_SERVER_URL }}
+          polaris_accessToken: ${{ secrets.POLARIS_ACCESS_TOKEN }}
+          polaris_application_name: "Acme Corp Core Apps"
+          polaris_project_name: "WebGoat-Java"
+          polaris_assessment_types: "SAST,SCA"
+          
+          ### Developer Feedback & Pull Request Guardrails ###
+          polaris_prcomment_severities: "CRITICAL,HIGH"
+          polaris_reports_sarif_create: true
+          polaris_upload_sarif_report: true
+          
+          ### Policy Enforcement & Merge Gating ###
+          polaris_waitForScan: true
