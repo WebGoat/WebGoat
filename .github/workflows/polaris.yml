@@ -18,18 +18,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: 'maven'
-
       - name: Run Black Duck Security Scan (Polaris)
         uses: blackduck-inc/black-duck-security-scan@v2
         with:
-          polaris_serverUrl: ${{ vars.POLARIS_SERVER_URL }}
-          polaris_accessToken: ${{ secrets.POLARIS_ACCESS_TOKEN }}
+          polaris_server_url: ${{ vars.POLARIS_SERVER_URL }}
+          polaris_access_token: ${{ secrets.POLARIS_ACCESS_TOKEN }}
           ##polaris_application_name: "Acme Corp Core Apps"
           ##polaris_project_name: "WebGoat-Java"
           polaris_assessment_types: "SAST,SCA"
