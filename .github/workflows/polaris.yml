@@ -34,3 +34,4 @@ jobs:
           
           ### Policy Enforcement & Merge Gating ###
           polaris_waitForScan: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
