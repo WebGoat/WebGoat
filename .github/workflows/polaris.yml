@@ -23,8 +23,8 @@ jobs:
         with:
           polaris_server_url: ${{ vars.POLARIS_SERVER_URL }}
           polaris_access_token: ${{ secrets.POLARIS_ACCESS_TOKEN }}
-          ##polaris_application_name: "Acme Corp Core Apps"
-          ##polaris_project_name: "WebGoat-Java"
+          polaris_application_name: "Hubbard Interview"
+          polaris_project_name: "WebGoat"
           polaris_assessment_types: "SAST,SCA"
           
           ### Developer Feedback & Pull Request Guardrails ###
@@ -34,5 +34,5 @@ jobs:
           
           ### Policy Enforcement & Merge Gating ###
           polaris_waitForScan: true
-          
+
           github_token: ${{ secrets.GITHUB_TOKEN }}
