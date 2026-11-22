@@ -162,7 +162,14 @@
         </div>
     </header>
 
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-top-bar">
+            <button id="sidebar-toggle-btn" type="button" class="sidebar-toggle-btn" title="Toggle sidebar" aria-label="Toggle sidebar">
+                <span class="bar bar-1"></span>
+                <span class="bar bar-2"></span>
+                <span class="bar bar-3"></span>
+            </button>
+        </div>
         <div id="menu-container"></div>
     </aside>
     <!--sidebar left end-->
@@ -242,6 +249,28 @@
 
 <!-- Show the number of e-mails in the mailbox on the mailbox button -->
 <script type="text/javascript">
+    // sidebar toggle on/off throughout all screen sizes
+    (function () {
+        var sidebar = document.getElementById('sidebar');
+        var btn = document.getElementById('sidebar-toggle-btn');
+        var content = document.querySelector('.main-content-wrapper');
+        if (!sidebar || !btn) {
+            return;
+        }
+
+        // sidebar starts open with cross icon by default across all sizes
+        btn.classList.add('is-open');
+
+        btn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var isClosed = sidebar.classList.toggle('sidebar-closed');
+            if (content) {
+                content.classList.toggle('sidebar-closed', isClosed);
+            }
+            btn.classList.toggle('is-open', !isClosed);
+        });
+    })();
+
     (function () {
         var button = document.getElementById('mailbox-button');
         var badge = document.getElementById('mailbox-count');

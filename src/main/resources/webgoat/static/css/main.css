@@ -807,7 +807,8 @@ fieldset[disabled] .btn-warning.active {
 
 @media only screen and (max-width: 660px) {
     #header {
-        height: 160px;
+        height: auto;
+        min-height: 140px;
     }
 
     #header .brand {
@@ -816,14 +817,6 @@ fieldset[disabled] .btn-warning.active {
 
     #header .user-nav ul {
         padding-left: 0;
-    }
-
-    .main-content-wrapper {
-        margin-left: 0;
-    }
-
-    .sidebar {
-        display: none;
     }
 
     .sidebarRight {
@@ -931,7 +924,94 @@ cookie-container {
     -o-transition: all 0.3s ease-in-out;
     -ms-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
-    z-index: 100;
+    z-index: 300;
+}
+
+/* sidebar top bar with hamburger button */
+.sidebar-top-bar {
+    display: flex;
+    align-items: center;
+    padding: 10px 14px;
+    border-bottom: 1px solid #f0f0f0;
+    background: #fff;
+    min-height: 44px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 305;
+}
+
+/* 3 horizontal lines hamburger button */
+.sidebar-toggle-btn {
+    background: transparent;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    outline: none;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 310;
+    pointer-events: auto;
+}
+
+.sidebar-toggle-btn:hover {
+    background: #f1f2f7;
+}
+
+.sidebar-toggle-btn .bar {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: #5d5f63;
+    margin: 2px 0;
+    border-radius: 2px;
+    transition: all 0.25s ease-in-out;
+    pointer-events: none;
+}
+
+/* smooth morph from 3 horizontal lines into cross */
+.sidebar-toggle-btn.is-open .bar-1 {
+    transform: translateY(6px) rotate(45deg);
+    background: #e84c3d;
+}
+
+.sidebar-toggle-btn.is-open .bar-2 {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.sidebar-toggle-btn.is-open .bar-3 {
+    transform: translateY(-6px) rotate(-45deg);
+    background: #e84c3d;
+}
+
+/* when closed: remove menu and collapse sidebar to toggle button only */
+.sidebar.sidebar-closed {
+    width: 48px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.sidebar.sidebar-closed .sidebar-top-bar {
+    background: transparent;
+    border: none;
+    padding: 8px 6px;
+    justify-content: flex-start;
+}
+
+.sidebar.sidebar-closed #menu-container {
+    display: none;
+}
+
+.main-content-wrapper.sidebar-closed {
+    margin-left: 48px;
 }
 
 #menu-container {
