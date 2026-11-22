@@ -34,17 +34,17 @@
         <div id="lesson-title-wrapper">
 
         </div><!--lesson title end-->
-        <div style="position: absolute;width:600px; z-index:3; top:22px; right: -90px;">
-            <input class="form-control" type="text" id="search" name="search" th:placeholder="#{searchmenu}"  style="width:200px;display:inline-block" />
-
-            <!-- webwolf menu item -->
-            <a th:href="@{/WebWolf}" target="_blank">
-                <button type="button" id="webwolf-button" class="btn btn-default right_nav_button"
-                        title="WebWolf">
-                    <img th:src="@{/css/img/wolf.svg}"></img>
+        <div style="position: absolute; width:auto; z-index:3; top:22px; right: 15px; display:flex; align-items:center; gap:2px;">
+            <!-- search: icon only, hover reveals input as dropdown -->
+            <div class="dropdown nav-search-dropdown" id="search-wrapper">
+                <button type="button" class="btn btn-default right_nav_button" title="Search">
+                    <i class="fa fa-search"></i>
                 </button>
-            </a>
-            <!-- user menu item -->
+                <div class="dropdown-menu nav-search-menu">
+                    <input class="form-control" type="text" id="search" name="search" th:placeholder="#{searchmenu}" />
+                </div>
+            </div>
+            <!-- user menu -->
             <div class="btn-group">
             <div class="dropdown" style="display:inline">
                 <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="user-menu">
@@ -73,8 +73,7 @@
                 </ul>
             </div>
             </div>
-            <!-- language select menu item -->
-            <!-- free flag images from https://flagicons.lipis.dev -->
+            <!-- language -->
             <div class="btn-group">
             <div class="dropdown" style="display:inline">
                 <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="lang-button">
@@ -126,7 +125,7 @@
                 </ul>
             </div>
             </div>
-            <!-- mailbox menu item -->
+            <!-- mailbox -->
             <span style="position:relative;display:inline-block">
                 <button type="button" id="mailbox-button" class="btn btn-default right_nav_button"
                         th:title="#{mailbox}" th:data-url="@{/mail}" th:data-count-url="@{/mail/count}">
@@ -134,39 +133,43 @@
                 </button>
                 <span id="mailbox-count" class="badge" style="display:none;position:absolute;top:-5px;right:-6px;background:#e84c3d;color:#fff;border-radius:10px;padding:2px 6px;font-size:11px;"></span>
             </span>
-            <!-- reportcard menu item -->
-            <div style="display:inline" id="settings">
-                <!-- Admin panel: visible only to administrators -->
-                <span sec:authorize="hasAuthority('WEBGOAT_ADMIN')">
-                    <a href="#adminPanel">
-                        <button type="button" id="admin-button" class="btn btn-default right_nav_button"
-                                title="Administration">
-                            <i class="fa fa-users"></i>
-                        </button>
-                    </a>
-                </span>
-                <a href="#reportCard">
-                    <button type="button" id="report-card-button" class="btn btn-default right_nav_button button-up"
-                            th:title="#{report.card}">
-                       <i class="fa fa-bar-chart-o"></i>
-                    </button>
-                </a>
-            </div>
-            <!-- about menu item -->
-            <button type="button" id="about-button" class="btn btn-default right_nav_button" th:title="#{about}"
-                    data-toggle="modal" data-target="#about-modal">
-                <i class="fa fa-info"></i>
-            </button>
-            <!-- GitHub menu item -->
-            <a th:href="@{https://github.com/WebGoat/WebGoat}" target="_blank">
-                <button type="button" class="btn btn-default right_nav_button" data-toggle="tooltip">
-                    <i class="fa fa-github"></i>
+            <!-- more dropdown: hover to open, contains wolf/reportcard/about/github -->
+            <div class="dropdown nav-more-dropdown">
+                <button type="button" class="btn btn-default right_nav_button" title="More options">
+                    <i class="fa fa-ellipsis-h"></i>
                 </button>
-            </a>
+                <ul class="dropdown-menu dropdown-menu-right nav-more-menu">
+                    <li role="presentation">
+                        <a th:href="@{/WebWolf}" target="_blank"><i class="fa fa-paw"></i> WebWolf</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#reportCard"><i class="fa fa-bar-chart-o"></i> Report Card</a>
+                    </li>
+                    <span sec:authorize="hasAuthority('WEBGOAT_ADMIN')">
+                        <li role="presentation">
+                            <a href="#adminPanel"><i class="fa fa-users"></i> Admin</a>
+                        </li>
+                    </span>
+                    <li role="presentation" class="divider"></li>
+                    <li role="presentation">
+                        <a href="#" data-toggle="modal" data-target="#about-modal"><i class="fa fa-info"></i> About</a>
+                    </li>
+                    <li role="presentation">
+                        <a th:href="@{https://github.com/WebGoat/WebGoat}" target="_blank"><i class="fa fa-github"></i> GitHub</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </header>
 
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-top-bar">
+            <button id="sidebar-toggle-btn" type="button" class="sidebar-toggle-btn" title="Toggle sidebar" aria-label="Toggle sidebar">
+                <span class="bar bar-1"></span>
+                <span class="bar bar-2"></span>
+                <span class="bar bar-3"></span>
+            </button>
+        </div>
         <div id="menu-container"></div>
     </aside>
     <!--sidebar left end-->
@@ -246,6 +249,28 @@
 
 <!-- Show the number of e-mails in the mailbox on the mailbox button -->
 <script type="text/javascript">
+    // sidebar toggle on/off throughout all screen sizes
+    (function () {
+        var sidebar = document.getElementById('sidebar');
+        var btn = document.getElementById('sidebar-toggle-btn');
+        var content = document.querySelector('.main-content-wrapper');
+        if (!sidebar || !btn) {
+            return;
+        }
+
+        // sidebar starts open with cross icon by default across all sizes
+        btn.classList.add('is-open');
+
+        btn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var isClosed = sidebar.classList.toggle('sidebar-closed');
+            if (content) {
+                content.classList.toggle('sidebar-closed', isClosed);
+            }
+            btn.classList.toggle('is-open', !isClosed);
+        });
+    })();
+
     (function () {
         var button = document.getElementById('mailbox-button');
         var badge = document.getElementById('mailbox-count');

@@ -148,7 +148,7 @@ img {
 
 #header #lesson-title-wrapper {
     display: inline-block;
-    margin: 0 0 0 30px;
+    margin: 0 250px 0 30px;
 }
 
 #header .pull-right {
@@ -757,6 +757,26 @@ fieldset[disabled] .btn-warning.active {
     border-bottom: none !important
 }
 
+/* search toggle icon: hidden on wide screens, shown on narrow */
+#search-toggle {
+    display: none;
+}
+
+/* search: show icon only, hover reveals input as dropdown */
+#search-wrapper { display: inline-block; vertical-align: middle; }
+.nav-search-dropdown:hover .dropdown-menu { display: block; margin-top: 2px; }
+.nav-search-menu { padding: 8px 10px; min-width: 220px; }
+.nav-search-menu #search { width: 100%; display: block; margin: 0; }
+
+/* more dropdown: hover to open */
+.nav-more-dropdown { display: inline-block; vertical-align: middle; }
+.nav-more-dropdown:hover .dropdown-menu { display: block; margin-top: 2px; }
+
+/* more dropdown ui matching webgoat style */
+.nav-more-menu > li > a { color: #222; font-weight: bold; font-size: 12px; padding: 7px 15px; font-family: 'Open Sans', sans-serif; }
+.nav-more-menu > li > a:hover { background-color: #16a086; color: #fff; text-decoration: none; }
+.nav-more-menu > li > a i { margin-right: 6px; }
+
 /* ==========================================================================
    Media Queries
    ========================================================================== */
@@ -767,9 +787,28 @@ fieldset[disabled] .btn-warning.active {
     }
 }
 
+/* pull heading down below logo and nav when screen width is not enough for all three */
+@media only screen and (max-width: 1024px) {
+    #header {
+        height: auto;
+        min-height: 140px;
+    }
+
+    #header .brand {
+        width: 100%;
+    }
+
+    #header #lesson-title-wrapper {
+        display: block;
+        clear: both;
+        margin: 0 15px 10px 15px;
+    }
+}
+
 @media only screen and (max-width: 660px) {
     #header {
-        height: 160px;
+        height: auto;
+        min-height: 140px;
     }
 
     #header .brand {
@@ -778,10 +817,6 @@ fieldset[disabled] .btn-warning.active {
 
     #header .user-nav ul {
         padding-left: 0;
-    }
-
-    .main-content-wrapper {
-        margin-left: 0;
     }
 
     .sidebarRight {
@@ -889,7 +924,94 @@ cookie-container {
     -o-transition: all 0.3s ease-in-out;
     -ms-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
-    z-index: 100;
+    z-index: 300;
+}
+
+/* sidebar top bar with hamburger button */
+.sidebar-top-bar {
+    display: flex;
+    align-items: center;
+    padding: 10px 14px;
+    border-bottom: 1px solid #f0f0f0;
+    background: #fff;
+    min-height: 44px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 305;
+}
+
+/* 3 horizontal lines hamburger button */
+.sidebar-toggle-btn {
+    background: transparent;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    outline: none;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 310;
+    pointer-events: auto;
+}
+
+.sidebar-toggle-btn:hover {
+    background: #f1f2f7;
+}
+
+.sidebar-toggle-btn .bar {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: #5d5f63;
+    margin: 2px 0;
+    border-radius: 2px;
+    transition: all 0.25s ease-in-out;
+    pointer-events: none;
+}
+
+/* smooth morph from 3 horizontal lines into cross */
+.sidebar-toggle-btn.is-open .bar-1 {
+    transform: translateY(6px) rotate(45deg);
+    background: #e84c3d;
+}
+
+.sidebar-toggle-btn.is-open .bar-2 {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.sidebar-toggle-btn.is-open .bar-3 {
+    transform: translateY(-6px) rotate(-45deg);
+    background: #e84c3d;
+}
+
+/* when closed: remove menu and collapse sidebar to toggle button only */
+.sidebar.sidebar-closed {
+    width: 48px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.sidebar.sidebar-closed .sidebar-top-bar {
+    background: transparent;
+    border: none;
+    padding: 8px 6px;
+    justify-content: flex-start;
+}
+
+.sidebar.sidebar-closed #menu-container {
+    display: none;
+}
+
+.main-content-wrapper.sidebar-closed {
+    margin-left: 48px;
 }
 
 #menu-container {
