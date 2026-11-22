@@ -148,7 +148,7 @@ img {
 
 #header #lesson-title-wrapper {
     display: inline-block;
-    margin: 0 0 0 30px;
+    margin: 0 250px 0 30px;
 }
 
 #header .pull-right {
@@ -784,6 +784,24 @@ fieldset[disabled] .btn-warning.active {
     /* Main Content */
     #main-content .h1 {
         font-size: 35px;
+    }
+}
+
+/* pull heading down below logo and nav when screen width is not enough for all three */
+@media only screen and (max-width: 1024px) {
+    #header {
+        height: auto;
+        min-height: 140px;
+    }
+
+    #header .brand {
+        width: 100%;
+    }
+
+    #header #lesson-title-wrapper {
+        display: block;
+        clear: both;
+        margin: 0 15px 10px 15px;
     }
 }
 
