@@ -757,6 +757,26 @@ fieldset[disabled] .btn-warning.active {
     border-bottom: none !important
 }
 
+/* search toggle icon: hidden on wide screens, shown on narrow */
+#search-toggle {
+    display: none;
+}
+
+/* search: show icon only, hover reveals input as dropdown */
+#search-wrapper { display: inline-block; vertical-align: middle; }
+.nav-search-dropdown:hover .dropdown-menu { display: block; margin-top: 2px; }
+.nav-search-menu { padding: 8px 10px; min-width: 220px; }
+.nav-search-menu #search { width: 100%; display: block; margin: 0; }
+
+/* more dropdown: hover to open */
+.nav-more-dropdown { display: inline-block; vertical-align: middle; }
+.nav-more-dropdown:hover .dropdown-menu { display: block; margin-top: 2px; }
+
+/* more dropdown ui matching webgoat style */
+.nav-more-menu > li > a { color: #222; font-weight: bold; font-size: 12px; padding: 7px 15px; font-family: 'Open Sans', sans-serif; }
+.nav-more-menu > li > a:hover { background-color: #16a086; color: #fff; text-decoration: none; }
+.nav-more-menu > li > a i { margin-right: 6px; }
+
 /* ==========================================================================
    Media Queries
    ========================================================================== */
@@ -782,6 +802,10 @@ fieldset[disabled] .btn-warning.active {
 
     .main-content-wrapper {
         margin-left: 0;
+    }
+
+    .sidebar {
+        display: none;
     }
 
     .sidebarRight {
