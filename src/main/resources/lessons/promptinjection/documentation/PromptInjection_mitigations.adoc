@@ -1,0 +1,51 @@
+== Mitigations
+
+There is no single fix for prompt injection. Instructions and data share one channel, so a model
+cannot reliably keep them apart, and every new model shifts the success rate. Design so that a
+model that follows an injected instruction still cannot do damage.
+
+=== Treat MCP servers like dependencies
+
+* Only connect servers you trust, from sources you can verify. A tool server can write anything into
+  your model's context.
+* Review tool descriptions and argument schemas before you approve a server, and *pin* them. Some
+  clients and gateways can alert when a description changes after approval ("rug pull").
+* Project-scoped configuration (`.mcp.json`, `.vscode/mcp.json`, `.cursor/mcp.json`) is untrusted
+  input. Clients should require explicit approval before loading servers from a repository, and users
+  should not approve them blindly.
+
+* Remove servers you no longer use. A server registered for one experiment stays available to
+  every later session. If you have not done so yet, remove `invoicehelper` now (see the connect page).
+
+=== Least privilege
+
+* Do not hand secrets to the model if a tool does not need them. In this lesson, `get_account` had no
+  reason to return a `session_token` at all.
+* Scope tokens narrowly: per tool, per server, short-lived and read-only where possible.
+* Restrict which servers and tools a session can use, and keep sensitive tools and untrusted servers
+  out of the same session.
+
+=== Deterministic checks outside the model
+
+* Validate tool arguments on the server or in a gateway: refuse credentials, unexpected fields and
+  values the user did not provide. This is the argument guard from the "Harden the server" page.
+* Enforce data-flow rules: values returned by one tool should not silently flow into another tool's
+  arguments, and never to another server.
+
+=== Humans in the loop, with real information
+
+* Keep tool approvals on. Auto-approve modes are what make this attack land silently.
+* A confirmation is only useful if it shows the *real* tool name and *full* argument values, not a
+  summary written by the model.
+
+=== Detection is not a fix
+
+Prompt injection classifiers and "be careful" system prompts lower the success rate, but they are
+probabilistic. Use them as an extra layer on top of the controls above, never instead of them.
+
+=== Further reading
+
+* https://brave.com/blog/indirect-prompt-injection/[Brave: Indirect prompt injection in agentic browsers]
+* https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks[Invariant Labs: MCP tool poisoning attacks]
+* https://modelcontextprotocol.io/specification/draft/basic/security_best_practices[MCP security best practices]
+* https://genai.owasp.org/llmrisk/llm01-prompt-injection/[OWASP Top 10 for LLM Applications: LLM01 Prompt Injection]

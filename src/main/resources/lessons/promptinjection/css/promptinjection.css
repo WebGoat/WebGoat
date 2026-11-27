@@ -1,0 +1,46 @@
+.pi-panel {
+    margin: 1em 0;
+    padding: 1em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.pi-panel h4 {
+    margin-top: 1em;
+    font-size: 1.05em;
+}
+
+.pi-copy {
+    white-space: pre-wrap;
+    word-break: break-all;
+    background: #f6f8fa;
+    padding: 0.5em;
+}
+
+.pi-variant {
+    max-width: 40em;
+    margin-bottom: 0.5em;
+}
+
+.pi-tools pre {
+    max-height: 24em;
+    overflow: auto;
+    background: #f6f8fa;
+    padding: 0.5em;
+}
+
+.pi-log-table code {
+    word-break: break-all;
+}
+
+.pi-log-table tr.pi-leaked td {
+    background: #fdecea;
+}
+
+.pi-log-table tr.pi-refused td {
+    background: #e8f5e9;
+}
+
+.pi-empty {
+    color: #777;
+}

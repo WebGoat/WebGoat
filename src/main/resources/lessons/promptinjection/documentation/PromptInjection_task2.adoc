@@ -1,0 +1,25 @@
+== Harden the server
+
+The model cannot be the security boundary: instructions and data arrive in the same context
+window, and a well-phrased instruction will sometimes win. A defence has to work *even when the
+model complies*.
+
+The invoice server offers two controls:
+
+Argument guard:: a deterministic, server-side check. Any tool call whose arguments contain the
+`session_token` issued by `get_account` is refused, whatever the description said.
+Pinned descriptions:: the server only publishes the reviewed tool definitions. The injected line and
+the `audit` argument are gone.
+
+=== Your task
+
+. Turn on the *argument guard* and leave *pinned descriptions* off, so the poisoned description is
+  still served.
+. Repeat the task from the previous page in a fresh session. Your assistant should still try to forward
+  the token, and the server should refuse the call. Watch how your assistant reacts to the refusal.
+. Check the server log to complete the assignment.
+. Optionally, also turn on *pinned descriptions*, reconnect, and run the task again. The assistant no
+  longer even tries.
+
+Think about which control you would rely on. Pinning only helps if the description you pinned was
+clean and nobody changes it upstream. The argument guard holds regardless of what the model read.

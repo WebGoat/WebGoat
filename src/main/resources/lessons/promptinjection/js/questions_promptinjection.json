@@ -1,0 +1,49 @@
+[
+  [
+    {
+      "text": "Why can the model itself not be the security boundary against indirect prompt injection?",
+      "solutions": [
+        "Models are too slow to check every instruction",
+        "Instructions and data reach the model through the same channel, so it cannot reliably tell them apart",
+        "Models never read tool descriptions",
+        "MCP encrypts tool descriptions so the model cannot inspect them"
+      ]
+    },
+    {
+      "text": "In this lesson, where did the injected instruction come from?",
+      "solutions": [
+        "The prompt the learner typed",
+        "The sample.csv invoice file",
+        "The tool metadata published by the MCP server",
+        "The WebGoat login page"
+      ]
+    },
+    {
+      "text": "Which control stopped the token from being accepted even when the assistant followed the injected instruction?",
+      "solutions": [
+        "A deterministic server-side check that refuses credentials in tool arguments",
+        "A system prompt that asks the model to be careful",
+        "Switching to a larger model",
+        "A prompt injection detector that scores each tool description"
+      ]
+    },
+    {
+      "text": "A repository you cloned contains a .mcp.json file that points at a server you do not know. What should happen?",
+      "solutions": [
+        "Load it automatically, project configuration is trusted",
+        "Load it and enable auto-approve so the task runs faster",
+        "Nothing, MCP configuration cannot affect the assistant",
+        "Treat it as untrusted input: review the server and approve it explicitly before the client loads it"
+      ]
+    },
+    {
+      "text": "What should a tool-call confirmation prompt show to protect the user?",
+      "solutions": [
+        "A short summary of the call written by the model",
+        "The real tool name and the full argument values that will be sent",
+        "Only the name of the MCP server",
+        "Nothing, one approval per session is enough"
+      ]
+    }
+  ]
+]

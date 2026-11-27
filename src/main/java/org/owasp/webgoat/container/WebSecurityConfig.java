@@ -49,6 +49,11 @@ public class WebSecurityConfig {
                     // the mailbox (GET /mail) stays authenticated so users only see their own mail.
                     .requestMatchers(HttpMethod.POST, "/mail")
                     .permitAll()
+                    // The prompt injection lesson's MCP server is called by the learner's own AI
+                    // assistant, which carries no session. A per-user token in the path
+                    // identifies the learner instead.
+                    .requestMatchers("/PromptInjection/mcp/**")
+                    .permitAll()
                     // Administration endpoints: restricted to WEBGOAT_ADMIN only.
                     .requestMatchers("/service/admin/**")
                     .hasAuthority("WEBGOAT_ADMIN")
