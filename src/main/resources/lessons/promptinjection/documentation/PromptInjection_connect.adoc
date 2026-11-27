@@ -1,0 +1,35 @@
+== Connect your assistant
+
+WebGoat serves your personal `invoicehelper` MCP server over the MCP streamable HTTP transport. The
+URL below contains a random token that identifies you, because your assistant has no WebGoat
+session cookie. Treat it like a password for this lesson only.
+
+=== Before you connect
+
+* *Use a fresh session* in a new, empty folder. Do not run this inside a real project.
+* *Keep tool approvals on.* Do not use auto-approve, YOLO or "skip permissions" modes. Read every
+  approval prompt: it is part of the lesson. Claude Code and Codex CLI both ask before each MCP tool
+  call by default; choosing "always allow" for a server is what lets this attack run silently.
+* *Pick a small or fast model* if your client lets you (for example Haiku in Claude Code with
+  `/model`). Capable models resist more often, which is fine, but takes more attempts.
+* Your assistant must run on the same machine as WebGoat or be able to reach it. Cloud-hosted chat
+  apps cannot reach `localhost`.
+
+Add the server with the command or configuration for your client, then check that the assistant
+lists two tools: `get_account` and `total_invoices`. Claude Code and Codex CLI have been tested
+end-to-end; the other clients follow the same MCP specification.
+
+Most of these commands register the server for *every* session, not just this lesson
+(`codex mcp add` writes to your global `~/.codex/config.toml`). Remove it when you are done: the
+commands are at the bottom of this page.
+
+=== Delivery variant: project configuration
+
+You do not even have to run a command for the attack to reach you. Many clients read MCP servers from
+a file that is checked into the repository: `.mcp.json` (Claude Code), `.vscode/mcp.json` (VS Code),
+`.cursor/mcp.json` (Cursor). Clone a repository with such a file, open it in the assistant, and the
+poisoned server is registered.
+
+Save one of the files below in an empty folder and open it. Claude Code asks whether to trust the
+project's MCP servers before it loads them. That prompt is exactly where this attack can be stopped:
+project-scoped MCP configuration is untrusted input, just like the code in the repository.

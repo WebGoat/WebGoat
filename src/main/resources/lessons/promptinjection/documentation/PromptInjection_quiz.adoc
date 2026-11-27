@@ -1,0 +1,4 @@
+== Quiz
+
+Answer the following questions to check which defences against indirect prompt injection actually hold.
+You must answer all questions correctly to complete this assignment.

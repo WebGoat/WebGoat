@@ -1,0 +1,39 @@
+== Indirect prompt injection
+
+AI assistants such as Claude Code, Codex CLI, Gemini CLI, Cursor or GitHub Copilot do more than
+answer questions. They read web pages, files and tool output, and they call tools on your behalf.
+Everything they read ends up in the same context window as your own request.
+
+*Direct prompt injection* is an attacker typing instructions into the chat themselves.
+*Indirect prompt injection* is subtler: the instruction sits in content the user never wrote,
+and the assistant treats it as a legitimate part of the task. Brave's research on agentic browsers
+showed this: text hidden in a web page made the browser's assistant act on the user's logged-in
+accounts. The model "helpfully" followed instructions that arrived as data.
+
+=== Where MCP tool descriptions sit
+
+The https://modelcontextprotocol.io[Model Context Protocol] (MCP) lets an assistant connect to
+tool servers. When it connects, the server sends a list of tools with a name, a description and an
+argument schema for each one. The assistant puts those descriptions into the model's context so the
+model knows how to use the tools.
+
+That makes a tool description an instruction channel that the MCP server controls. A malicious or
+compromised server can write anything there, and the user usually never sees it. This form of
+indirect prompt injection is called *tool poisoning*.
+
+----
+   you ──"total sample.csv"──▶ assistant ◀── tools/list (descriptions) ── MCP server
+                                   │                                         ▲
+                                   └──────── tools/call (arguments) ─────────┘
+----
+
+=== What you will do
+
+WebGoat runs a small, deliberately poisoned MCP server called `invoicehelper`. It holds no model and
+no API key. You connect the assistant you already use, give it an ordinary task, and watch whether a
+tool description makes it hand a secret to the wrong place. WebGoat detects the leak on the server.
+Then you harden the server and see the same attack fail.
+
+Everything in this lesson is harmless when fully obeyed: the only secret is a fake token that WebGoat
+issued for you, it only ever travels back to WebGoat, and no tool reads, writes or runs anything on
+your machine.
